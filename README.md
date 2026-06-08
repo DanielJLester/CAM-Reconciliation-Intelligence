@@ -26,6 +26,7 @@ Application URL: https://danieljlester.github.io/CAM-Reconciliation-Intelligence
 ## **What I assumed**
 - The asset manager has the landlord relationship and the decision authority.
 - Finance and legal are resources they can call on, not the people doing the day-to-day review.
+- CAM reconciliations are often paid without review.
 - The dispute window is real, shorter than feasible to run reviews across multiple properties and hidden within the lease documents, so the tenant is not aware at the point the statement arrives.
 - Most tenants have prior year figures available but not connected to the current statement. That connection is currently manual.
 
