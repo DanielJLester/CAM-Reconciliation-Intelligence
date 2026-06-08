@@ -463,7 +463,7 @@
   <div class="page-wide" style="padding-bottom:7rem">
     <div class="page-header">
       <h1>Review complete</h1>
-      <p>We found 3 potential issues. Two are strong enough to dispute. One needs more information first.</p>
+      <p>3 potential issues identified. Two are strong enough to dispute. One requires more information before it can be included.</p>
     </div>
     <div class="stat-bar stat-bar-4">
       <div class="stat-cell"><div class="stat-cell-label">Billed</div><div class="stat-cell-value">$127,440</div></div>
@@ -472,7 +472,7 @@
       <div class="stat-cell"><div class="stat-cell-label">Days to dispute</div><div class="stat-cell-value amber">47</div></div>
     </div>
     <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:1rem;">
-      <h2>What we found</h2>
+      <h2>Issues identified</h2>
       <p class="text-faint">Select the issues you want to include in your dispute letter.</p>
     </div>
 
@@ -551,6 +551,7 @@
   <div class="action-bar">
     <div class="action-bar-left" id="action-bar-text">2 issues selected. Total potential recovery: <strong>$13,855</strong>.</div>
     <div class="action-bar-right">
+      <button class="btn btn-ghost" id="btn-save-progress" onclick="saveProgress()">Save progress</button>
       <button class="btn btn-ghost" onclick="openAcceptModal()">Accept charges</button>
       <button class="btn btn-secondary">Request backup documents</button>
       <button class="btn btn-primary" id="btn-build-letter" onclick="buildLetter()">Build dispute letter</button>
@@ -886,6 +887,25 @@ function downloadLetter() {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([document.getElementById('letter-body').innerText], { type: 'text/plain' }));
   a.download = 'dispute_letter_200W57_FY2024.txt'; a.click();
+}
+
+// ── Save progress ──
+function saveProgress() {
+  // Update or insert in-progress entry for this review
+  previousReviews = previousReviews.filter(r => r.id !== 'w57-200-wip');
+  previousReviews.unshift({
+    id: 'w57-200-wip',
+    address: '200 West 57th Street',
+    suite: 'Suite 1400',
+    step: 3,
+    screen: 'screen-analysis',
+    status: 'in-progress',
+    extra: [{ text: '⚠ 47 days left to dispute', color: 'var(--amber)' }, { text: '$13,855 strong basis to dispute', color: 'var(--blue-light)' }]
+  });
+  const btn = document.getElementById('btn-save-progress');
+  btn.textContent = '✓ Saved';
+  btn.disabled = true;
+  setTimeout(() => { btn.textContent = 'Save progress'; btn.disabled = false; }, 2000);
 }
 
 // ── Accept charges ──
