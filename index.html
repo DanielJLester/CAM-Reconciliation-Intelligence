@@ -419,9 +419,12 @@
         </div>
         <div class="tenancy-card-right">
           <span class="pill pill-green">Resolved</span>
-          <button class="tenancy-continue" onclick="goTo('screen-upload')">Continue</button>
+          <button class="tenancy-continue" onclick="goTo('screen-analysis')">View</button>
         </div>
       </div>
+
+      <!-- Dynamically added completed reviews appear here -->
+      <div id="completed-reviews"></div>
     </div>
   </div>
 </div>
@@ -913,7 +916,7 @@ Lease dated January 14, 2019</p>
         <hr class="divider">
         <p class="text-faint">This review is now complete. You can view it any time from your home screen.</p>
         <div class="mt-3">
-          <button class="btn btn-secondary" onclick="goTo('screen-home')">Back to home</button>
+          <button class="btn btn-secondary" onclick="renderCompletedReviews(); goTo('screen-home')">Back to home</button>
         </div>
       </div>
     </div>
@@ -1074,6 +1077,8 @@ document.querySelectorAll('.resolution-option').forEach(opt => {
   });
 });
 
+let completedReview = null;
+
 function saveOutcome() {
   const resEl = document.querySelector('.resolution-option.selected input');
   const res = resEl ? resEl.value : 'full';
@@ -1091,6 +1096,32 @@ function saveOutcome() {
   amtEl.textContent = amt > 0 ? `$${amt.toLocaleString()} recovered` : '$0 recovered';
   amtEl.className = 'outcome-confirm-amount' + (amt > 0 ? '' : ' zero');
   document.getElementById('confirm-date').textContent = `Resolved: ${dateStr}`;
+
+  // Store the completed review so it can appear on the home screen
+  completedReview = { res, amt, dateStr };
+}
+
+function renderCompletedReviews() {
+  const container = document.getElementById('completed-reviews');
+  if (!container || !completedReview) return;
+  const { res, amt, dateStr } = completedReview;
+  const amtMeta = amt > 0
+    ? `<span class="tenancy-meta-item" style="color:var(--green)">$${amt.toLocaleString()} recovered</span>`
+    : `<span class="tenancy-meta-item" style="color:var(--ink-faint)">No amount recovered</span>`;
+  container.innerHTML = `
+    <div class="tenancy-card">
+      <div class="tenancy-card-info">
+        <div class="tenancy-address">200 West 57th Street, Suite 1400</div>
+        <div class="tenancy-meta">
+          <span class="tenancy-meta-item">Resolved ${dateStr}</span>
+          ${amtMeta}
+        </div>
+      </div>
+      <div class="tenancy-card-right">
+        <span class="pill pill-green">Resolved</span>
+        <button class="tenancy-continue" onclick="goTo('screen-analysis')">View</button>
+      </div>
+    </div>`;
 }
 
 const dateSentEl = document.getElementById('outcome-date-sent');
