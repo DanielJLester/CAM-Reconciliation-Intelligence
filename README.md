@@ -49,7 +49,8 @@ Application URL: https://danieljlester.github.io/CAM-Reconciliation-Intelligence
 
 **Target user**
 
-- Tenant side Asset Manager in real estate division of a company, like CVS. I decided that tenant side has more to gain with a CAM Intelligence product, allowing better decisions and saving time and money, while the owner side has less behavioral surface, and is oriented in data structuring.
+- Tenant side Asset Manager in real estate division of a company, like CVS. I decided that tenant side has more to gain with a CAM Intelligence product, with fewer softwares in the market.
+- The owner side has professional services available to help write the statements, and requires a larger set  of documents, most commonly would need to support multi-tennant from the get go.
 
 **Persona:** Not a finance analyst. Not legal. The asset manager owns the landlord relationship and has the authority to dispute. They need to know whether to act, not how to read a lease clause. They are relationship-driven, not software-native. Most of their work runs through Microsoft Office and their phone.
 
@@ -127,7 +128,7 @@ The prototype covers the full flow across seven screens: login, home with saved 
 
 1. **Portfolio dashboard view** - ability to roll-up the single reports per location or owner, surfacing the highest value and highest dispute confidence properties. This compiles and enhances the prototypes offering, removing the remaining "gut feel" decision still.
 
-2. **Integrations** - Integrating with emails, file storage to streamline the process, reducing the cognitive load on tracking and preparations.
+2. **Utilize cost breakdowns** Support for line items and different type of expenses (security/janitorial etc), and compare to industry standards and current market.
 
 3. **Landlord pattern tracking** if a landlord has had management fee overcharges flagged across three properties over two years, that is signal worth surfacing. The data to support this exists after a few cycles of use.
 
@@ -135,4 +136,6 @@ The prototype covers the full flow across seven screens: login, home with saved 
 
 5. **CAM Reconciliation Budget** - Assumption: a good asset manager will include a CAM reconcilation amount in a budget. The product uses the historical feature to feed an annual budget insight. The budget would be included as a function to support making the end of year reconciliation decisions. For example, if the total reconciliation/net weighted difference is 10% more/less than the budget, ignore and pay.
 
-6. **Tracking throughout the year** - The prototype focuses on the short time window when the CAM reconciliation reports are received. This makes the product's usage seasonal, but CAM related updates throughout the year could be incorporated, connecting the product to the real estate owner themselves, so that the reconciliation is more robust, and less of surprise. Connecting to the owner broadens the products exposure, and lets the owner know they need to be more robust in their reconcilliations, and REAL is the solution!
+6. **Tracking throughout the year** - The prototype focuses on the short time window when the CAM reconciliation reports are received. This makes the product's usage seasonal, but CAM related updates the tenant is made aware of, throughout the year could be incorporated, connecting the product to the real estate owner themselves, so that the reconciliation is more robust, and less of surprise. Connecting to the owner broadens the products exposure, and lets the owner know they need to be more robust in their reconcilliations, and REAL is the solution!
+
+7. **Integrations** - Integrating with emails, file storage to streamline the process, reducing the cognitive load on tracking and preparations.
