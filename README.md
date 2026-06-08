@@ -2,6 +2,7 @@
 
 A system that provides users with valuable insights on their CAM reconciliation that allows them to make better decisions
 Submission by Daniel Lester on June 8th 2026
+Application URL: https://danieljlester.github.io/CAM-Reconciliation-Intelligence/
 
 ---
 
@@ -21,11 +22,9 @@ Submission by Daniel Lester on June 8th 2026
 - When the analysis takes days a reasonable shortcut is to pay the bill. But when this becomes minutes, with no human resources involved, that shift in economics is what drives the behavioral change
 
 ## **What I assumed**
-
-- Assumptions based on research. In real world, this would be accompanied by user discovery to validate these problem statements.
 - The asset manager has the landlord relationship and the decision authority.
 - Finance and legal are resources they can call on, not the people doing the day-to-day review.
-- The dispute window is real and often unknown to the tenant at the point the statement arrives.
+- The dispute window is real, shorter than feasible to run reviews across multiple properties and hidden within the lease documents, so the tenant is not aware at the point the statement arrives.
 - Most tenants have prior year figures available but not connected to the current statement. That connection is currently manual.
 
 ![As-is journey map](asis-journey-map.svg)
@@ -33,6 +32,7 @@ Submission by Daniel Lester on June 8th 2026
 **What I deliberately ignored**
 
 - Portfolio-level rollup: The single property analysis has to work first and gain user adoption before expanding to multiple tenancies or portfolio-level. Portfolio has real value give a holistic view and focus the users time in highest value properties. However, it comes with separate problems with scaling (performance, UX changes, regional differences, architecture)
+- Shipping a wide product that doesn't solve the primary problem well is worse than shipping a narrow product that does.
 - Landlord-side workflow - This is a different flow, as noted above.
 - Legal review integration. The product builds the case, but ultimately the asset manager has to bring it to their inhouse counsel and make a decision.
 - Document storage and management - Not part of the core problem
@@ -50,9 +50,15 @@ Submission by Daniel Lester on June 8th 2026
 
 **Persona:** Not a finance analyst. Not legal. The asset manager owns the landlord relationship and has the authority to dispute. They need to know whether to act, not how to read a lease clause. They are relationship-driven, not software-native. Most of their work runs through Microsoft Office and their phone.
 
+**Depth over breadth** System is only for a single user and the analysis is carried out one property at a time. One decision per review. The portfolio layer and the historical benchmarking are real opportunities but they require this core loop to work first. 
+
 **Core user flow**
 
 Upload documents (CAM statement + lease) → system reads and extracts key figures → user confirms the data → analysis runs automatically, cross-referencing charges against lease terms → flagged issues surface with plain-language explanations, dollar impact, and confidence levels → asset manager decides whether to act → dispute letter pre-drafted and ready to edit → outcome logged when resolved.
+
+The system is assistive, not fully automated. The users want to be able to make decisions themselves, using other factors such as relationship which the system won't handle on day.
+
+Inputs are the base documents available, but the user has the ability to input further information if they want or have it available. It is not considered mandatory.
 
 **Where the moment of value is**
 
@@ -77,19 +83,16 @@ Every flagged issue shows the specific lease clause it references, the underlyin
 
 ## 3. Experience
 
-**How the user goes from raw data to insight to action**
+Visibility and Clarity - The system provides a 
 
-The flow has three moments, each with a distinct job:
+**Moments**
+*Raw data > Insight > Action*
 
 *Orient.* The review summary screen shows what the system extracted from the documents: key lease terms, billed amounts, prior year comparison, and the dispute deadline. The user confirms the data is correct before the analysis runs. This builds trust in the output and catches extraction errors before they affect the analysis.
 
 *Flag.* The analysis screen surfaces issues in plain English, ranked by dollar impact. Each issue expands to show the lease clause, the calculation, and the confidence reasoning. The speculative item is included but visually distinct, with a clear explanation of why it has been separated from the high-confidence items.
 
 *Arm.* The dispute letter is pre-drafted with financial figures and clause references already populated. It is editable. The asset manager owns the final content. Clicking "Mark as sent" moves the tenancy to the dispute tracking stage, and the outcome is logged when resolved.
-
-**Depth over breadth**
-
-One user. One property at a time. One decision per review. The portfolio layer and the historical benchmarking are real opportunities but they require this core loop to work first. Shipping a wide product that doesn't solve the primary problem well is worse than shipping a narrow product that does.
 
 ---
 
@@ -101,23 +104,24 @@ The prototype covers the full flow across seven screens: login, home with saved 
 
 ## 5. Tradeoffs
 
-**What I simplified**
+### What I simplified**
 
-- Mock data. Real document parsing is a hard, separate engineering problem. The prototype assumes clean structured input to focus on the reasoning and decision layer, which is where the product thinking lives.
-- Rule-based analysis. The prototype applies explicit lease clause rules to explicit line items. Production would need to handle ambiguous language, addenda, and lease structures that don't follow standard formats.
-- Single property. The home screen shows saved tenancies, but the analysis flow covers one property at a time. Portfolio-level prioritization is a v2 problem.
+- Single property. The home screen shows saved tenancies, but the analysis flow covers one property at a time. 
+- Mock input and output data, no user upload function. Real document parsing is a hard, separate engineering problem. The prototype assumes the analysis pipeline has been sufficiently developed, at least at a limited level.
+- The technical depth is excluded from this assignment, in order to focus on the experience and behavioural change, as this is a product thinking assignment, not an engineering assignment. Nevertheless the analysis is core to the product, and shouldn't have workarounds, although first versions would likely only solve a specific set of cases.
+- If I was to build it, it would be pipeline use an LLM for it's natural language processing, and a separate dynamic mathematical computation method. It would include supervised learning data models for context and expected results and evaluations.
 
-**Where this would break in real-world usage**
+### Where this would break in real-world usage**
 
 - Non-standard CAM statement formats. Landlords structure these differently. Reliable extraction across formats requires significant engineering investment and ongoing maintenance.
 - Ambiguous lease language. "Reasonable management fees" is not a number. The product can flag it but cannot calculate a precise overcharge without human judgment.
 - Multi-tenant properties with complex pro-rata structures. These require the full rent roll, not just one tenant's lease.
 - Leases with addenda or side letters that override base terms. A document parser that reads the base lease and misses an addendum produces a confident wrong answer.
 
-**What I would build next**
+### What I would build next**
 *Order does not reflect prioritization, the priority would be the result of business value, user feedback and effort*
 
-1. **Portfolio dashboard view** - ability to roll-up the single reports per location or owner, surfacing the highest value and highest dispute confidence properties. This compiles and enhances the prototypes offering, removing the remaining "gut feel" decision still 
+1. **Portfolio dashboard view** - ability to roll-up the single reports per location or owner, surfacing the highest value and highest dispute confidence properties. This compiles and enhances the prototypes offering, removing the remaining "gut feel" decision still.
 
 2. **Integrations** - Integrating with emails, file storage to streamline the process, reducing the cognitive load on tracking and preparations.
 
