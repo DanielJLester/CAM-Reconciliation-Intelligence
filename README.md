@@ -83,7 +83,7 @@ Every flagged issue shows the specific lease clause it references, the underlyin
 
 ## 3. Experience
 
-Visibility and Clarity - The system provides a 
+Visibility and Clarity - The system provides clarity to new user with full explanation on first page, and guided steps at the top, showing the user where they are now, and where they are going.
 
 **Moments**
 *Raw data > Insight > Action*
