@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAM Intelligence — REAL</title>
+<style>
+  /* ── Reset & base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: #f7f6f3;
+    color: #1a1a1a;
+    min-height: 100vh;
+  }
+
+  /* ── Typography scale ── */
+  .sans { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  h1 { font-size: 1.75rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.2; }
+  h2 { font-size: 1.25rem; font-weight: 600; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  h3 { font-size: 1rem; font-weight: 600; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  p { line-height: 1.6; }
+
+  /* ── Color tokens ── */
+  :root {
+    --ink: #1a1a1a;
+    --ink-muted: #6b6b6b;
+    --ink-faint: #9b9b9b;
+    --surface: #ffffff;
+    --surface-alt: #f7f6f3;
+    --border: #e2e0da;
+    --border-strong: #c8c4bc;
+    --amber: #b45309;
+    --amber-bg: #fffbeb;
+    --amber-border: #fcd34d;
+    --red: #b91c1c;
+    --red-bg: #fff5f5;
+    --red-border: #fca5a5;
+    --green: #166534;
+    --green-bg: #f0fdf4;
+    --green-border: #86efac;
+    --primary: #1a1a1a;
+    --primary-hover: #333;
+    --focus: #2563eb;
+  }
+
+  /* ── Screens ── */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: flex; flex-direction: column; }
+
+  /* ── Nav ── */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .nav-brand {
+    font-size: 1.1rem; font-weight: 700; letter-spacing: 0.12em;
+    color: var(--ink); text-transform: uppercase; flex: 1;
+  }
+  .nav-steps {
+    display: flex; gap: 0; align-items: center; flex: 2; justify-content: center;
+  }
+  .nav-step {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.75rem; color: var(--ink-faint); white-space: nowrap;
+    padding: 0 0.6rem;
+    cursor: default;
+    transition: color 0.2s;
+  }
+  .nav-step.active { color: var(--ink); font-weight: 600; }
+  .nav-step.done { color: var(--ink-muted); cursor: pointer; }
+  .nav-step.done:hover { color: var(--ink); }
+  .nav-step-num {
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 700;
+    background: var(--border); color: var(--ink-faint);
+    transition: background 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+  .nav-step.active .nav-step-num { background: var(--ink); color: #fff; }
+  .nav-step.done .nav-step-num { background: #4ade80; color: #166534; }
+  .nav-step-sep { color: var(--border-strong); font-size: 0.7rem; }
+  .nav-right {
+    flex: 1; display: flex; align-items: center; justify-content: flex-end;
+    gap: 0.75rem; font-size: 0.8rem;
+  }
+  .nav-property {
+    font-size: 0.75rem; color: var(--ink-muted);
+    background: var(--surface-alt); border: 1px solid var(--border);
+    padding: 0.25rem 0.6rem; border-radius: 4px;
+    max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .nav-user { display: flex; align-items: center; gap: 0.5rem; color: var(--ink-muted); }
+  .avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: #1a1a1a; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.03em;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  /* ── Page content ── */
+  .page { flex: 1; max-width: 860px; margin: 0 auto; padding: 3rem 1.5rem; width: 100%; }
+  .page-wide { flex: 1; max-width: 1000px; margin: 0 auto; padding: 3rem 1.5rem; width: 100%; }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.875rem; font-weight: 500;
+    padding: 0.6rem 1.25rem; border-radius: 5px;
+    cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s;
+    border: 1px solid transparent; text-decoration: none;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--ink); color: #fff; border-color: var(--ink);
+  }
+  .btn-primary:hover { background: #333; border-color: #333; }
+  .btn-secondary {
+    background: #fff; color: var(--ink); border-color: var(--border-strong);
+  }
+  .btn-secondary:hover { background: var(--surface-alt); }
+  .btn:disabled, .btn[disabled] {
+    opacity: 0.45; cursor: not-allowed; pointer-events: none;
+  }
+  .btn-lg { padding: 0.75rem 1.75rem; font-size: 1rem; }
+
+  /* ── Cards ── */
+  .card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.5rem;
+  }
+  .card + .card { margin-top: 1rem; }
+
+  /* ── Form elements ── */
+  label {
+    display: block; font-size: 0.8rem; font-weight: 600;
+    color: var(--ink-muted); letter-spacing: 0.04em; text-transform: uppercase;
+    margin-bottom: 0.35rem;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  input[type="text"], input[type="email"], input[type="password"],
+  input[type="number"], input[type="date"], textarea {
+    width: 100%; border: 1px solid var(--border-strong);
+    border-radius: 5px; padding: 0.6rem 0.8rem;
+    font-size: 0.95rem; color: var(--ink);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    background: #fff; transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+  }
+  input:focus, textarea:focus {
+    border-color: var(--focus); box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  }
+  .field { margin-bottom: 1.25rem; }
+  .field-helper {
+    font-size: 0.78rem; color: var(--ink-faint); margin-top: 0.3rem;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  /* ── Upload cards ── */
+  .upload-card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.25rem 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .upload-card-header {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+  }
+  .upload-label-wrap { flex: 1; }
+  .upload-type {
+    font-size: 0.875rem; font-weight: 700; color: var(--ink);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    margin-bottom: 0.2rem;
+  }
+  .upload-desc {
+    font-size: 0.85rem; color: var(--ink-muted); line-height: 1.4;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .upload-formats {
+    font-size: 0.75rem; color: var(--ink-faint); margin-top: 0.5rem;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .upload-file-row {
+    display: flex; align-items: center; gap: 0.75rem; margin-top: 0.75rem;
+  }
+  .upload-filename {
+    font-size: 0.82rem; color: var(--green);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    display: flex; align-items: center; gap: 0.35rem;
+  }
+  .upload-remove {
+    font-size: 0.78rem; color: var(--ink-faint); cursor: pointer;
+    background: none; border: none; text-decoration: underline; padding: 0;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .upload-remove:hover { color: var(--red); }
+  .upload-error {
+    font-size: 0.8rem; color: var(--red); margin-top: 0.4rem;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .badge-required {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em;
+    text-transform: uppercase; color: var(--ink-faint);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    border: 1px solid var(--border); border-radius: 3px;
+    padding: 0.15rem 0.4rem; white-space: nowrap;
+  }
+  .badge-optional {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.05em;
+    text-transform: uppercase; color: var(--ink-faint);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    border: 1px solid var(--border); border-radius: 3px;
+    padding: 0.15rem 0.4rem; white-space: nowrap; background: var(--surface-alt);
+  }
+
+  /* ── Section headers ── */
+  .section-head {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-faint);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    margin-bottom: 0.75rem; margin-top: 2rem; padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── Status pills ── */
+  .pill {
+    display: inline-block; font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 0.2rem 0.55rem; border-radius: 20px;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .pill-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+  .pill-green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+  .pill-red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+  .pill-gray { background: var(--surface-alt); color: var(--ink-muted); border: 1px solid var(--border); }
+
+  /* ── Alert banners ── */
+  .banner {
+    border-radius: 7px; padding: 1rem 1.25rem;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.875rem; line-height: 1.5; margin-bottom: 1.25rem;
+    display: flex; gap: 0.75rem; align-items: flex-start;
+  }
+  .banner-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.05rem; }
+  .banner-amber { background: var(--amber-bg); border: 1px solid var(--amber-border); color: #92400e; }
+  .banner-green { background: var(--green-bg); border: 1px solid var(--green-border); color: var(--green); }
+
+  /* ── Data grids ── */
+  .data-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 0.45rem 0; border-bottom: 1px solid var(--border);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.875rem;
+  }
+  .data-row:last-child { border-bottom: none; }
+  .data-label { color: var(--ink-muted); }
+  .data-value { font-weight: 500; color: var(--ink); }
+
+  /* ── Stat cells ── */
+  .stat-bar {
+    display: grid; gap: 0; border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; margin-bottom: 2rem;
+  }
+  .stat-bar-4 { grid-template-columns: repeat(4, 1fr); }
+  .stat-cell {
+    padding: 1.1rem 1.25rem;
+    border-right: 1px solid var(--border);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    background: #fff;
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-cell-label { font-size: 0.72rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+  .stat-cell-value { font-size: 1.35rem; font-weight: 700; color: var(--ink); line-height: 1; }
+  .stat-cell-value.red { color: var(--red); }
+  .stat-cell-value.amber { color: var(--amber); }
+
+  /* ── Issue cards ── */
+  .issue-card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; margin-bottom: 0.75rem;
+  }
+  .issue-card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 1.25rem; cursor: pointer;
+    gap: 1rem;
+    transition: background 0.1s;
+    border-left: 4px solid transparent;
+  }
+  .issue-card-header:hover { background: var(--surface-alt); }
+  .issue-card.red-border .issue-card-header { border-left-color: var(--red); }
+  .issue-card.gray-border .issue-card-header { border-left-color: var(--border-strong); }
+  .issue-header-left { flex: 1; }
+  .issue-status {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    margin-bottom: 0.25rem;
+  }
+  .issue-card.red-border .issue-status { color: var(--red); }
+  .issue-card.gray-border .issue-status { color: var(--ink-muted); }
+  .issue-title {
+    font-size: 0.95rem; font-weight: 600; color: var(--ink);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    margin-bottom: 0.2rem;
+  }
+  .issue-summary {
+    font-size: 0.83rem; color: var(--ink-muted); line-height: 1.45;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .issue-header-right { text-align: right; flex-shrink: 0; }
+  .issue-amount {
+    font-size: 1.15rem; font-weight: 700;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    display: block;
+  }
+  .issue-amount-label {
+    font-size: 0.72rem; color: var(--ink-faint);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .issue-chevron {
+    font-size: 0.75rem; color: var(--ink-faint);
+    transition: transform 0.2s; flex-shrink: 0; margin-left: 0.5rem;
+  }
+  .issue-card.open .issue-chevron { transform: rotate(180deg); }
+  .issue-body {
+    display: none; padding: 0 1.25rem 1.25rem;
+    border-top: 1px solid var(--border);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.875rem;
+  }
+  .issue-card.open .issue-body { display: block; }
+  .issue-clause {
+    background: var(--surface-alt); border-left: 3px solid var(--border-strong);
+    padding: 0.75rem 1rem; border-radius: 0 4px 4px 0;
+    font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5;
+    margin: 1rem 0; font-style: italic;
+  }
+  .calc-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+  .calc-table td {
+    padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border);
+    font-size: 0.83rem;
+  }
+  .calc-table td:last-child { text-align: right; font-weight: 500; }
+  .calc-table tr.highlight td { font-weight: 700; color: var(--red); }
+  .calc-table tr:last-child td { border-bottom: none; }
+  .issue-explanation {
+    font-size: 0.83rem; color: var(--ink-muted); line-height: 1.55;
+    margin-top: 0.75rem;
+  }
+
+  /* ── Bottom action bar ── */
+  .action-bar {
+    position: sticky; bottom: 0; background: #fff;
+    border-top: 1px solid var(--border); padding: 1rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    z-index: 50;
+  }
+  .action-bar-left { font-size: 0.875rem; color: var(--ink-muted); }
+  .action-bar-left strong { color: var(--ink); }
+  .action-bar-right { display: flex; gap: 0.75rem; }
+
+  /* ── Letter card ── */
+  .letter-toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border);
+    background: var(--surface-alt);
+  }
+  .letter-filename {
+    font-size: 0.8rem; color: var(--ink-muted);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .letter-toolbar-actions { display: flex; gap: 0.5rem; }
+  .letter-body {
+    padding: 2rem; outline: none;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 0.9rem; line-height: 1.8; color: var(--ink);
+    min-height: 500px;
+  }
+  .letter-body:focus { background: #fffef9; }
+  .fig-red { background: #fee2e2; border-radius: 2px; padding: 0 2px; }
+  .clause-ref { color: #166534; font-style: italic; }
+  .placeholder-field {
+    color: #aaa; border-bottom: 1px dashed #aaa;
+    display: inline; cursor: text;
+    padding: 0 2px;
+  }
+
+  /* ── Tenancy cards (home) ── */
+  .tenancy-card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.1rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 0.6rem; gap: 1rem;
+  }
+  .tenancy-card-info { flex: 1; }
+  .tenancy-address {
+    font-size: 0.95rem; font-weight: 600; color: var(--ink);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    margin-bottom: 0.2rem;
+  }
+  .tenancy-meta {
+    font-size: 0.78rem; color: var(--ink-faint);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .tenancy-card-right { display: flex; align-items: center; gap: 0.75rem; }
+  .tenancy-continue {
+    font-size: 0.82rem; color: var(--ink); text-decoration: underline;
+    cursor: pointer; background: none; border: none;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .tenancy-continue:hover { color: #555; }
+
+  /* ── How it works steps ── */
+  .how-steps { counter-reset: step; margin: 1.25rem 0 0; }
+  .how-step {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 0.75rem 0; border-bottom: 1px solid var(--border);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.9rem; color: var(--ink-muted); line-height: 1.5;
+  }
+  .how-step:last-child { border-bottom: none; }
+  .how-step-num {
+    font-size: 0.75rem; font-weight: 700; color: var(--ink-faint);
+    width: 22px; flex-shrink: 0; padding-top: 0.05rem;
+  }
+
+  /* ── Loading screen ── */
+  #screen-loading {
+    background: #fff;
+    align-items: center; justify-content: center;
+  }
+  .loading-center { text-align: center; }
+  .spinner {
+    width: 48px; height: 48px; border: 3px solid var(--border);
+    border-top-color: var(--ink); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 2rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-steps { text-align: left; display: inline-block; margin-top: 1.5rem; }
+  .loading-step {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.5rem 0; font-size: 0.9rem;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--border-strong);
+    transition: color 0.3s;
+  }
+  .loading-step.lit { color: var(--ink); }
+  .loading-step-icon { font-size: 0.85rem; }
+
+  /* ── Login ── */
+  #screen-login {
+    background: var(--surface-alt);
+    align-items: center; justify-content: center;
+  }
+  .login-card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 10px; padding: 2.5rem 2rem;
+    width: 100%; max-width: 380px;
+    text-align: center;
+  }
+  .login-logo {
+    font-size: 1.4rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--ink); margin-bottom: 0.4rem;
+  }
+  .login-subtitle {
+    font-size: 0.8rem; color: var(--ink-faint); margin-bottom: 2rem;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: 0.05em;
+  }
+  .login-card .field { text-align: left; }
+  .login-card .btn { width: 100%; justify-content: center; margin-top: 1.25rem; }
+  .login-forgot {
+    display: block; margin-top: 1rem; font-size: 0.8rem;
+    color: var(--ink-faint); text-decoration: underline; cursor: pointer;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .login-forgot:hover { color: var(--ink-muted); }
+
+  /* ── Comparison cells ── */
+  .compare-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 0; border: 1px solid var(--border); border-radius: 8px;
+    overflow: hidden; margin: 1.5rem 0 0.5rem;
+  }
+  .compare-cell {
+    padding: 1.1rem 1.25rem; background: #fff;
+    border-right: 1px solid var(--border);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .compare-cell:last-child { border-right: none; }
+  .compare-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); margin-bottom: 0.35rem; }
+  .compare-value { font-size: 1.3rem; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 0.25rem; }
+  .compare-sub { font-size: 0.78rem; color: var(--ink-faint); }
+  .compare-value.amber { color: var(--amber); }
+
+  /* ── Two-col layout ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+
+  /* ── Property card ── */
+  .property-card {
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 1.1rem 1.5rem; margin-bottom: 1.25rem;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem 1.5rem;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .prop-item { display: flex; flex-direction: column; gap: 0.15rem; }
+  .prop-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); }
+  .prop-value { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+
+  /* ── Page header ── */
+  .page-header { margin-bottom: 2rem; }
+  .page-header h1 { margin-bottom: 0.4rem; }
+  .page-header p {
+    font-size: 0.9rem; color: var(--ink-muted);
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  /* ── Outcome form ── */
+  .resolution-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+  .resolution-option {
+    display: flex; align-items: center; gap: 0.6rem; cursor: pointer;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.9rem;
+    padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 6px;
+    background: #fff; transition: border-color 0.15s, background 0.15s;
+  }
+  .resolution-option:hover { border-color: var(--border-strong); }
+  .resolution-option input[type=radio] { accent-color: var(--ink); }
+  .resolution-option.selected { border-color: var(--ink); background: var(--surface-alt); }
+
+  /* ── Confirmation ── */
+  .outcome-confirm { padding: 1.5rem; }
+  .outcome-confirm-type { font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 0.75rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  .outcome-confirm-amount { font-size: 2rem; font-weight: 700; color: var(--green); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  .outcome-confirm-amount.zero { color: var(--ink-muted); }
+
+  /* ── Utilities ── */
+  .mt-1 { margin-top: 0.5rem; }
+  .mt-2 { margin-top: 1rem; }
+  .mt-3 { margin-top: 1.5rem; }
+  .mt-4 { margin-top: 2rem; }
+  .mb-1 { margin-bottom: 0.5rem; }
+  .mb-2 { margin-bottom: 1rem; }
+  .text-muted { color: var(--ink-muted); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.85rem; }
+  .text-faint { color: var(--ink-faint); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.8rem; }
+  .text-right { text-align: right; }
+  .flex-end { display: flex; justify-content: flex-end; align-items: center; gap: 0.75rem; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+  .lock-notice {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.75rem; color: var(--ink-faint); margin-top: 1.5rem;
+    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .nav-steps { display: none; }
+    .two-col, .three-col, .field-row { grid-template-columns: 1fr; }
+    .stat-bar-4 { grid-template-columns: 1fr 1fr; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .property-card { grid-template-columns: 1fr 1fr; }
+    .action-bar { flex-direction: column; gap: 0.75rem; align-items: stretch; }
+    .action-bar-right { justify-content: flex-end; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 1: LOGIN
+═══════════════════════════════════════════ -->
+<div id="screen-login" class="screen active">
+  <div class="login-card">
+    <div class="login-logo">REAL</div>
+    <div class="login-subtitle">CAM Intelligence</div>
+    <div class="field">
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" value="jennifer.walsh@real.com" autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" value="••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn btn-primary btn-lg" onclick="goTo('screen-home')">Sign in</button>
+    <a class="login-forgot">Forgot your password?</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 2: HOME
+═══════════════════════════════════════════ -->
+<div id="screen-home" class="screen">
+  <nav class="nav">
+    <div class="nav-brand">REAL</div>
+    <div class="nav-steps"></div>
+    <div class="nav-right">
+      <div class="nav-user">
+        <span>Jennifer Walsh</span>
+        <div class="avatar">JW</div>
+      </div>
+    </div>
+  </nav>
+  <div class="page">
+    <h1 style="margin-bottom:2.5rem">Good morning, Jennifer.</h1>
+
+    <div class="card">
+      <h2 style="margin-bottom:1rem">How CAM Intelligence works</h2>
+      <div class="how-steps">
+        <div class="how-step"><div class="how-step-num">1.</div><div>Upload your CAM reconciliation statement and lease, and CAM Intelligence checks whether your landlord has billed you in line with your lease terms.</div></div>
+        <div class="how-step"><div class="how-step-num">2.</div><div>Add the reconciliation statement your landlord sent you, your signed lease, and any supporting invoices if you have them.</div></div>
+        <div class="how-step"><div class="how-step-num">3.</div><div>The tool reads your documents, flags any charges that exceed your lease limits, and drafts a dispute letter for you to review and send.</div></div>
+        <div class="how-step"><div class="how-step-num">4.</div><div>This tool is not legal advice, does not contact your landlord, and cannot access documents stored anywhere outside what you upload here.</div></div>
+      </div>
+    </div>
+
+    <div class="mt-4" style="text-align:center">
+      <button class="btn btn-primary btn-lg" onclick="goTo('screen-upload')">Start a new tenancy review</button>
+      <p class="text-faint mt-2">Your previous reviews are saved. You can return to any of them at any time.</p>
+    </div>
+
+    <div class="mt-4">
+      <div class="section-head" style="margin-top:0; padding-top:0; border-top:none">Previous reviews</div>
+      <div class="tenancy-card">
+        <div class="tenancy-card-info">
+          <div class="tenancy-address">500 Fifth Avenue, Suite 2300</div>
+          <div class="tenancy-meta">Updated 3 days ago</div>
+        </div>
+        <div class="tenancy-card-right">
+          <span class="pill pill-amber">In progress</span>
+          <button class="tenancy-continue" onclick="goTo('screen-upload')">Continue</button>
+        </div>
+      </div>
+      <div class="tenancy-card">
+        <div class="tenancy-card-info">
+          <div class="tenancy-address">1221 Avenue of the Americas, Suite 800</div>
+          <div class="tenancy-meta">Updated 6 weeks ago</div>
+        </div>
+        <div class="tenancy-card-right">
+          <span class="pill pill-green">Resolved</span>
+          <button class="tenancy-continue" onclick="goTo('screen-upload')">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 3: UPLOAD DOCUMENTS
+═══════════════════════════════════════════ -->
+<div id="screen-upload" class="screen">
+  <nav class="nav" id="nav-upload">
+    <div class="nav-brand">REAL</div>
+    <div class="nav-steps" id="steps-upload"></div>
+    <div class="nav-right">
+      <div class="nav-property">200 West 57th Street</div>
+      <div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div>
+    </div>
+  </nav>
+  <div class="page">
+    <div class="page-header">
+      <h1>Upload your documents</h1>
+      <p>Add the documents for this tenancy. The more you provide, the more accurate the review.</p>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Property name</label>
+        <input type="text" id="prop-name" value="200 West 57th Street">
+      </div>
+      <div class="field">
+        <label>Suite / unit</label>
+        <input type="text" id="prop-suite" value="Suite 1400, Floors 14-15">
+      </div>
+    </div>
+
+    <!-- CAM Statement -->
+    <div class="upload-card" id="card-cam">
+      <div class="upload-card-header">
+        <div class="upload-label-wrap">
+          <div class="upload-type">CAM Reconciliation Statement <span class="badge-required">Required</span></div>
+          <div class="upload-desc">The annual summary your landlord sent you. This is the bill you are reviewing.</div>
+          <div class="upload-formats">.pdf, .doc, .docx — max 20MB</div>
+        </div>
+        <button class="btn btn-secondary" onclick="triggerUpload('cam-input')">Choose file</button>
+        <input type="file" id="cam-input" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFile(this,'cam-file','cam-error')">
+      </div>
+      <div class="upload-file-row">
+        <div id="cam-file" class="upload-filename" style="display:flex">
+          <span>✓</span> FY2024_CAM_Statement.pdf
+          <button class="upload-remove" onclick="removeFile('cam-file','cam-input','cam-error')" style="margin-left:0.5rem">Remove</button>
+        </div>
+        <div id="cam-error" class="upload-error" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- Lease -->
+    <div class="upload-card" id="card-lease">
+      <div class="upload-card-header">
+        <div class="upload-label-wrap">
+          <div class="upload-type">Lease Agreement <span class="badge-required">Required</span></div>
+          <div class="upload-desc">Your signed lease for this property. The review checks your landlord's charges against what your lease actually allows.</div>
+          <div class="upload-formats">.pdf, .doc, .docx — max 50MB</div>
+        </div>
+        <button class="btn btn-secondary" onclick="triggerUpload('lease-input')">Choose file</button>
+        <input type="file" id="lease-input" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFile(this,'lease-file','lease-error')">
+      </div>
+      <div class="upload-file-row">
+        <div id="lease-file" class="upload-filename" style="display:flex">
+          <span>✓</span> Lease_200W57_Suite1400.pdf
+          <button class="upload-remove" onclick="removeFile('lease-file','lease-input','lease-error')" style="margin-left:0.5rem">Remove</button>
+        </div>
+        <div id="lease-error" class="upload-error" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- Supporting docs -->
+    <div class="upload-card">
+      <div class="upload-card-header">
+        <div class="upload-label-wrap">
+          <div class="upload-type">Supporting invoices or cost breakdowns <span class="badge-optional">Optional</span></div>
+          <div class="upload-desc">Any backup documents your landlord provided. These help verify individual line items but are not required.</div>
+          <div class="upload-formats">.pdf, .doc, .docx, .xls, .xlsx — max 20MB per file, up to 5 files</div>
+        </div>
+        <button class="btn btn-secondary" onclick="triggerUpload('support-input')">Choose file</button>
+        <input type="file" id="support-input" accept=".pdf,.doc,.docx,.xls,.xlsx" multiple style="display:none">
+      </div>
+    </div>
+
+    <div class="section-head">Additional context — optional</div>
+    <div class="field-row">
+      <div class="field">
+        <label>Last year's total CAM charge ($)</label>
+        <input type="number" id="last-year-total" value="108200" placeholder="0.00">
+        <div class="field-helper">Check last year's reconciliation statement.</div>
+      </div>
+      <div class="field">
+        <label>Last year's monthly CAM estimate ($)</label>
+        <input type="number" id="last-year-monthly" placeholder="0.00">
+        <div class="field-helper">The monthly amount billed as an estimate throughout the year.</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Notes about this property or landlord</label>
+      <textarea rows="3" placeholder="Anything useful for the review, e.g. ongoing works, previous disputes."></textarea>
+      <div class="field-helper">Anything useful for the review, e.g. ongoing works, previous disputes.</div>
+    </div>
+
+    <div style="margin-top:2rem">
+      <div id="next-hint" class="text-faint mb-1" style="text-align:right; display:none">Upload your CAM statement and lease to continue.</div>
+      <div class="flex-end">
+        <button class="btn btn-secondary" onclick="goTo('screen-home')">Back</button>
+        <button class="btn btn-primary" id="btn-next-upload" onclick="goTo('screen-summary')">Next</button>
+      </div>
+    </div>
+
+    <div class="lock-notice">
+      <span>🔒</span> Your files are stored securely and are only used for this review.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 4: REVIEW SUMMARY
+═══════════════════════════════════════════ -->
+<div id="screen-summary" class="screen">
+  <nav class="nav">
+    <div class="nav-brand">REAL</div>
+    <div class="nav-steps" id="steps-summary"></div>
+    <div class="nav-right">
+      <div class="nav-property">200 West 57th Street</div>
+      <div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div>
+    </div>
+  </nav>
+  <div class="page">
+    <div class="page-header">
+      <h1>Check the details we found</h1>
+      <p>We've read your documents. Check that the key information looks right before running the review.</p>
+    </div>
+
+    <div class="property-card">
+      <div class="prop-item"><div class="prop-label">Property</div><div class="prop-value">200 West 57th Street</div></div>
+      <div class="prop-item"><div class="prop-label">Suite</div><div class="prop-value">Suite 1400, Floors 14–15</div></div>
+      <div class="prop-item"><div class="prop-label">Landlord</div><div class="prop-value">Broad Street Partners LLC</div></div>
+      <div class="prop-item"><div class="prop-label">Lease start</div><div class="prop-value">January 14, 2019</div></div>
+      <div class="prop-item"><div class="prop-label">Lease expiry</div><div class="prop-value">January 31, 2027</div></div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <h3 style="margin-bottom:1rem">CAM statement</h3>
+        <div class="data-row"><span class="data-label">Review period</span><span class="data-value">FY2024 (Jan 1 – Dec 31, 2024)</span></div>
+        <div class="data-row"><span class="data-label">Total billed</span><span class="data-value">$127,440</span></div>
+        <div class="data-row"><span class="data-label">Monthly estimate billed</span><span class="data-value">$9,017/month</span></div>
+        <div class="data-row"><span class="data-label">Balance due</span><span class="data-value">$19,240</span></div>
+        <div class="data-row"><span class="data-label">Payment due</span><span class="data-value">April 30, 2025</span></div>
+        <div class="data-row"><span class="data-label">Statement date</span><span class="data-value">March 1, 2025</span></div>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:1rem">Lease terms</h3>
+        <div class="data-row"><span class="data-label">Pro-rata share</span><span class="data-value">6.40%</span></div>
+        <div class="data-row"><span class="data-label">CAM cap (year on year)</span><span class="data-value">5.00% maximum increase</span></div>
+        <div class="data-row"><span class="data-label">Management fee cap</span><span class="data-value">3.00% of controllable expenses</span></div>
+        <div class="data-row"><span class="data-label">CAM exclusions</span><span class="data-value">Capital improvements, above-cap management fees</span></div>
+        <div class="data-row"><span class="data-label">Dispute clause</span><span class="data-value">§9.1 — 60 days from statement date</span></div>
+        <div class="data-row"><span class="data-label">CAM clauses</span><span class="data-value">§7.3 through §7.9</span></div>
+      </div>
+    </div>
+
+    <div class="banner banner-amber">
+      <div class="banner-icon">⚠</div>
+      <div>Your dispute window closes on <strong>April 29, 2025</strong>. That is <strong>47 days</strong> from today. After this date, you may lose the right to formally dispute this statement.</div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-cell">
+        <div class="compare-label">Billed by landlord</div>
+        <div class="compare-value">$127,440</div>
+      </div>
+      <div class="compare-cell">
+        <div class="compare-label">Last year's total</div>
+        <div class="compare-value">$108,200</div>
+      </div>
+      <div class="compare-cell">
+        <div class="compare-label">Difference</div>
+        <div class="compare-value amber">+$19,240</div>
+        <div class="compare-sub">17.8% increase year on year</div>
+      </div>
+    </div>
+    <p class="text-faint">The balance due ($19,240) represents 15.1% of last year's total CAM charge.</p>
+
+    <hr class="divider">
+    <p class="text-faint text-right mt-2">Running the review usually takes about 30 seconds.</p>
+    <div class="flex-end mt-1">
+      <button class="btn btn-secondary" onclick="goTo('screen-upload')">Back to documents</button>
+      <button class="btn btn-primary" onclick="startLoading()">Run the review</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 4b: LOADING
+═══════════════════════════════════════════ -->
+<div id="screen-loading" class="screen">
+  <div class="loading-center">
+    <div class="spinner"></div>
+    <p style="font-family:-apple-system,sans-serif; color:var(--ink-muted); font-size:0.95rem">Reviewing your documents</p>
+    <div class="loading-steps">
+      <div class="loading-step" id="ls-1"><div class="loading-step-icon">○</div> Reading your CAM statement</div>
+      <div class="loading-step" id="ls-2"><div class="loading-step-icon">○</div> Reading your lease</div>
+      <div class="loading-step" id="ls-3"><div class="loading-step-icon">○</div> Checking charges against your lease terms</div>
+      <div class="loading-step" id="ls-4"><div class="loading-step-icon">○</div> Calculating potential overcharges</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 5: ANALYSIS
+═══════════════════════════════════════════ -->
+<div id="screen-analysis" class="screen">
+  <nav class="nav">
+    <div class="nav-brand">REAL</div>
+    <div class="nav-steps" id="steps-analysis"></div>
+    <div class="nav-right">
+      <div class="nav-property">200 West 57th Street</div>
+      <div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div>
+    </div>
+  </nav>
+  <div class="page-wide" style="padding-bottom:7rem">
+    <div class="page-header">
+      <h1>Review complete</h1>
+      <p>We found 3 potential issues. Two are strong enough to dispute. One needs more information first.</p>
+    </div>
+
+    <div class="stat-bar stat-bar-4">
+      <div class="stat-cell">
+        <div class="stat-cell-label">Billed</div>
+        <div class="stat-cell-value">$127,440</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell-label">Expected (based on lease)</div>
+        <div class="stat-cell-value">$113,820</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell-label">Possible overcharge</div>
+        <div class="stat-cell-value red">$18,620</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell-label">Days to dispute</div>
+        <div class="stat-cell-value amber">47</div>
+      </div>
+    </div>
+
+    <h2 style="margin-bottom:1rem">What we found</h2>
+
+    <!-- Issue 1 -->
+    <div class="issue-card red-border" id="issue-1">
+      <div class="issue-card-header" onclick="toggleIssue('issue-1')">
+        <div class="issue-header-left">
+          <div class="issue-status">Strong basis to dispute</div>
+          <div class="issue-title">Your CAM charges went up more than your lease allows</div>
+          <div class="issue-summary">Your lease says CAM costs cannot go up by more than 5% each year. This year's bill is 17.8% higher than last year. That is more than three times the limit in your lease.</div>
+        </div>
+        <div class="issue-header-right">
+          <span class="issue-amount red">$12,080</span>
+          <span class="issue-amount-label">potential overcharge</span>
+        </div>
+        <div class="issue-chevron">▼</div>
+      </div>
+      <div class="issue-body">
+        <div class="issue-clause">§7.4 — "Controllable Expenses shall not increase by more than five percent (5%) per year on a cumulative basis over the prior year's Controllable Expenses."</div>
+        <table class="calc-table">
+          <tr><td>FY2023 controllable expenses (billed)</td><td>$82,400</td></tr>
+          <tr><td>Maximum permitted increase (5%)</td><td>+$4,120</td></tr>
+          <tr><td>Maximum permitted FY2024 amount</td><td>$86,520</td></tr>
+          <tr><td>FY2024 controllable expenses (billed)</td><td>$98,600</td></tr>
+          <tr class="highlight"><td>Overcharge above the cap</td><td>$12,080</td></tr>
+        </table>
+        <div class="issue-explanation">Your lease limits year-on-year increases in controllable expenses to 5%. The FY2024 bill represents a 17.8% increase — $12,080 above the maximum your lease allows. This is a clear breach of the cap clause and forms a strong basis for a formal dispute.</div>
+      </div>
+    </div>
+
+    <!-- Issue 2 -->
+    <div class="issue-card red-border" id="issue-2">
+      <div class="issue-card-header" onclick="toggleIssue('issue-2')">
+        <div class="issue-header-left">
+          <div class="issue-status">Strong basis to dispute</div>
+          <div class="issue-title">The management fee is higher than your lease allows</div>
+          <div class="issue-summary">Your lease caps the management fee at 3% of costs. Your landlord charged 4.8%. That extra 1.8% adds up to an overcharge of $1,775.</div>
+        </div>
+        <div class="issue-header-right">
+          <span class="issue-amount red">$1,775</span>
+          <span class="issue-amount-label">potential overcharge</span>
+        </div>
+        <div class="issue-chevron">▼</div>
+      </div>
+      <div class="issue-body">
+        <div class="issue-clause">§7.6 — "Management fees included in Common Area Maintenance expenses shall not exceed three percent (3%) of Controllable Expenses in any given year."</div>
+        <table class="calc-table">
+          <tr><td>FY2024 controllable expenses</td><td>$98,600</td></tr>
+          <tr><td>Management fee charged (4.8%)</td><td>$4,733</td></tr>
+          <tr><td>Maximum permitted fee (3.0%)</td><td>$2,958</td></tr>
+          <tr class="highlight"><td>Overcharge above the cap</td><td>$1,775</td></tr>
+        </table>
+        <div class="issue-explanation">Your lease limits management fees to 3% of controllable expenses. The landlord's statement applies a rate of 4.8%, which is $1,775 above the contractual maximum. This overcharge is straightforward to calculate and dispute.</div>
+      </div>
+    </div>
+
+    <!-- Issue 3 -->
+    <div class="issue-card gray-border" id="issue-3">
+      <div class="issue-card-header" onclick="toggleIssue('issue-3')">
+        <div class="issue-header-left">
+          <div class="issue-status">Needs more information</div>
+          <div class="issue-title">A large renovation cost may not belong in your CAM bill</div>
+          <div class="issue-summary">Your landlord included a charge called 'Lobby renovation — Phase 2' for $28,400. Your lease excludes major building improvements from CAM. We cannot confirm whether this qualifies until you see the contractor invoice.</div>
+        </div>
+        <div class="issue-header-right">
+          <span class="issue-amount" style="color:var(--ink-muted)">$1,821</span>
+          <span class="issue-amount-label">your share if excluded</span>
+        </div>
+        <div class="issue-chevron">▼</div>
+      </div>
+      <div class="issue-body">
+        <div class="issue-clause">§7.5 — "Capital Improvements, defined as expenditures that extend the useful life of a building component or add new functionality, shall be excluded from Common Area Maintenance expenses."</div>
+        <div class="issue-explanation">Your lease excludes capital improvements from CAM. The line item 'Lobby renovation — Phase 2' at $28,400 may qualify as a capital improvement — but without the contractor invoice, we cannot determine whether the work extended the building's useful life or was routine maintenance.<br><br><strong>Recommended next step:</strong> Request the contractor invoice and scope of work before including this item in any dispute. A weak or unsupported claim can undermine the stronger claims you already have. Once you have the backup, you can add this item to your dispute manually.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-bar">
+    <div class="action-bar-left">2 issues are strong enough to dispute now. Total potential recovery: <strong>$13,855</strong>.</div>
+    <div class="action-bar-right">
+      <button class="btn btn-secondary">Request backup documents</button>
+      <button class="btn btn-primary" onclick="goTo('screen-letter')">Build dispute letter</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 6: DISPUTE LETTER
+═══════════════════════════════════════════ -->
+<div id="screen-letter" class="screen">
+  <nav class="nav">
+    <div class="nav-brand">REAL</div>
+    <div class="nav-steps" id="steps-letter"></div>
+    <div class="nav-right">
+      <div class="nav-property">200 West 57th Street</div>
+      <div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div>
+    </div>
+  </nav>
+  <div class="page" style="padding-bottom:6rem">
+    <div class="page-header">
+      <h1>Your dispute letter</h1>
+      <p>We've drafted a letter based on the two issues with a strong basis to dispute. Read it carefully and edit anything before you send it.</p>
+    </div>
+
+    <div class="banner banner-green">
+      <div class="banner-icon">ℹ</div>
+      <div>This letter covers 2 of 3 issues found. The lobby renovation item has been left out because you do not yet have the contractor invoice. Once you have it, you can add that item manually.</div>
+    </div>
+
+    <div class="card" style="padding:0; overflow:hidden">
+      <div class="letter-toolbar">
+        <div class="letter-filename">dispute_letter_200W57_FY2024.txt</div>
+        <div class="letter-toolbar-actions">
+          <button class="btn btn-secondary" id="btn-copy" onclick="copyLetter()">Copy</button>
+          <button class="btn btn-secondary" onclick="downloadLetter()">Download</button>
+        </div>
+      </div>
+      <div class="letter-body" id="letter-body" contenteditable="true">
+<p style="margin-bottom:1.2em"><span class="placeholder-field">[Date]</span></p>
+
+<p style="margin-bottom:1.2em">Broad Street Partners LLC<br>
+Property Management Division<br>
+1221 Avenue of the Americas, Suite 4400<br>
+New York, NY 10020</p>
+
+<p style="margin-bottom:1.2em"><strong>Re: Formal Dispute — FY2024 CAM Reconciliation</strong><br>
+Suite 1400, 200 West 57th Street, New York, NY<br>
+Lease dated January 14, 2019</p>
+
+<p style="margin-bottom:1.2em">Dear Property Manager,</p>
+
+<p style="margin-bottom:1.2em">I am writing to formally dispute the FY2024 Common Area Maintenance reconciliation statement issued <span class="fig-red">March 1, 2025</span>, in the amount of <span class="fig-red">$127,440</span>. Pursuant to <span class="clause-ref">§9.1</span> of our Lease, I am submitting this dispute within the required 60-day window.</p>
+
+<p style="margin-bottom:1.2em">Based on my review of the reconciliation statement and the terms of our Lease, I have identified two overcharges totalling <span class="fig-red">$13,855</span>, detailed below.</p>
+
+<p style="margin-bottom:0.6em"><strong>Item 1 — CAM cap breach (<span class="clause-ref">§7.4</span>)</strong></p>
+
+<p style="margin-bottom:1.2em">Our Lease at <span class="clause-ref">§7.4</span> limits year-over-year increases in Controllable Expenses to five percent (5%). FY2024 controllable expenses are billed at <span class="fig-red">$98,600</span>, representing an increase of <span class="fig-red">17.8%</span> over the FY2023 figure of <span class="fig-red">$82,400</span>. The maximum permitted amount under the cap is <span class="fig-red">$86,520</span>. I therefore dispute <span class="fig-red">$12,080</span> as an overcharge on this item.</p>
+
+<p style="margin-bottom:0.6em"><strong>Item 2 — Management fee ceiling (<span class="clause-ref">§7.6</span>)</strong></p>
+
+<p style="margin-bottom:1.2em">Our Lease at <span class="clause-ref">§7.6</span> limits management fees to three percent (3%) of Controllable Expenses. The FY2024 reconciliation reflects a management fee of <span class="fig-red">4.8%</span>, totalling <span class="fig-red">$4,733</span>. The maximum permitted fee at 3.0% is <span class="fig-red">$2,958</span>. I therefore dispute <span class="fig-red">$1,775</span> as an overcharge on this item.</p>
+
+<p style="margin-bottom:0.6em"><strong>Summary</strong></p>
+
+<p style="margin-bottom:1.2em">I accept the adjusted balance of <span class="fig-red">$113,585</span> (total billed of <span class="fig-red">$127,440</span> less disputed amount of <span class="fig-red">$13,855</span>) and will remit payment upon your written confirmation of the above adjustments.</p>
+
+<p style="margin-bottom:1.2em">I also request, pursuant to <span class="clause-ref">§9.2</span> of the Lease, the original contractor invoice and scope of work for the line item "Lobby renovation — Phase 2" (<span class="fig-red">$28,400</span>), to determine whether this expenditure qualifies as a capital improvement under <span class="clause-ref">§7.5</span>.</p>
+
+<p style="margin-bottom:1.2em">Please respond within 30 days. I am available to discuss at your convenience.</p>
+
+<p style="margin-bottom:1.2em">Regards,</p>
+
+<p>Jennifer Walsh<br>
+<span class="placeholder-field">[Title]</span><br>
+<span class="placeholder-field">[Company]</span><br>
+<span class="placeholder-field">[Email]</span><br>
+<span class="placeholder-field">[Phone]</span></p>
+      </div>
+    </div>
+
+    <div class="flex-end mt-3">
+      <button class="btn btn-secondary" onclick="goTo('screen-analysis')">Back to analysis</button>
+      <button class="btn btn-primary" onclick="goTo('screen-outcome')">Mark as sent</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 7: LOG OUTCOME
+═══════════════════════════════════════════ -->
+<div id="screen-outcome" class="screen">
+  <nav class="nav">
+    <div class="nav-brand">REAL</div>
+    <div class="nav-steps" id="steps-outcome"></div>
+    <div class="nav-right">
+      <div class="nav-property">200 West 57th Street</div>
+      <div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div>
+    </div>
+  </nav>
+  <div class="page">
+    <div class="page-header">
+      <h1>Log the result</h1>
+      <p>Once your dispute is resolved, record what happened here. This keeps your records complete.</p>
+    </div>
+
+    <div class="card mb-2" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; font-family:-apple-system,sans-serif;">
+      <div class="prop-item"><div class="prop-label">Property</div><div class="prop-value">200 West 57th Street</div></div>
+      <div class="prop-item"><div class="prop-label">Date sent</div><div class="prop-value" id="outcome-date-sent">—</div></div>
+      <div class="prop-item"><div class="prop-label">Amount disputed</div><div class="prop-value">$13,855</div></div>
+    </div>
+
+    <div id="outcome-form">
+      <div class="card">
+        <h3 style="margin-bottom:1.25rem">What was the outcome?</h3>
+
+        <div class="field">
+          <label>Resolution</label>
+          <div class="resolution-group">
+            <label class="resolution-option selected" id="opt-full">
+              <input type="radio" name="resolution" value="full" checked> Landlord agreed in full
+            </label>
+            <label class="resolution-option" id="opt-partial">
+              <input type="radio" name="resolution" value="partial"> Partial agreement
+            </label>
+            <label class="resolution-option" id="opt-rejected">
+              <input type="radio" name="resolution" value="rejected"> Landlord rejected dispute
+            </label>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Amount recovered ($)</label>
+            <input type="number" id="amount-recovered" value="13855" min="0">
+            <div class="field-helper">Enter the credit your landlord agreed to. If nothing was recovered, leave as 0.</div>
+          </div>
+          <div class="field">
+            <label>Date resolved</label>
+            <input type="date" id="date-resolved" value="2025-05-14">
+          </div>
+        </div>
+
+        <div class="flex-end">
+          <button class="btn btn-primary" onclick="saveOutcome()">Save outcome</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="outcome-confirmation" style="display:none">
+      <div class="card outcome-confirm">
+        <div class="outcome-confirm-type" id="confirm-type-msg"></div>
+        <div class="outcome-confirm-amount" id="confirm-amount"></div>
+        <div class="text-faint mt-2" id="confirm-date"></div>
+        <hr class="divider">
+        <p class="text-faint">This review is now complete. You can view it any time from your home screen.</p>
+        <div class="mt-3">
+          <button class="btn btn-secondary" onclick="goTo('screen-home')">Back to home</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ──
+const uploadState = { cam: true, lease: true };
+
+// ── Navigation ──
+const SCREENS = ['screen-login','screen-home','screen-upload','screen-summary','screen-loading','screen-analysis','screen-letter','screen-outcome'];
+const STEP_SCREENS = { 'screen-upload':1, 'screen-summary':2, 'screen-analysis':3, 'screen-letter':4, 'screen-outcome':5 };
+const STEP_LABELS = ['Upload documents','Review summary','Analysis','Dispute letter','Log outcome'];
+let currentScreen = 'screen-login';
+
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  el.classList.add('active');
+  currentScreen = id;
+  window.scrollTo(0,0);
+  renderSteps(id);
+}
+
+function renderSteps(screenId) {
+  const activeStep = STEP_SCREENS[screenId] || 0;
+  const navIds = ['steps-upload','steps-summary','steps-analysis','steps-letter','steps-outcome'];
+  navIds.forEach(navId => {
+    const container = document.getElementById(navId);
+    if (!container) return;
+    container.innerHTML = '';
+    STEP_LABELS.forEach((label, i) => {
+      const num = i + 1;
+      const isDone = num < activeStep;
+      const isActive = num === activeStep;
+      if (i > 0) {
+        const sep = document.createElement('div');
+        sep.className = 'nav-step-sep';
+        sep.textContent = '›';
+        container.appendChild(sep);
+      }
+      const step = document.createElement('div');
+      step.className = 'nav-step' + (isActive ? ' active' : '') + (isDone ? ' done' : '');
+      step.innerHTML = `<div class="nav-step-num">${isDone ? '✓' : num}</div><span>${label}</span>`;
+      if (isDone) {
+        const targets = ['screen-upload','screen-summary','screen-analysis','screen-letter','screen-outcome'];
+        step.onclick = () => goTo(targets[i]);
+      }
+      container.appendChild(step);
+    });
+  });
+}
+
+// ── Loading sequence ──
+function startLoading() {
+  goTo('screen-loading');
+  const steps = ['ls-1','ls-2','ls-3','ls-4'];
+  steps.forEach((id, i) => {
+    document.getElementById(id).classList.remove('lit');
+    document.getElementById(id).querySelector('.loading-step-icon').textContent = '○';
+  });
+  steps.forEach((id, i) => {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      el.classList.add('lit');
+      el.querySelector('.loading-step-icon').textContent = '●';
+      if (i === steps.length - 1) {
+        setTimeout(() => goTo('screen-analysis'), 700);
+      }
+    }, 600 * (i + 1));
+  });
+}
+
+// ── Issue accordion ──
+function toggleIssue(id) {
+  const card = document.getElementById(id);
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.issue-card').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
+
+// ── File upload ──
+function triggerUpload(inputId) {
+  document.getElementById(inputId).click();
+}
+
+function handleFile(input, fileDisplayId, errorId) {
+  const file = input.files[0];
+  if (!file) return;
+  const ext = file.name.split('.').pop().toLowerCase();
+  const allowed = ['pdf','doc','docx','xls','xlsx'];
+  const maxMB = inputId === 'cam-input' ? 20 : 50;
+  const errEl = document.getElementById(errorId);
+  const dispEl = document.getElementById(fileDisplayId);
+  errEl.style.display = 'none';
+  if (!allowed.includes(ext)) {
+    errEl.textContent = 'That file type is not accepted. Please use .pdf, .doc, or .docx.';
+    errEl.style.display = 'block'; input.value = ''; return;
+  }
+  if (file.size > maxMB * 1024 * 1024) {
+    errEl.textContent = `This file is over ${maxMB}MB. Please upload a smaller file.`;
+    errEl.style.display = 'block'; input.value = ''; return;
+  }
+  dispEl.innerHTML = `<span>✓</span> ${file.name} <button class="upload-remove" onclick="removeFile('${fileDisplayId}','${input.id}','${errorId}')" style="margin-left:0.5rem">Remove</button>`;
+  dispEl.style.display = 'flex';
+  if (fileDisplayId === 'cam-file') uploadState.cam = true;
+  if (fileDisplayId === 'lease-file') uploadState.lease = true;
+  checkNextButton();
+}
+
+function removeFile(fileDisplayId, inputId, errorId) {
+  const dispEl = document.getElementById(fileDisplayId);
+  dispEl.innerHTML = '';
+  dispEl.style.display = 'none';
+  document.getElementById(inputId).value = '';
+  if (fileDisplayId === 'cam-file') uploadState.cam = false;
+  if (fileDisplayId === 'lease-file') uploadState.lease = false;
+  checkNextButton();
+}
+
+function checkNextButton() {
+  const btn = document.getElementById('btn-next-upload');
+  const hint = document.getElementById('next-hint');
+  if (uploadState.cam && uploadState.lease) {
+    btn.disabled = false;
+    hint.style.display = 'none';
+  } else {
+    btn.disabled = true;
+    hint.style.display = 'block';
+  }
+}
+
+// ── Letter copy/download ──
+function copyLetter() {
+  const el = document.getElementById('letter-body');
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('btn-copy');
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = 'Copy'; }, 1800);
+  });
+}
+
+function downloadLetter() {
+  const el = document.getElementById('letter-body');
+  const text = el.innerText;
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'dispute_letter_200W57_FY2024.txt';
+  a.click();
+}
+
+// ── Outcome ──
+document.querySelectorAll('.resolution-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.resolution-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    const val = opt.querySelector('input').value;
+    const amtInput = document.getElementById('amount-recovered');
+    if (val === 'full') amtInput.value = '13855';
+    else if (val === 'rejected') amtInput.value = '0';
+    else amtInput.value = '';
+  });
+});
+
+function saveOutcome() {
+  const resEl = document.querySelector('.resolution-option.selected input');
+  const res = resEl ? resEl.value : 'full';
+  const amt = parseFloat(document.getElementById('amount-recovered').value) || 0;
+  const dateVal = document.getElementById('date-resolved').value;
+  const dateStr = dateVal ? new Date(dateVal + 'T12:00:00').toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' }) : '—';
+
+  document.getElementById('outcome-form').style.display = 'none';
+  const conf = document.getElementById('outcome-confirmation');
+  conf.style.display = 'block';
+
+  let typeMsg = '';
+  if (res === 'full') typeMsg = 'Your landlord agreed to the full disputed amount.';
+  else if (res === 'partial') typeMsg = `You recovered $${amt.toLocaleString()} on a disputed amount of $13,855.`;
+  else typeMsg = 'Your landlord rejected the dispute. You may want to seek legal advice if you believe the charges are incorrect.';
+
+  document.getElementById('confirm-type-msg').textContent = typeMsg;
+  const amtEl = document.getElementById('confirm-amount');
+  amtEl.textContent = amt > 0 ? `$${amt.toLocaleString()} recovered` : '$0 recovered';
+  amtEl.className = 'outcome-confirm-amount' + (amt > 0 ? '' : ' zero');
+  document.getElementById('confirm-date').textContent = `Resolved: ${dateStr}`;
+}
+
+// ── Set outcome date sent ──
+function setDateSent() {
+  const el = document.getElementById('outcome-date-sent');
+  if (el) el.textContent = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+}
+
+// ── Init ──
+checkNextButton();
+setDateSent();
+</script>
+</body>
+</html>
