@@ -106,21 +106,21 @@ The prototype covers the full flow across seven screens: login, home with saved 
 
 ## 5. Tradeoffs
 
-### What I simplified**
+### What I simplified
 
 - Single property. The home screen shows saved tenancies, but the analysis flow covers one property at a time. 
 - Mock input and output data, no user upload function. Real document parsing is a hard, separate engineering problem. The prototype assumes the analysis pipeline has been sufficiently developed, at least at a limited level.
 - The technical depth is excluded from this assignment, in order to focus on the experience and behavioural change, as this is a product thinking assignment, not an engineering assignment. Nevertheless the analysis is core to the product, and shouldn't have workarounds, although first versions would likely only solve a specific set of cases.
-- If I was to build it, it would be pipeline use an LLM for it's natural language processing, and a separate dynamic mathematical computation method. It would include supervised learning data models for context and expected results and evaluations.
+- If I was to build it, the data pipeline would use an LLM for it's natural language processing, and a separate dynamic mathematical computation method, potentially using LLM python (or similar) coding, to reduce the deterministic code that needs to be written. It would include supervised learning data models for context and expected results and evaluations.
 
-### Where this would break in real-world usage**
+### Where this would break in real-world usage
 
 - Non-standard CAM statement formats. Landlords structure these differently. Reliable extraction across formats requires significant engineering investment and ongoing maintenance.
 - Ambiguous lease language. "Reasonable management fees" is not a number. The product can flag it but cannot calculate a precise overcharge without human judgment.
 - Multi-tenant properties with complex pro-rata structures. These require the full rent roll, not just one tenant's lease.
 - Leases with addenda or side letters that override base terms. A document parser that reads the base lease and misses an addendum produces a confident wrong answer.
 
-### What I would build next**
+### What I would build next
 *Order does not reflect prioritization, the priority would be the result of business value, user feedback and effort*
 
 1. **Portfolio dashboard view** - ability to roll-up the single reports per location or owner, surfacing the highest value and highest dispute confidence properties. This compiles and enhances the prototypes offering, removing the remaining "gut feel" decision still.
