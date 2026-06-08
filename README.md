@@ -111,6 +111,7 @@ The prototype covers the full flow across seven screens: login, home with saved 
 
 - Single property. The home screen shows saved tenancies, but the analysis flow covers one property at a time. 
 - Mock input and output data, no user upload function. Real document parsing is a hard, separate engineering problem. The prototype assumes the analysis pipeline has been sufficiently developed, at least at a limited level.
+- Simplified how much can be extracted from a lease and a CAM statement. An option has been included to also upload an owners cost breakdown, but this require separate analysis.
 - The technical depth is excluded from this assignment, in order to focus on the experience and behavioural change, as this is a product thinking assignment, not an engineering assignment. Nevertheless the analysis is core to the product, and shouldn't have workarounds, although first versions would likely only solve a specific set of cases.
 - If I was to build it, the data pipeline would use an LLM for it's natural language processing, and a separate dynamic mathematical computation method, potentially using LLM python (or similar) coding, to reduce the deterministic code that needs to be written. It would include supervised learning data models for context and expected results and evaluations.
 
