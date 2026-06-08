@@ -1,7 +1,9 @@
 # CAM-Reconciliation-Intelligence
 
 A system that provides users with valuable insights on their CAM reconciliation that allows them to make better decisions
+
 Submission by Daniel Lester on June 8th 2026
+
 Application URL: https://danieljlester.github.io/CAM-Reconciliation-Intelligence/
 
 ---
