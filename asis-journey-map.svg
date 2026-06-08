@@ -1,0 +1,230 @@
+<svg width="100%" viewBox="0 0 680 1580" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>CAM reconciliation as-is journey map</title>
+  <desc>Full as-is journey map for a commercial real estate asset manager reviewing a CAM reconciliation, from lease signing through monthly estimates, statement receipt, portfolio triage, single-property triage, validation, decision, dispute, and resolution.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      text { font-family: sans-serif; fill: #2c2c2a; }
+      .th { font-size: 14px; font-weight: 500; }
+      .ts { font-size: 12px; font-weight: 400; }
+      .arr { stroke: #5f5e5a; stroke-width: 1.5; fill: none; }
+      .c-gray rect { fill: #f1efe8; stroke: #888780; }
+      .c-amber rect { fill: #faeeda; stroke: #ba7517; }
+      .c-amber text { fill: #633806; }
+      .c-red rect { fill: #fcebeb; stroke: #a32d2d; }
+      .c-red text { fill: #501313; }
+    </style>
+  </defs>
+
+  <!-- Left rail -->
+  <line x1="62" y1="30" x2="62" y2="1560" stroke="#d3d1c7" stroke-width="0.5"/>
+
+  <!-- Phase dividers -->
+  <line x1="62" y1="30"   x2="660" y2="30"   stroke="#d3d1c7" stroke-width="0.5"/>
+  <line x1="62" y1="140"  x2="660" y2="140"  stroke="#d3d1c7" stroke-width="0.5"/>
+  <line x1="62" y1="284"  x2="660" y2="284"  stroke="#d3d1c7" stroke-width="0.5"/>
+  <line x1="62" y1="428"  x2="660" y2="428"  stroke="#d3d1c7" stroke-width="0.5"/>
+  <line x1="62" y1="572"  x2="660" y2="572"  stroke="#d3d1c7" stroke-width="0.5"/>
+  <line x1="62" y1="716"  x2="660" y2="716"  stroke="#d3d1c7" stroke-width="0.5"/>
+  <line x1="62" y1="876"  x2="660" y2="876"  stroke="#d3d1c7" stroke-width="0.5"/>
+  <line x1="62" y1="1036" x2="660" y2="1036" stroke="#d3d1c7" stroke-width="0.5"/>
+  <line x1="62" y1="1124" x2="660" y2="1124" stroke="#d3d1c7" stroke-width="0.5"/>
+  <line x1="62" y1="1284" x2="660" y2="1284" stroke="#d3d1c7" stroke-width="0.5"/>
+
+  <!-- Phase labels -->
+  <text class="ts" x="42" y="100"  text-anchor="middle" transform="rotate(-90,42,100)">Lease</text>
+  <text class="ts" x="42" y="222"  text-anchor="middle" transform="rotate(-90,42,222)">Monthly</text>
+  <text class="ts" x="42" y="358"  text-anchor="middle" transform="rotate(-90,42,358)">Receipt</text>
+  <text class="ts" x="42" y="500"  text-anchor="middle" transform="rotate(-90,42,500)">Portfolio</text>
+  <text class="ts" x="42" y="638"  text-anchor="middle" transform="rotate(-90,42,638)">Triage</text>
+  <text class="ts" x="42" y="808"  text-anchor="middle" transform="rotate(-90,42,808)">Validate</text>
+  <text class="ts" x="42" y="952"  text-anchor="middle" transform="rotate(-90,42,952)">Decide</text>
+  <text class="ts" x="42" y="1080" text-anchor="middle" transform="rotate(-90,42,1080)">Act</text>
+  <text class="ts" x="42" y="1218" text-anchor="middle" transform="rotate(-90,42,1218)">Dispute</text>
+  <text class="ts" x="42" y="1380" text-anchor="middle" transform="rotate(-90,42,1380)">Resolution</text>
+
+  <!-- LEASE SIGNING -->
+  <g class="c-gray"><rect x="74" y="42" width="572" height="72" rx="8" stroke-width="0.5"/>
+    <text class="th" x="360" y="72" text-anchor="middle">Lease signed</text>
+    <text class="ts" x="360" y="91" text-anchor="middle">CAM clauses defined: pro-rata share, exclusions, annual cap, audit rights.</text>
+    <text class="ts" x="360" y="107" text-anchor="middle">Asset manager may not have negotiated or read them carefully.</text>
+  </g>
+  <line x1="360" y1="114" x2="360" y2="137" class="arr" marker-end="url(#arrow)"/>
+
+  <!-- MONTHLY ESTIMATES -->
+  <g class="c-gray"><rect x="74" y="152" width="270" height="64" rx="8" stroke-width="0.5"/>
+    <text class="th" x="209" y="178" text-anchor="middle">Landlord sets estimate</text>
+    <text class="ts" x="209" y="198" text-anchor="middle">Monthly CAM based on prior year + buffer</text>
+  </g>
+  <g class="c-gray"><rect x="376" y="152" width="270" height="64" rx="8" stroke-width="0.5"/>
+    <text class="th" x="511" y="178" text-anchor="middle">Tenant pays monthly</text>
+    <text class="ts" x="511" y="198" text-anchor="middle">12 payments. No visibility into actual vs estimate.</text>
+  </g>
+  <line x1="344" y1="184" x2="374" y2="184" class="arr" marker-end="url(#arrow)"/>
+  <g class="c-amber"><rect x="186" y="228" width="348" height="30" rx="15" stroke-width="0.5"/>
+    <text class="ts" x="360" y="247" text-anchor="middle">Pain: no mid-year signal. Surprise at reconciliation is unavoidable.</text>
+  </g>
+  <line x1="360" y1="216" x2="360" y2="226" class="arr" marker-end="url(#arrow)"/>
+  <line x1="360" y1="258" x2="360" y2="281" class="arr" marker-end="url(#arrow)"/>
+
+  <!-- STATEMENT RECEIPT -->
+  <g class="c-gray"><rect x="74" y="296" width="572" height="64" rx="8" stroke-width="0.5"/>
+    <text class="th" x="360" y="322" text-anchor="middle">CAM reconciliation statement arrives</text>
+    <text class="ts" x="360" y="342" text-anchor="middle">Annual summary in landlord's format. No context, no comparison, no explanation.</text>
+    <text class="ts" x="360" y="358" text-anchor="middle">Balance due stated. Dispute window opens silently.</text>
+  </g>
+  <g class="c-red"><rect x="152" y="372" width="416" height="30" rx="15" stroke-width="0.5"/>
+    <text class="ts" x="360" y="391" text-anchor="middle">Critical: dispute window (30-90 days) starts now. Asset manager usually unaware.</text>
+  </g>
+  <line x1="360" y1="360" x2="360" y2="370" class="arr" marker-end="url(#arrow)"/>
+  <line x1="360" y1="402" x2="360" y2="425" class="arr" marker-end="url(#arrow)"/>
+
+  <!-- PORTFOLIO TRIAGE -->
+  <g class="c-gray"><rect x="74" y="440" width="572" height="72" rx="8" stroke-width="0.5"/>
+    <text class="th" x="360" y="466" text-anchor="middle">Multiple statements arrive simultaneously</text>
+    <text class="ts" x="360" y="486" text-anchor="middle">Asset manager handles several properties. No data to prioritise against.</text>
+    <text class="ts" x="360" y="504" text-anchor="middle">Triage is by gut feel, memory, and landlord relationship.</text>
+  </g>
+  <g class="c-red"><rect x="118" y="524" width="484" height="30" rx="15" stroke-width="0.5"/>
+    <text class="ts" x="360" y="543" text-anchor="middle">Pain: high-value disputes missed because there is no signal about where to look.</text>
+  </g>
+  <line x1="360" y1="512" x2="360" y2="522" class="arr" marker-end="url(#arrow)"/>
+  <line x1="360" y1="554" x2="360" y2="569" class="arr" marker-end="url(#arrow)"/>
+
+  <!-- SINGLE-PROPERTY TRIAGE -->
+  <g class="c-gray"><rect x="74" y="584" width="270" height="64" rx="8" stroke-width="0.5"/>
+    <text class="th" x="209" y="610" text-anchor="middle">Eyeball the total</text>
+    <text class="ts" x="209" y="630" text-anchor="middle">Does it look reasonable vs last year?</text>
+    <text class="ts" x="209" y="646" text-anchor="middle">Memory only. No baseline.</text>
+  </g>
+  <g class="c-gray"><rect x="376" y="584" width="270" height="64" rx="8" stroke-width="0.5"/>
+    <text class="th" x="511" y="610" text-anchor="middle">Hunt for the lease</text>
+    <text class="ts" x="511" y="630" text-anchor="middle">Different folder, email, or paper.</text>
+    <text class="ts" x="511" y="646" text-anchor="middle">Takes time.</text>
+  </g>
+  <line x1="344" y1="616" x2="374" y2="616" class="arr" marker-end="url(#arrow)"/>
+  <g class="c-amber"><rect x="152" y="660" width="416" height="30" rx="15" stroke-width="0.5"/>
+    <text class="ts" x="360" y="679" text-anchor="middle">Pain: no prior year baseline. No automated flag for large YoY swings.</text>
+  </g>
+  <line x1="360" y1="648" x2="360" y2="658" class="arr" marker-end="url(#arrow)"/>
+  <line x1="360" y1="690" x2="360" y2="713" class="arr" marker-end="url(#arrow)"/>
+
+  <!-- VALIDATE -->
+  <g class="c-gray"><rect x="74" y="728" width="166" height="80" rx="8" stroke-width="0.5"/>
+    <text class="th" x="157" y="756" text-anchor="middle">Check pro-rata</text>
+    <text class="ts" x="157" y="776" text-anchor="middle">Tenant % vs lease clause.</text>
+    <text class="ts" x="157" y="792" text-anchor="middle">Calculated manually.</text>
+  </g>
+  <g class="c-gray"><rect x="257" y="728" width="166" height="80" rx="8" stroke-width="0.5"/>
+    <text class="th" x="340" y="756" text-anchor="middle">Audit line items</text>
+    <text class="ts" x="340" y="776" text-anchor="middle">Excluded costs included</text>
+    <text class="ts" x="340" y="792" text-anchor="middle">anyway? Ctrl+F lease.</text>
+  </g>
+  <g class="c-gray"><rect x="440" y="728" width="206" height="80" rx="8" stroke-width="0.5"/>
+    <text class="th" x="543" y="756" text-anchor="middle">Check YoY cap</text>
+    <text class="ts" x="543" y="776" text-anchor="middle">Did increase exceed lease cap?</text>
+    <text class="ts" x="543" y="792" text-anchor="middle">Prior year not at hand.</text>
+  </g>
+  <line x1="240" y1="768" x2="255" y2="768" class="arr" marker-end="url(#arrow)"/>
+  <line x1="423" y1="768" x2="438" y2="768" class="arr" marker-end="url(#arrow)"/>
+  <g class="c-red"><rect x="74" y="820" width="572" height="30" rx="15" stroke-width="0.5"/>
+    <text class="ts" x="360" y="839" text-anchor="middle">Pain: hours of manual work. Cost of analysis exceeds perceived benefit of disputing.</text>
+  </g>
+  <line x1="360" y1="808" x2="360" y2="818" class="arr" marker-end="url(#arrow)"/>
+  <line x1="360" y1="850" x2="360" y2="873" class="arr" marker-end="url(#arrow)"/>
+
+  <!-- DECIDE -->
+  <g class="c-gray"><rect x="74" y="888" width="260" height="80" rx="8" stroke-width="0.5"/>
+    <text class="th" x="204" y="916" text-anchor="middle">Quantify exposure</text>
+    <text class="ts" x="204" y="936" text-anchor="middle">How much am I overpaying?</text>
+    <text class="ts" x="204" y="952" text-anchor="middle">Calculated in Excel, if at all.</text>
+  </g>
+  <g class="c-gray"><rect x="366" y="888" width="260" height="80" rx="8" stroke-width="0.5"/>
+    <text class="th" x="496" y="916" text-anchor="middle">Weigh relationship</text>
+    <text class="ts" x="496" y="936" text-anchor="middle">Is disputing worth the friction?</text>
+    <text class="ts" x="496" y="952" text-anchor="middle">Gut feel. No data.</text>
+  </g>
+  <line x1="334" y1="928" x2="364" y2="928" class="arr" marker-end="url(#arrow)"/>
+  <g class="c-red"><rect x="118" y="980" width="484" height="30" rx="15" stroke-width="0.5"/>
+    <text class="ts" x="360" y="999" text-anchor="middle">Most tenants pay. Not because the bill is right — because disputing costs more than absorbing it.</text>
+  </g>
+  <line x1="360" y1="968" x2="360" y2="978" class="arr" marker-end="url(#arrow)"/>
+  <line x1="360" y1="1010" x2="360" y2="1033" class="arr" marker-end="url(#arrow)"/>
+
+  <!-- ACT (fork) -->
+  <polygon points="360,1042 396,1070 360,1098 324,1070" fill="none" stroke="#888780" stroke-width="0.8"/>
+  <text class="ts" x="360" y="1074" text-anchor="middle">dispute?</text>
+  <line x1="324" y1="1070" x2="220" y2="1070" class="arr" marker-end="url(#arrow)"/>
+  <g class="c-gray"><rect x="74" y="1048" width="144" height="44" rx="8" stroke-width="0.5"/>
+    <text class="th" x="146" y="1066" text-anchor="middle">Pay and close</text>
+    <text class="ts" x="146" y="1082" text-anchor="middle">Year closes. No record kept.</text>
+  </g>
+  <line x1="396" y1="1070" x2="468" y2="1070" class="arr" marker-end="url(#arrow)"/>
+  <g class="c-gray"><rect x="470" y="1048" width="176" height="44" rx="8" stroke-width="0.5"/>
+    <text class="th" x="558" y="1066" text-anchor="middle">Write dispute letter</text>
+    <text class="ts" x="558" y="1082" text-anchor="middle">From scratch. Every time.</text>
+  </g>
+  <line x1="558" y1="1092" x2="558" y2="1107" stroke="#888780" stroke-width="0.8"/>
+  <line x1="558" y1="1107" x2="362" y2="1107" stroke="#888780" stroke-width="0.8"/>
+  <line x1="360" y1="1107" x2="360" y2="1121" class="arr" marker-end="url(#arrow)"/>
+
+  <!-- DISPUTE -->
+  <g class="c-gray"><rect x="74" y="1136" width="172" height="80" rx="8" stroke-width="0.5"/>
+    <text class="th" x="160" y="1164" text-anchor="middle">Send to landlord</text>
+    <text class="ts" x="160" y="1184" text-anchor="middle">Via email or portal.</text>
+    <text class="ts" x="160" y="1200" text-anchor="middle">Clock ticking.</text>
+  </g>
+  <g class="c-gray"><rect x="264" y="1136" width="172" height="80" rx="8" stroke-width="0.5"/>
+    <text class="th" x="350" y="1164" text-anchor="middle">Landlord reviews</text>
+    <text class="ts" x="350" y="1184" text-anchor="middle">Days to weeks. May send</text>
+    <text class="ts" x="350" y="1200" text-anchor="middle">docs or deny.</text>
+  </g>
+  <g class="c-gray"><rect x="454" y="1136" width="192" height="80" rx="8" stroke-width="0.5"/>
+    <text class="th" x="550" y="1164" text-anchor="middle">Negotiate</text>
+    <text class="ts" x="550" y="1184" text-anchor="middle">Back and forth on items.</text>
+    <text class="ts" x="550" y="1200" text-anchor="middle">Weeks to months.</text>
+  </g>
+  <line x1="246" y1="1176" x2="262" y2="1176" class="arr" marker-end="url(#arrow)"/>
+  <line x1="436" y1="1176" x2="452" y2="1176" class="arr" marker-end="url(#arrow)"/>
+  <g class="c-amber"><rect x="74" y="1228" width="270" height="30" rx="15" stroke-width="0.5"/>
+    <text class="ts" x="209" y="1247" text-anchor="middle">Pain: status tracked in email only.</text>
+  </g>
+  <g class="c-amber"><rect x="356" y="1228" width="290" height="30" rx="15" stroke-width="0.5"/>
+    <text class="ts" x="501" y="1247" text-anchor="middle">Pain: no template. Same work each time.</text>
+  </g>
+  <line x1="360" y1="1216" x2="360" y2="1226" class="arr" marker-end="url(#arrow)"/>
+  <line x1="360" y1="1258" x2="360" y2="1281" class="arr" marker-end="url(#arrow)"/>
+
+  <!-- RESOLUTION -->
+  <g class="c-gray"><rect x="74" y="1296" width="192" height="80" rx="8" stroke-width="0.5"/>
+    <text class="th" x="170" y="1324" text-anchor="middle">Agreement reached</text>
+    <text class="ts" x="170" y="1344" text-anchor="middle">Credit or revised invoice.</text>
+    <text class="ts" x="170" y="1360" text-anchor="middle">Partial wins common.</text>
+  </g>
+  <g class="c-gray"><rect x="284" y="1296" width="192" height="80" rx="8" stroke-width="0.5"/>
+    <text class="th" x="380" y="1324" text-anchor="middle">Adjusted payment</text>
+    <text class="ts" x="380" y="1344" text-anchor="middle">Final amount paid.</text>
+    <text class="ts" x="380" y="1360" text-anchor="middle">Year formally closed.</text>
+  </g>
+  <g class="c-gray"><rect x="494" y="1296" width="152" height="80" rx="8" stroke-width="0.5"/>
+    <text class="th" x="570" y="1324" text-anchor="middle">Year closes</text>
+    <text class="ts" x="570" y="1344" text-anchor="middle">No structured record.</text>
+    <text class="ts" x="570" y="1360" text-anchor="middle">Memory resets.</text>
+  </g>
+  <line x1="266" y1="1336" x2="282" y2="1336" class="arr" marker-end="url(#arrow)"/>
+  <line x1="476" y1="1336" x2="492" y2="1336" class="arr" marker-end="url(#arrow)"/>
+  <g class="c-red"><rect x="74" y="1388" width="572" height="30" rx="15" stroke-width="0.5"/>
+    <text class="ts" x="360" y="1407" text-anchor="middle">No institutional memory. Landlord patterns invisible. Next year: same work, from scratch.</text>
+  </g>
+  <line x1="360" y1="1376" x2="360" y2="1386" class="arr" marker-end="url(#arrow)"/>
+
+  <!-- ROOT CAUSE -->
+  <g class="c-amber"><rect x="74" y="1432" width="572" height="52" rx="8" stroke-width="0.5"/>
+    <text class="th" x="360" y="1454" text-anchor="middle">Root cause</text>
+    <text class="ts" x="360" y="1472" text-anchor="middle">Connecting lease terms + statement + prior year requires expertise and time</text>
+    <text class="ts" x="360" y="1488" text-anchor="middle">most asset managers lack at the moment the bill arrives.</text>
+  </g>
+  <line x1="360" y1="1418" x2="360" y2="1430" class="arr" marker-end="url(#arrow)"/>
+</svg>
