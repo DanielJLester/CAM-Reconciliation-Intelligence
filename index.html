@@ -114,7 +114,7 @@
 
   /* Stat bar */
   .stat-bar { display: grid; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 2rem; }
-  .stat-bar-4 { grid-template-columns: repeat(4, 1fr); }
+  .stat-bar-5 { grid-template-columns: repeat(5, 1fr); }
   .stat-cell { padding: 1.1rem 1.25rem; border-right: 1px solid var(--border); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; background: #fff; }
   .stat-cell:last-child { border-right: none; }
   .stat-cell-label { font-size: 0.72rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
@@ -463,11 +463,12 @@
       <h1>Review complete</h1>
       <p>3 potential issues identified. Two are strong enough to dispute. One requires more information before it can be included.</p>
     </div>
-    <div class="stat-bar stat-bar-4">
+    <div class="stat-bar stat-bar-5">
       <div class="stat-cell"><div class="stat-cell-label">Billed</div><div class="stat-cell-value">$127,440</div></div>
       <div class="stat-cell"><div class="stat-cell-label">Expected (based on lease)</div><div class="stat-cell-value">$113,820</div></div>
       <div class="stat-cell"><div class="stat-cell-label">Possible overcharge</div><div class="stat-cell-value blue">$18,620</div></div>
       <div class="stat-cell"><div class="stat-cell-label">Days to dispute</div><div class="stat-cell-value amber">47</div></div>
+      <div class="stat-cell"><div class="stat-cell-label">Time remaining on lease</div><div class="stat-cell-value" style="font-size:1.1rem">1yr 7mo</div></div>
     </div>
     <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:1rem;">
       <h2>Issues identified</h2>
