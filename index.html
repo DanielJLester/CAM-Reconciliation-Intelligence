@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CAM Intelligence — REAL</title>
 <style>
-  /* ── Reset & base ── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; }
   body {
@@ -14,15 +13,12 @@
     color: #1a1a1a;
     min-height: 100vh;
   }
-
-  /* ── Typography scale ── */
   .sans { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   h1 { font-size: 1.75rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.2; }
   h2 { font-size: 1.25rem; font-weight: 600; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   h3 { font-size: 1rem; font-weight: 600; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   p { line-height: 1.6; }
 
-  /* ── Color tokens ── */
   :root {
     --ink: #1a1a1a;
     --ink-muted: #6b6b6b;
@@ -34,18 +30,19 @@
     --amber: #b45309;
     --amber-bg: #fffbeb;
     --amber-border: #fcd34d;
-    --red: #b91c1c;
-    --red-bg: #fff5f5;
-    --red-border: #fca5a5;
+    --blue: #1e40af;
+    --blue-light: #2563eb;
+    --blue-bg: #eff6ff;
+    --blue-border: #bfdbfe;
     --green: #166534;
     --green-bg: #f0fdf4;
     --green-border: #86efac;
-    --primary: #1a1a1a;
-    --primary-hover: #333;
+    --slate: #475569;
+    --slate-bg: #f8fafc;
+    --slate-border: #cbd5e1;
     --focus: #2563eb;
   }
 
-  /* ── Screens ── */
   .screen { display: none; min-height: 100vh; }
   .screen.active { display: flex; flex-direction: column; }
 
@@ -54,24 +51,33 @@
     position: sticky; top: 0; z-index: 100;
     background: #fff;
     border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
+    padding: 0 1.5rem;
     height: 60px;
     display: flex; align-items: center; justify-content: space-between;
     font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    gap: 1rem;
   }
+  .nav-left { display: flex; align-items: center; gap: 1rem; flex: 1; }
   .nav-brand {
     font-size: 1.1rem; font-weight: 700; letter-spacing: 0.12em;
-    color: var(--ink); text-transform: uppercase; flex: 1;
+    color: var(--ink); text-transform: uppercase;
+    text-decoration: none;
   }
+  .nav-home-btn {
+    font-size: 0.78rem; color: var(--ink-muted); cursor: pointer;
+    background: none; border: 1px solid var(--border); border-radius: 4px;
+    padding: 0.25rem 0.65rem; font-family: inherit;
+    transition: border-color 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+  .nav-home-btn:hover { color: var(--ink); border-color: var(--border-strong); }
   .nav-steps {
     display: flex; gap: 0; align-items: center; flex: 2; justify-content: center;
   }
   .nav-step {
     display: flex; align-items: center; gap: 0.4rem;
     font-size: 0.75rem; color: var(--ink-faint); white-space: nowrap;
-    padding: 0 0.6rem;
-    cursor: default;
-    transition: color 0.2s;
+    padding: 0 0.5rem; cursor: default; transition: color 0.2s;
   }
   .nav-step.active { color: var(--ink); font-weight: 600; }
   .nav-step.done { color: var(--ink-muted); cursor: pointer; }
@@ -81,8 +87,7 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 0.7rem; font-weight: 700;
     background: var(--border); color: var(--ink-faint);
-    transition: background 0.2s, color 0.2s;
-    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s; flex-shrink: 0;
   }
   .nav-step.active .nav-step-num { background: var(--ink); color: #fff; }
   .nav-step.done .nav-step-num { background: #4ade80; color: #166534; }
@@ -95,7 +100,7 @@
     font-size: 0.75rem; color: var(--ink-muted);
     background: var(--surface-alt); border: 1px solid var(--border);
     padding: 0.25rem 0.6rem; border-radius: 4px;
-    max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
   .nav-user { display: flex; align-items: center; gap: 0.5rem; color: var(--ink-muted); }
   .avatar {
@@ -106,7 +111,7 @@
     font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
   }
 
-  /* ── Page content ── */
+  /* ── Page layout ── */
   .page { flex: 1; max-width: 860px; margin: 0 auto; padding: 3rem 1.5rem; width: 100%; }
   .page-wide { flex: 1; max-width: 1000px; margin: 0 auto; padding: 3rem 1.5rem; width: 100%; }
 
@@ -117,30 +122,20 @@
     font-size: 0.875rem; font-weight: 500;
     padding: 0.6rem 1.25rem; border-radius: 5px;
     cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s;
-    border: 1px solid transparent; text-decoration: none;
-    white-space: nowrap;
+    border: 1px solid transparent; text-decoration: none; white-space: nowrap;
   }
-  .btn-primary {
-    background: var(--ink); color: #fff; border-color: var(--ink);
-  }
+  .btn-primary { background: var(--ink); color: #fff; border-color: var(--ink); }
   .btn-primary:hover { background: #333; border-color: #333; }
-  .btn-secondary {
-    background: #fff; color: var(--ink); border-color: var(--border-strong);
-  }
+  .btn-secondary { background: #fff; color: var(--ink); border-color: var(--border-strong); }
   .btn-secondary:hover { background: var(--surface-alt); }
-  .btn:disabled, .btn[disabled] {
-    opacity: 0.45; cursor: not-allowed; pointer-events: none;
-  }
+  .btn:disabled, .btn[disabled] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
   .btn-lg { padding: 0.75rem 1.75rem; font-size: 1rem; }
 
   /* ── Cards ── */
-  .card {
-    background: #fff; border: 1px solid var(--border);
-    border-radius: 8px; padding: 1.5rem;
-  }
+  .card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
   .card + .card { margin-top: 1rem; }
 
-  /* ── Form elements ── */
+  /* ── Form ── */
   label {
     display: block; font-size: 0.8rem; font-weight: 600;
     color: var(--ink-muted); letter-spacing: 0.04em; text-transform: uppercase;
@@ -153,419 +148,189 @@
     border-radius: 5px; padding: 0.6rem 0.8rem;
     font-size: 0.95rem; color: var(--ink);
     font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    background: #fff; transition: border-color 0.15s, box-shadow 0.15s;
-    outline: none;
+    background: #fff; transition: border-color 0.15s, box-shadow 0.15s; outline: none;
   }
   input:focus, textarea:focus {
     border-color: var(--focus); box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
   }
   .field { margin-bottom: 1.25rem; }
-  .field-helper {
-    font-size: 0.78rem; color: var(--ink-faint); margin-top: 0.3rem;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
+  .field-helper { font-size: 0.78rem; color: var(--ink-faint); margin-top: 0.3rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-  /* ── Upload cards ── */
-  .upload-card {
-    background: #fff; border: 1px solid var(--border);
-    border-radius: 8px; padding: 1.25rem 1.5rem;
-    margin-bottom: 0.75rem;
-  }
-  .upload-card-header {
-    display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
-  }
+  /* ── Upload ── */
+  .upload-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; margin-bottom: 0.75rem; }
+  .upload-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
   .upload-label-wrap { flex: 1; }
-  .upload-type {
-    font-size: 0.875rem; font-weight: 700; color: var(--ink);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    margin-bottom: 0.2rem;
-  }
-  .upload-desc {
-    font-size: 0.85rem; color: var(--ink-muted); line-height: 1.4;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
-  .upload-formats {
-    font-size: 0.75rem; color: var(--ink-faint); margin-top: 0.5rem;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
-  .upload-file-row {
-    display: flex; align-items: center; gap: 0.75rem; margin-top: 0.75rem;
-  }
-  .upload-filename {
-    font-size: 0.82rem; color: var(--green);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    display: flex; align-items: center; gap: 0.35rem;
-  }
-  .upload-remove {
-    font-size: 0.78rem; color: var(--ink-faint); cursor: pointer;
-    background: none; border: none; text-decoration: underline; padding: 0;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
-  .upload-remove:hover { color: var(--red); }
-  .upload-error {
-    font-size: 0.8rem; color: var(--red); margin-top: 0.4rem;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
-  .badge-required {
-    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em;
-    text-transform: uppercase; color: var(--ink-faint);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    border: 1px solid var(--border); border-radius: 3px;
-    padding: 0.15rem 0.4rem; white-space: nowrap;
-  }
-  .badge-optional {
-    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.05em;
-    text-transform: uppercase; color: var(--ink-faint);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    border: 1px solid var(--border); border-radius: 3px;
-    padding: 0.15rem 0.4rem; white-space: nowrap; background: var(--surface-alt);
-  }
+  .upload-type { font-size: 0.875rem; font-weight: 700; color: var(--ink); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; margin-bottom: 0.2rem; }
+  .upload-desc { font-size: 0.85rem; color: var(--ink-muted); line-height: 1.4; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  .upload-formats { font-size: 0.75rem; color: var(--ink-faint); margin-top: 0.5rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  .upload-file-row { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.75rem; }
+  .upload-filename { font-size: 0.82rem; color: var(--green); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; display: flex; align-items: center; gap: 0.35rem; }
+  .upload-remove { font-size: 0.78rem; color: var(--ink-faint); cursor: pointer; background: none; border: none; text-decoration: underline; padding: 0; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  .upload-remove:hover { color: #b91c1c; }
+  .upload-error { font-size: 0.8rem; color: #b91c1c; margin-top: 0.4rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  .badge-required { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; border: 1px solid var(--border); border-radius: 3px; padding: 0.15rem 0.4rem; white-space: nowrap; }
+  .badge-optional { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; border: 1px solid var(--border); border-radius: 3px; padding: 0.15rem 0.4rem; white-space: nowrap; background: var(--surface-alt); }
 
-  /* ── Section headers ── */
-  .section-head {
-    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--ink-faint);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    margin-bottom: 0.75rem; margin-top: 2rem; padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
-  }
+  /* ── Section head ── */
+  .section-head { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; margin-bottom: 0.75rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
 
-  /* ── Status pills ── */
-  .pill {
-    display: inline-block; font-size: 0.7rem; font-weight: 600;
-    letter-spacing: 0.04em; text-transform: uppercase;
-    padding: 0.2rem 0.55rem; border-radius: 20px;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
+  /* ── Pills ── */
+  .pill { display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.2rem 0.55rem; border-radius: 20px; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .pill-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
   .pill-green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
-  .pill-red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+  .pill-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-border); }
   .pill-gray { background: var(--surface-alt); color: var(--ink-muted); border: 1px solid var(--border); }
 
-  /* ── Alert banners ── */
-  .banner {
-    border-radius: 7px; padding: 1rem 1.25rem;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 0.875rem; line-height: 1.5; margin-bottom: 1.25rem;
-    display: flex; gap: 0.75rem; align-items: flex-start;
-  }
+  /* ── Banners ── */
+  .banner { border-radius: 7px; padding: 1rem 1.25rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.875rem; line-height: 1.5; margin-bottom: 1.25rem; display: flex; gap: 0.75rem; align-items: flex-start; }
   .banner-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.05rem; }
   .banner-amber { background: var(--amber-bg); border: 1px solid var(--amber-border); color: #92400e; }
   .banner-green { background: var(--green-bg); border: 1px solid var(--green-border); color: var(--green); }
+  .banner-blue { background: var(--blue-bg); border: 1px solid var(--blue-border); color: var(--blue); }
 
-  /* ── Data grids ── */
-  .data-row {
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding: 0.45rem 0; border-bottom: 1px solid var(--border);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.875rem;
-  }
+  /* ── Data rows ── */
+  .data-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.45rem 0; border-bottom: 1px solid var(--border); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.875rem; }
   .data-row:last-child { border-bottom: none; }
   .data-label { color: var(--ink-muted); }
   .data-value { font-weight: 500; color: var(--ink); }
+  .data-value.amber { color: var(--amber); font-weight: 600; }
 
-  /* ── Stat cells ── */
-  .stat-bar {
-    display: grid; gap: 0; border: 1px solid var(--border);
-    border-radius: 8px; overflow: hidden; margin-bottom: 2rem;
-  }
+  /* ── Stat bar ── */
+  .stat-bar { display: grid; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 2rem; }
   .stat-bar-4 { grid-template-columns: repeat(4, 1fr); }
-  .stat-cell {
-    padding: 1.1rem 1.25rem;
-    border-right: 1px solid var(--border);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    background: #fff;
-  }
+  .stat-cell { padding: 1.1rem 1.25rem; border-right: 1px solid var(--border); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; background: #fff; }
   .stat-cell:last-child { border-right: none; }
   .stat-cell-label { font-size: 0.72rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
   .stat-cell-value { font-size: 1.35rem; font-weight: 700; color: var(--ink); line-height: 1; }
-  .stat-cell-value.red { color: var(--red); }
+  .stat-cell-value.blue { color: var(--blue-light); }
   .stat-cell-value.amber { color: var(--amber); }
 
   /* ── Issue cards ── */
-  .issue-card {
-    background: #fff; border: 1px solid var(--border);
-    border-radius: 8px; overflow: hidden; margin-bottom: 0.75rem;
-  }
+  .issue-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 0.75rem; }
   .issue-card-header {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 1.1rem 1.25rem; cursor: pointer;
-    gap: 1rem;
-    transition: background 0.1s;
-    border-left: 4px solid transparent;
+    padding: 1.1rem 1.25rem; cursor: pointer; gap: 1rem;
+    transition: background 0.1s; border-left: 4px solid transparent;
   }
   .issue-card-header:hover { background: var(--surface-alt); }
-  .issue-card.red-border .issue-card-header { border-left-color: var(--red); }
+  .issue-card.blue-border .issue-card-header { border-left-color: var(--blue-light); }
   .issue-card.gray-border .issue-card-header { border-left-color: var(--border-strong); }
-  .issue-header-left { flex: 1; }
-  .issue-status {
-    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    margin-bottom: 0.25rem;
-  }
-  .issue-card.red-border .issue-status { color: var(--red); }
+  .issue-header-left { flex: 1; display: flex; align-items: flex-start; gap: 0.75rem; }
+  .issue-header-text { flex: 1; }
+  .issue-status { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; margin-bottom: 0.25rem; }
+  .issue-card.blue-border .issue-status { color: var(--blue-light); }
   .issue-card.gray-border .issue-status { color: var(--ink-muted); }
-  .issue-title {
-    font-size: 0.95rem; font-weight: 600; color: var(--ink);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    margin-bottom: 0.2rem;
-  }
-  .issue-summary {
-    font-size: 0.83rem; color: var(--ink-muted); line-height: 1.45;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
+  .issue-title { font-size: 0.95rem; font-weight: 600; color: var(--ink); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; margin-bottom: 0.2rem; }
+  .issue-summary { font-size: 0.83rem; color: var(--ink-muted); line-height: 1.45; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .issue-header-right { text-align: right; flex-shrink: 0; }
-  .issue-amount {
-    font-size: 1.15rem; font-weight: 700;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    display: block;
-  }
-  .issue-amount-label {
-    font-size: 0.72rem; color: var(--ink-faint);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
-  .issue-chevron {
-    font-size: 0.75rem; color: var(--ink-faint);
-    transition: transform 0.2s; flex-shrink: 0; margin-left: 0.5rem;
-  }
+  .issue-amount { font-size: 1.15rem; font-weight: 700; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; display: block; }
+  .issue-amount.blue { color: var(--blue-light); }
+  .issue-amount-label { font-size: 0.72rem; color: var(--ink-faint); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  .issue-chevron { font-size: 0.75rem; color: var(--ink-faint); transition: transform 0.2s; flex-shrink: 0; margin-left: 0.5rem; }
   .issue-card.open .issue-chevron { transform: rotate(180deg); }
-  .issue-body {
-    display: none; padding: 0 1.25rem 1.25rem;
-    border-top: 1px solid var(--border);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 0.875rem;
-  }
+  .issue-body { display: none; padding: 0 1.25rem 1.25rem; border-top: 1px solid var(--border); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.875rem; }
   .issue-card.open .issue-body { display: block; }
-  .issue-clause {
-    background: var(--surface-alt); border-left: 3px solid var(--border-strong);
-    padding: 0.75rem 1rem; border-radius: 0 4px 4px 0;
-    font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5;
-    margin: 1rem 0; font-style: italic;
-  }
+  .issue-clause { background: var(--surface-alt); border-left: 3px solid var(--border-strong); padding: 0.75rem 1rem; border-radius: 0 4px 4px 0; font-size: 0.82rem; color: var(--ink-muted); line-height: 1.5; margin: 1rem 0; font-style: italic; }
   .calc-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-  .calc-table td {
-    padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border);
-    font-size: 0.83rem;
-  }
+  .calc-table td { padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.83rem; }
   .calc-table td:last-child { text-align: right; font-weight: 500; }
-  .calc-table tr.highlight td { font-weight: 700; color: var(--red); }
+  .calc-table tr.highlight td { font-weight: 700; color: var(--blue-light); }
   .calc-table tr:last-child td { border-bottom: none; }
-  .issue-explanation {
-    font-size: 0.83rem; color: var(--ink-muted); line-height: 1.55;
-    margin-top: 0.75rem;
+
+  /* ── Claim checkbox ── */
+  .issue-checkbox {
+    width: 18px; height: 18px; accent-color: var(--blue-light);
+    cursor: pointer; flex-shrink: 0; margin-top: 0.1rem;
   }
 
-  /* ── Bottom action bar ── */
-  .action-bar {
-    position: sticky; bottom: 0; background: #fff;
-    border-top: 1px solid var(--border); padding: 1rem 2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    z-index: 50;
-  }
+  /* ── Action bar ── */
+  .action-bar { position: sticky; bottom: 0; background: #fff; border-top: 1px solid var(--border); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; z-index: 50; }
   .action-bar-left { font-size: 0.875rem; color: var(--ink-muted); }
   .action-bar-left strong { color: var(--ink); }
   .action-bar-right { display: flex; gap: 0.75rem; }
 
-  /* ── Letter card ── */
-  .letter-toolbar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border);
-    background: var(--surface-alt);
-  }
-  .letter-filename {
-    font-size: 0.8rem; color: var(--ink-muted);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
+  /* ── Letter ── */
+  .letter-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); background: var(--surface-alt); }
+  .letter-filename { font-size: 0.8rem; color: var(--ink-muted); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .letter-toolbar-actions { display: flex; gap: 0.5rem; }
-  .letter-body {
-    padding: 2rem; outline: none;
-    font-family: 'Georgia', 'Times New Roman', serif;
-    font-size: 0.9rem; line-height: 1.8; color: var(--ink);
-    min-height: 500px;
-  }
+  .letter-body { padding: 2rem; outline: none; font-family: 'Georgia', 'Times New Roman', serif; font-size: 0.9rem; line-height: 1.8; color: var(--ink); min-height: 500px; }
   .letter-body:focus { background: #fffef9; }
   .fig-red { background: #fee2e2; border-radius: 2px; padding: 0 2px; }
   .clause-ref { color: #166534; font-style: italic; }
-  .placeholder-field {
-    color: #aaa; border-bottom: 1px dashed #aaa;
-    display: inline; cursor: text;
-    padding: 0 2px;
-  }
+  .placeholder-field { color: #aaa; border-bottom: 1px dashed #aaa; display: inline; cursor: text; padding: 0 2px; }
 
-  /* ── Tenancy cards (home) ── */
-  .tenancy-card {
-    background: #fff; border: 1px solid var(--border);
-    border-radius: 8px; padding: 1.1rem 1.5rem;
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 0.6rem; gap: 1rem;
-  }
+  /* ── Tenancy cards ── */
+  .tenancy-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; gap: 1rem; }
   .tenancy-card-info { flex: 1; }
-  .tenancy-address {
-    font-size: 0.95rem; font-weight: 600; color: var(--ink);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    margin-bottom: 0.2rem;
-  }
-  .tenancy-meta {
-    font-size: 0.78rem; color: var(--ink-faint);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
-  .tenancy-card-right { display: flex; align-items: center; gap: 0.75rem; }
-  .tenancy-continue {
-    font-size: 0.82rem; color: var(--ink); text-decoration: underline;
-    cursor: pointer; background: none; border: none;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
+  .tenancy-address { font-size: 0.95rem; font-weight: 600; color: var(--ink); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; margin-bottom: 0.25rem; }
+  .tenancy-meta { font-size: 0.78rem; color: var(--ink-faint); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; display: flex; gap: 1rem; flex-wrap: wrap; }
+  .tenancy-meta-item { display: flex; align-items: center; gap: 0.3rem; }
+  .tenancy-card-right { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+  .tenancy-continue { font-size: 0.82rem; color: var(--ink); text-decoration: underline; cursor: pointer; background: none; border: none; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .tenancy-continue:hover { color: #555; }
 
-  /* ── How it works steps ── */
-  .how-steps { counter-reset: step; margin: 1.25rem 0 0; }
-  .how-step {
-    display: flex; gap: 1rem; align-items: flex-start;
-    padding: 0.75rem 0; border-bottom: 1px solid var(--border);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 0.9rem; color: var(--ink-muted); line-height: 1.5;
-  }
+  /* ── How it works ── */
+  .how-steps { margin: 1.25rem 0 0; }
+  .how-step { display: flex; gap: 1rem; align-items: flex-start; padding: 0.75rem 0; border-bottom: 1px solid var(--border); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.9rem; color: var(--ink-muted); line-height: 1.5; }
   .how-step:last-child { border-bottom: none; }
-  .how-step-num {
-    font-size: 0.75rem; font-weight: 700; color: var(--ink-faint);
-    width: 22px; flex-shrink: 0; padding-top: 0.05rem;
-  }
+  .how-step-num { font-size: 0.75rem; font-weight: 700; color: var(--ink-faint); width: 22px; flex-shrink: 0; padding-top: 0.05rem; }
 
-  /* ── Loading screen ── */
-  #screen-loading {
-    background: #fff;
-    align-items: center; justify-content: center;
-  }
+  /* ── Loading ── */
+  #screen-loading { background: #fff; align-items: center; justify-content: center; }
   .loading-center { text-align: center; }
-  .spinner {
-    width: 48px; height: 48px; border: 3px solid var(--border);
-    border-top-color: var(--ink); border-radius: 50%;
-    animation: spin 0.8s linear infinite; margin: 0 auto 2rem;
-  }
+  .spinner { width: 48px; height: 48px; border: 3px solid var(--border); border-top-color: var(--ink); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 2rem; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading-steps { text-align: left; display: inline-block; margin-top: 1.5rem; }
-  .loading-step {
-    display: flex; align-items: center; gap: 0.75rem;
-    padding: 0.5rem 0; font-size: 0.9rem;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    color: var(--border-strong);
-    transition: color 0.3s;
-  }
+  .loading-step { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; font-size: 0.9rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; color: var(--border-strong); transition: color 0.3s; }
   .loading-step.lit { color: var(--ink); }
   .loading-step-icon { font-size: 0.85rem; }
 
   /* ── Login ── */
-  #screen-login {
-    background: var(--surface-alt);
-    align-items: center; justify-content: center;
-  }
-  .login-card {
-    background: #fff; border: 1px solid var(--border);
-    border-radius: 10px; padding: 2.5rem 2rem;
-    width: 100%; max-width: 380px;
-    text-align: center;
-  }
-  .login-logo {
-    font-size: 1.4rem; font-weight: 700; letter-spacing: 0.15em;
-    text-transform: uppercase; color: var(--ink); margin-bottom: 0.4rem;
-  }
-  .login-subtitle {
-    font-size: 0.8rem; color: var(--ink-faint); margin-bottom: 2rem;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    letter-spacing: 0.05em;
-  }
+  #screen-login { background: var(--surface-alt); align-items: center; justify-content: center; }
+  .login-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 2.5rem 2rem; width: 100%; max-width: 380px; text-align: center; }
+  .login-logo { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.4rem; }
+  .login-subtitle { font-size: 0.8rem; color: var(--ink-faint); margin-bottom: 2rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0.05em; }
   .login-card .field { text-align: left; }
   .login-card .btn { width: 100%; justify-content: center; margin-top: 1.25rem; }
-  .login-forgot {
-    display: block; margin-top: 1rem; font-size: 0.8rem;
-    color: var(--ink-faint); text-decoration: underline; cursor: pointer;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
+  .login-forgot { display: block; margin-top: 1rem; font-size: 0.8rem; color: var(--ink-faint); text-decoration: underline; cursor: pointer; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .login-forgot:hover { color: var(--ink-muted); }
 
-  /* ── Comparison cells ── */
-  .compare-grid {
-    display: grid; grid-template-columns: 1fr 1fr 1fr;
-    gap: 0; border: 1px solid var(--border); border-radius: 8px;
-    overflow: hidden; margin: 1.5rem 0 0.5rem;
-  }
-  .compare-cell {
-    padding: 1.1rem 1.25rem; background: #fff;
-    border-right: 1px solid var(--border);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
-  .compare-cell:last-child { border-right: none; }
-  .compare-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); margin-bottom: 0.35rem; }
-  .compare-value { font-size: 1.3rem; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 0.25rem; }
-  .compare-sub { font-size: 0.78rem; color: var(--ink-faint); }
-  .compare-value.amber { color: var(--amber); }
-
-  /* ── Two-col layout ── */
+  /* ── Layout helpers ── */
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
-  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
-
-  /* ── Property card ── */
-  .property-card {
-    background: #fff; border: 1px solid var(--border); border-radius: 8px;
-    padding: 1.1rem 1.5rem; margin-bottom: 1.25rem;
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem 1.5rem;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
+  .property-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.5rem; margin-bottom: 1.25rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem 1.5rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .prop-item { display: flex; flex-direction: column; gap: 0.15rem; }
   .prop-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); }
   .prop-value { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
-
-  /* ── Page header ── */
   .page-header { margin-bottom: 2rem; }
   .page-header h1 { margin-bottom: 0.4rem; }
-  .page-header p {
-    font-size: 0.9rem; color: var(--ink-muted);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
+  .page-header p { font-size: 0.9rem; color: var(--ink-muted); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
 
-  /* ── Outcome form ── */
+  /* ── Outcome ── */
   .resolution-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
-  .resolution-option {
-    display: flex; align-items: center; gap: 0.6rem; cursor: pointer;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.9rem;
-    padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 6px;
-    background: #fff; transition: border-color 0.15s, background 0.15s;
-  }
+  .resolution-option { display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.9rem; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 6px; background: #fff; transition: border-color 0.15s, background 0.15s; }
   .resolution-option:hover { border-color: var(--border-strong); }
   .resolution-option input[type=radio] { accent-color: var(--ink); }
   .resolution-option.selected { border-color: var(--ink); background: var(--surface-alt); }
-
-  /* ── Confirmation ── */
   .outcome-confirm { padding: 1.5rem; }
   .outcome-confirm-type { font-size: 1rem; font-weight: 600; color: var(--ink); margin-bottom: 0.75rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .outcome-confirm-amount { font-size: 2rem; font-weight: 700; color: var(--green); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .outcome-confirm-amount.zero { color: var(--ink-muted); }
 
   /* ── Utilities ── */
-  .mt-1 { margin-top: 0.5rem; }
-  .mt-2 { margin-top: 1rem; }
-  .mt-3 { margin-top: 1.5rem; }
-  .mt-4 { margin-top: 2rem; }
-  .mb-1 { margin-bottom: 0.5rem; }
-  .mb-2 { margin-bottom: 1rem; }
+  .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mt-3 { margin-top: 1.5rem; } .mt-4 { margin-top: 2rem; }
+  .mb-1 { margin-bottom: 0.5rem; } .mb-2 { margin-bottom: 1rem; }
   .text-muted { color: var(--ink-muted); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.85rem; }
   .text-faint { color: var(--ink-faint); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.8rem; }
   .text-right { text-align: right; }
   .flex-end { display: flex; justify-content: flex-end; align-items: center; gap: 0.75rem; }
   .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
-  .lock-notice {
-    display: flex; align-items: center; gap: 0.4rem;
-    font-size: 0.75rem; color: var(--ink-faint); margin-top: 1.5rem;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
+  .lock-notice { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: var(--ink-faint); margin-top: 1.5rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
 
-  /* ── Responsive ── */
   @media (max-width: 640px) {
     .nav-steps { display: none; }
-    .two-col, .three-col, .field-row { grid-template-columns: 1fr; }
+    .two-col, .field-row { grid-template-columns: 1fr; }
     .stat-bar-4 { grid-template-columns: 1fr 1fr; }
-    .compare-grid { grid-template-columns: 1fr; }
     .property-card { grid-template-columns: 1fr 1fr; }
     .action-bar { flex-direction: column; gap: 0.75rem; align-items: stretch; }
     .action-bar-right { justify-content: flex-end; }
@@ -574,9 +339,7 @@
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 1: LOGIN
-═══════════════════════════════════════════ -->
+<!-- SCREEN 1: LOGIN -->
 <div id="screen-login" class="screen active">
   <div class="login-card">
     <div class="login-logo">REAL</div>
@@ -594,12 +357,12 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 2: HOME
-═══════════════════════════════════════════ -->
+<!-- SCREEN 2: HOME -->
 <div id="screen-home" class="screen">
   <nav class="nav">
-    <div class="nav-brand">REAL</div>
+    <div class="nav-left">
+      <div class="nav-brand">REAL</div>
+    </div>
     <div class="nav-steps"></div>
     <div class="nav-right">
       <div class="nav-user">
@@ -628,20 +391,31 @@
 
     <div class="mt-4">
       <div class="section-head" style="margin-top:0; padding-top:0; border-top:none">Previous reviews</div>
+
+      <!-- In-progress card — analysis run, dispute window open -->
       <div class="tenancy-card">
         <div class="tenancy-card-info">
           <div class="tenancy-address">500 Fifth Avenue, Suite 2300</div>
-          <div class="tenancy-meta">Updated 3 days ago</div>
+          <div class="tenancy-meta">
+            <span class="tenancy-meta-item">Updated 3 days ago</span>
+            <span class="tenancy-meta-item" style="color:var(--amber)">⚠ 38 days left to dispute</span>
+            <span class="tenancy-meta-item" style="color:var(--blue-light)">$9,240 strong basis to dispute</span>
+          </div>
         </div>
         <div class="tenancy-card-right">
           <span class="pill pill-amber">In progress</span>
           <button class="tenancy-continue" onclick="goTo('screen-upload')">Continue</button>
         </div>
       </div>
+
+      <!-- Resolved card -->
       <div class="tenancy-card">
         <div class="tenancy-card-info">
           <div class="tenancy-address">1221 Avenue of the Americas, Suite 800</div>
-          <div class="tenancy-meta">Updated 6 weeks ago</div>
+          <div class="tenancy-meta">
+            <span class="tenancy-meta-item">Updated 6 weeks ago</span>
+            <span class="tenancy-meta-item" style="color:var(--green)">$7,150 recovered</span>
+          </div>
         </div>
         <div class="tenancy-card-right">
           <span class="pill pill-green">Resolved</span>
@@ -652,12 +426,13 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 3: UPLOAD DOCUMENTS
-═══════════════════════════════════════════ -->
+<!-- SCREEN 3: UPLOAD DOCUMENTS -->
 <div id="screen-upload" class="screen">
-  <nav class="nav" id="nav-upload">
-    <div class="nav-brand">REAL</div>
+  <nav class="nav">
+    <div class="nav-left">
+      <div class="nav-brand">REAL</div>
+      <button class="nav-home-btn" onclick="goTo('screen-home')">← Home</button>
+    </div>
     <div class="nav-steps" id="steps-upload"></div>
     <div class="nav-right">
       <div class="nav-property">200 West 57th Street</div>
@@ -681,8 +456,7 @@
       </div>
     </div>
 
-    <!-- CAM Statement -->
-    <div class="upload-card" id="card-cam">
+    <div class="upload-card">
       <div class="upload-card-header">
         <div class="upload-label-wrap">
           <div class="upload-type">CAM Reconciliation Statement <span class="badge-required">Required</span></div>
@@ -690,7 +464,7 @@
           <div class="upload-formats">.pdf, .doc, .docx — max 20MB</div>
         </div>
         <button class="btn btn-secondary" onclick="triggerUpload('cam-input')">Choose file</button>
-        <input type="file" id="cam-input" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFile(this,'cam-file','cam-error')">
+        <input type="file" id="cam-input" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFile(this,'cam-file','cam-error',20)">
       </div>
       <div class="upload-file-row">
         <div id="cam-file" class="upload-filename" style="display:flex">
@@ -701,8 +475,7 @@
       </div>
     </div>
 
-    <!-- Lease -->
-    <div class="upload-card" id="card-lease">
+    <div class="upload-card">
       <div class="upload-card-header">
         <div class="upload-label-wrap">
           <div class="upload-type">Lease Agreement <span class="badge-required">Required</span></div>
@@ -710,7 +483,7 @@
           <div class="upload-formats">.pdf, .doc, .docx — max 50MB</div>
         </div>
         <button class="btn btn-secondary" onclick="triggerUpload('lease-input')">Choose file</button>
-        <input type="file" id="lease-input" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFile(this,'lease-file','lease-error')">
+        <input type="file" id="lease-input" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFile(this,'lease-file','lease-error',50)">
       </div>
       <div class="upload-file-row">
         <div id="lease-file" class="upload-filename" style="display:flex">
@@ -721,7 +494,6 @@
       </div>
     </div>
 
-    <!-- Supporting docs -->
     <div class="upload-card">
       <div class="upload-card-header">
         <div class="upload-label-wrap">
@@ -750,7 +522,6 @@
     <div class="field">
       <label>Notes about this property or landlord</label>
       <textarea rows="3" placeholder="Anything useful for the review, e.g. ongoing works, previous disputes."></textarea>
-      <div class="field-helper">Anything useful for the review, e.g. ongoing works, previous disputes.</div>
     </div>
 
     <div style="margin-top:2rem">
@@ -767,12 +538,13 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 4: REVIEW SUMMARY
-═══════════════════════════════════════════ -->
+<!-- SCREEN 4: REVIEW SUMMARY -->
 <div id="screen-summary" class="screen">
   <nav class="nav">
-    <div class="nav-brand">REAL</div>
+    <div class="nav-left">
+      <div class="nav-brand">REAL</div>
+      <button class="nav-home-btn" onclick="goTo('screen-home')">← Home</button>
+    </div>
     <div class="nav-steps" id="steps-summary"></div>
     <div class="nav-right">
       <div class="nav-property">200 West 57th Street</div>
@@ -791,18 +563,26 @@
       <div class="prop-item"><div class="prop-label">Landlord</div><div class="prop-value">Broad Street Partners LLC</div></div>
       <div class="prop-item"><div class="prop-label">Lease start</div><div class="prop-value">January 14, 2019</div></div>
       <div class="prop-item"><div class="prop-label">Lease expiry</div><div class="prop-value">January 31, 2027</div></div>
+      <div class="prop-item"><div class="prop-label">Years remaining</div><div class="prop-value" style="color:var(--ink-muted)">1 year 7 months</div></div>
     </div>
 
     <div class="two-col">
+      <!-- CAM Statement card — now includes extra context fields -->
       <div class="card">
         <h3 style="margin-bottom:1rem">CAM statement</h3>
         <div class="data-row"><span class="data-label">Review period</span><span class="data-value">FY2024 (Jan 1 – Dec 31, 2024)</span></div>
         <div class="data-row"><span class="data-label">Total billed</span><span class="data-value">$127,440</span></div>
+        <div class="data-row"><span class="data-label">Increase year on year</span><span class="data-value amber">+17.8% (+$19,240)</span></div>
         <div class="data-row"><span class="data-label">Monthly estimate billed</span><span class="data-value">$9,017/month</span></div>
         <div class="data-row"><span class="data-label">Balance due</span><span class="data-value">$19,240</span></div>
+        <div class="data-row"><span class="data-label">Balance as % of prior year</span><span class="data-value">15.1% of FY2023 total</span></div>
         <div class="data-row"><span class="data-label">Payment due</span><span class="data-value">April 30, 2025</span></div>
         <div class="data-row"><span class="data-label">Statement date</span><span class="data-value">March 1, 2025</span></div>
+        <div class="data-row"><span class="data-label">Net lettable area</span><span class="data-value">12,400 sq ft</span></div>
+        <div class="data-row"><span class="data-label">Bill per sq ft</span><span class="data-value">$10.28/sq ft</span></div>
       </div>
+
+      <!-- Lease terms card -->
       <div class="card">
         <h3 style="margin-bottom:1rem">Lease terms</h3>
         <div class="data-row"><span class="data-label">Pro-rata share</span><span class="data-value">6.40%</span></div>
@@ -819,22 +599,10 @@
       <div>Your dispute window closes on <strong>April 29, 2025</strong>. That is <strong>47 days</strong> from today. After this date, you may lose the right to formally dispute this statement.</div>
     </div>
 
-    <div class="compare-grid">
-      <div class="compare-cell">
-        <div class="compare-label">Billed by landlord</div>
-        <div class="compare-value">$127,440</div>
-      </div>
-      <div class="compare-cell">
-        <div class="compare-label">Last year's total</div>
-        <div class="compare-value">$108,200</div>
-      </div>
-      <div class="compare-cell">
-        <div class="compare-label">Difference</div>
-        <div class="compare-value amber">+$19,240</div>
-        <div class="compare-sub">17.8% increase year on year</div>
-      </div>
+    <div class="banner banner-blue" style="margin-bottom:0">
+      <div class="banner-icon">ℹ</div>
+      <div>You have <strong>1 year and 7 months</strong> remaining on this lease. If you are considering renewal, you may wish to use any overcharges as part of those negotiations rather than raising a formal dispute now.</div>
     </div>
-    <p class="text-faint">The balance due ($19,240) represents 15.1% of last year's total CAM charge.</p>
 
     <hr class="divider">
     <p class="text-faint text-right mt-2">Running the review usually takes about 30 seconds.</p>
@@ -845,9 +613,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 4b: LOADING
-═══════════════════════════════════════════ -->
+<!-- SCREEN 4b: LOADING -->
 <div id="screen-loading" class="screen">
   <div class="loading-center">
     <div class="spinner"></div>
@@ -861,12 +627,13 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 5: ANALYSIS
-═══════════════════════════════════════════ -->
+<!-- SCREEN 5: ANALYSIS -->
 <div id="screen-analysis" class="screen">
   <nav class="nav">
-    <div class="nav-brand">REAL</div>
+    <div class="nav-left">
+      <div class="nav-brand">REAL</div>
+      <button class="nav-home-btn" onclick="goTo('screen-home')">← Home</button>
+    </div>
     <div class="nav-steps" id="steps-analysis"></div>
     <div class="nav-right">
       <div class="nav-property">200 West 57th Street</div>
@@ -890,7 +657,7 @@
       </div>
       <div class="stat-cell">
         <div class="stat-cell-label">Possible overcharge</div>
-        <div class="stat-cell-value red">$18,620</div>
+        <div class="stat-cell-value blue">$18,620</div>
       </div>
       <div class="stat-cell">
         <div class="stat-cell-label">Days to dispute</div>
@@ -898,18 +665,24 @@
       </div>
     </div>
 
-    <h2 style="margin-bottom:1rem">What we found</h2>
+    <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:1rem;">
+      <h2>What we found</h2>
+      <p class="text-faint">Select the issues you want to include in your dispute letter.</p>
+    </div>
 
     <!-- Issue 1 -->
-    <div class="issue-card red-border" id="issue-1">
+    <div class="issue-card blue-border" id="issue-1">
       <div class="issue-card-header" onclick="toggleIssue('issue-1')">
         <div class="issue-header-left">
-          <div class="issue-status">Strong basis to dispute</div>
-          <div class="issue-title">Your CAM charges went up more than your lease allows</div>
-          <div class="issue-summary">Your lease says CAM costs cannot go up by more than 5% each year. This year's bill is 17.8% higher than last year. That is more than three times the limit in your lease.</div>
+          <input type="checkbox" class="issue-checkbox" id="check-1" checked onclick="event.stopPropagation(); updateActionBar()">
+          <div class="issue-header-text">
+            <div class="issue-status">Strong basis to dispute</div>
+            <div class="issue-title">Your CAM charges went up more than your lease allows</div>
+            <div class="issue-summary">Your lease says CAM costs cannot go up by more than 5% each year. This year's bill is 17.8% higher than last year. That is more than three times the limit in your lease.</div>
+          </div>
         </div>
         <div class="issue-header-right">
-          <span class="issue-amount red">$12,080</span>
+          <span class="issue-amount blue">$12,080</span>
           <span class="issue-amount-label">potential overcharge</span>
         </div>
         <div class="issue-chevron">▼</div>
@@ -923,20 +696,22 @@
           <tr><td>FY2024 controllable expenses (billed)</td><td>$98,600</td></tr>
           <tr class="highlight"><td>Overcharge above the cap</td><td>$12,080</td></tr>
         </table>
-        <div class="issue-explanation">Your lease limits year-on-year increases in controllable expenses to 5%. The FY2024 bill represents a 17.8% increase — $12,080 above the maximum your lease allows. This is a clear breach of the cap clause and forms a strong basis for a formal dispute.</div>
       </div>
     </div>
 
     <!-- Issue 2 -->
-    <div class="issue-card red-border" id="issue-2">
+    <div class="issue-card blue-border" id="issue-2">
       <div class="issue-card-header" onclick="toggleIssue('issue-2')">
         <div class="issue-header-left">
-          <div class="issue-status">Strong basis to dispute</div>
-          <div class="issue-title">The management fee is higher than your lease allows</div>
-          <div class="issue-summary">Your lease caps the management fee at 3% of costs. Your landlord charged 4.8%. That extra 1.8% adds up to an overcharge of $1,775.</div>
+          <input type="checkbox" class="issue-checkbox" id="check-2" checked onclick="event.stopPropagation(); updateActionBar()">
+          <div class="issue-header-text">
+            <div class="issue-status">Strong basis to dispute</div>
+            <div class="issue-title">The management fee is higher than your lease allows</div>
+            <div class="issue-summary">Your lease caps the management fee at 3% of costs. Your landlord charged 4.8%. That extra 1.8% adds up to an overcharge of $1,775.</div>
+          </div>
         </div>
         <div class="issue-header-right">
-          <span class="issue-amount red">$1,775</span>
+          <span class="issue-amount blue">$1,775</span>
           <span class="issue-amount-label">potential overcharge</span>
         </div>
         <div class="issue-chevron">▼</div>
@@ -949,7 +724,6 @@
           <tr><td>Maximum permitted fee (3.0%)</td><td>$2,958</td></tr>
           <tr class="highlight"><td>Overcharge above the cap</td><td>$1,775</td></tr>
         </table>
-        <div class="issue-explanation">Your lease limits management fees to 3% of controllable expenses. The landlord's statement applies a rate of 4.8%, which is $1,775 above the contractual maximum. This overcharge is straightforward to calculate and dispute.</div>
       </div>
     </div>
 
@@ -957,9 +731,12 @@
     <div class="issue-card gray-border" id="issue-3">
       <div class="issue-card-header" onclick="toggleIssue('issue-3')">
         <div class="issue-header-left">
-          <div class="issue-status">Needs more information</div>
-          <div class="issue-title">A large renovation cost may not belong in your CAM bill</div>
-          <div class="issue-summary">Your landlord included a charge called 'Lobby renovation — Phase 2' for $28,400. Your lease excludes major building improvements from CAM. We cannot confirm whether this qualifies until you see the contractor invoice.</div>
+          <input type="checkbox" class="issue-checkbox" id="check-3" onclick="event.stopPropagation(); updateActionBar()">
+          <div class="issue-header-text">
+            <div class="issue-status">Needs more information</div>
+            <div class="issue-title">A large renovation cost may not belong in your CAM bill</div>
+            <div class="issue-summary">Your landlord included a charge called 'Lobby renovation — Phase 2' for $28,400. Your lease excludes major building improvements from CAM. We cannot confirm whether this qualifies until you see the contractor invoice.</div>
+          </div>
         </div>
         <div class="issue-header-right">
           <span class="issue-amount" style="color:var(--ink-muted)">$1,821</span>
@@ -969,26 +746,30 @@
       </div>
       <div class="issue-body">
         <div class="issue-clause">§7.5 — "Capital Improvements, defined as expenditures that extend the useful life of a building component or add new functionality, shall be excluded from Common Area Maintenance expenses."</div>
-        <div class="issue-explanation">Your lease excludes capital improvements from CAM. The line item 'Lobby renovation — Phase 2' at $28,400 may qualify as a capital improvement — but without the contractor invoice, we cannot determine whether the work extended the building's useful life or was routine maintenance.<br><br><strong>Recommended next step:</strong> Request the contractor invoice and scope of work before including this item in any dispute. A weak or unsupported claim can undermine the stronger claims you already have. Once you have the backup, you can add this item to your dispute manually.</div>
+        <div style="font-size:0.83rem; color:var(--ink-muted); line-height:1.55; margin-top:0.75rem;">
+          Your lease excludes capital improvements from CAM. The line item 'Lobby renovation — Phase 2' at $28,400 may qualify as a capital improvement — but without the contractor invoice, we cannot determine whether the work extended the building's useful life or was routine maintenance.<br><br>
+          <strong>Recommended next step:</strong> Request the contractor invoice and scope of work before including this item in any dispute. A weak or unsupported claim can undermine the stronger claims you already have. Once you have the backup, you can tick the box above to include it.
+        </div>
       </div>
     </div>
   </div>
 
   <div class="action-bar">
-    <div class="action-bar-left">2 issues are strong enough to dispute now. Total potential recovery: <strong>$13,855</strong>.</div>
+    <div class="action-bar-left" id="action-bar-text">2 issues selected. Total potential recovery: <strong>$13,855</strong>.</div>
     <div class="action-bar-right">
       <button class="btn btn-secondary">Request backup documents</button>
-      <button class="btn btn-primary" onclick="goTo('screen-letter')">Build dispute letter</button>
+      <button class="btn btn-primary" id="btn-build-letter" onclick="goTo('screen-letter')">Build dispute letter</button>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 6: DISPUTE LETTER
-═══════════════════════════════════════════ -->
+<!-- SCREEN 6: DISPUTE LETTER -->
 <div id="screen-letter" class="screen">
   <nav class="nav">
-    <div class="nav-brand">REAL</div>
+    <div class="nav-left">
+      <div class="nav-brand">REAL</div>
+      <button class="nav-home-btn" onclick="goTo('screen-home')">← Home</button>
+    </div>
     <div class="nav-steps" id="steps-letter"></div>
     <div class="nav-right">
       <div class="nav-property">200 West 57th Street</div>
@@ -998,7 +779,7 @@
   <div class="page" style="padding-bottom:6rem">
     <div class="page-header">
       <h1>Your dispute letter</h1>
-      <p>We've drafted a letter based on the two issues with a strong basis to dispute. Read it carefully and edit anything before you send it.</p>
+      <p>We've drafted a letter based on the issues you selected. Read it carefully and edit anything before you send it.</p>
     </div>
 
     <div class="banner banner-green">
@@ -1065,12 +846,13 @@ Lease dated January 14, 2019</p>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 7: LOG OUTCOME
-═══════════════════════════════════════════ -->
+<!-- SCREEN 7: LOG OUTCOME -->
 <div id="screen-outcome" class="screen">
   <nav class="nav">
-    <div class="nav-brand">REAL</div>
+    <div class="nav-left">
+      <div class="nav-brand">REAL</div>
+      <button class="nav-home-btn" onclick="goTo('screen-home')">← Home</button>
+    </div>
     <div class="nav-steps" id="steps-outcome"></div>
     <div class="nav-right">
       <div class="nav-property">200 West 57th Street</div>
@@ -1092,7 +874,6 @@ Lease dated January 14, 2019</p>
     <div id="outcome-form">
       <div class="card">
         <h3 style="margin-bottom:1.25rem">What was the outcome?</h3>
-
         <div class="field">
           <label>Resolution</label>
           <div class="resolution-group">
@@ -1107,7 +888,6 @@ Lease dated January 14, 2019</p>
             </label>
           </div>
         </div>
-
         <div class="field-row">
           <div class="field">
             <label>Amount recovered ($)</label>
@@ -1119,7 +899,6 @@ Lease dated January 14, 2019</p>
             <input type="date" id="date-resolved" value="2025-05-14">
           </div>
         </div>
-
         <div class="flex-end">
           <button class="btn btn-primary" onclick="saveOutcome()">Save outcome</button>
         </div>
@@ -1142,21 +921,16 @@ Lease dated January 14, 2019</p>
 </div>
 
 <script>
-// ── State ──
 const uploadState = { cam: true, lease: true };
-
-// ── Navigation ──
-const SCREENS = ['screen-login','screen-home','screen-upload','screen-summary','screen-loading','screen-analysis','screen-letter','screen-outcome'];
 const STEP_SCREENS = { 'screen-upload':1, 'screen-summary':2, 'screen-analysis':3, 'screen-letter':4, 'screen-outcome':5 };
 const STEP_LABELS = ['Upload documents','Review summary','Analysis','Dispute letter','Log outcome'];
-let currentScreen = 'screen-login';
+const STEP_TARGETS = ['screen-upload','screen-summary','screen-analysis','screen-letter','screen-outcome'];
+const ISSUE_AMOUNTS = { 'check-1': 12080, 'check-2': 1775, 'check-3': 1821 };
 
 function goTo(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const el = document.getElementById(id);
-  el.classList.add('active');
-  currentScreen = id;
-  window.scrollTo(0,0);
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
   renderSteps(id);
 }
 
@@ -1180,20 +954,16 @@ function renderSteps(screenId) {
       const step = document.createElement('div');
       step.className = 'nav-step' + (isActive ? ' active' : '') + (isDone ? ' done' : '');
       step.innerHTML = `<div class="nav-step-num">${isDone ? '✓' : num}</div><span>${label}</span>`;
-      if (isDone) {
-        const targets = ['screen-upload','screen-summary','screen-analysis','screen-letter','screen-outcome'];
-        step.onclick = () => goTo(targets[i]);
-      }
+      if (isDone) step.onclick = () => goTo(STEP_TARGETS[i]);
       container.appendChild(step);
     });
   });
 }
 
-// ── Loading sequence ──
 function startLoading() {
   goTo('screen-loading');
   const steps = ['ls-1','ls-2','ls-3','ls-4'];
-  steps.forEach((id, i) => {
+  steps.forEach(id => {
     document.getElementById(id).classList.remove('lit');
     document.getElementById(id).querySelector('.loading-step-icon').textContent = '○';
   });
@@ -1202,14 +972,11 @@ function startLoading() {
       const el = document.getElementById(id);
       el.classList.add('lit');
       el.querySelector('.loading-step-icon').textContent = '●';
-      if (i === steps.length - 1) {
-        setTimeout(() => goTo('screen-analysis'), 700);
-      }
+      if (i === steps.length - 1) setTimeout(() => goTo('screen-analysis'), 700);
     }, 600 * (i + 1));
   });
 }
 
-// ── Issue accordion ──
 function toggleIssue(id) {
   const card = document.getElementById(id);
   const isOpen = card.classList.contains('open');
@@ -1217,17 +984,32 @@ function toggleIssue(id) {
   if (!isOpen) card.classList.add('open');
 }
 
-// ── File upload ──
+function updateActionBar() {
+  let total = 0, count = 0;
+  Object.entries(ISSUE_AMOUNTS).forEach(([id, amt]) => {
+    const cb = document.getElementById(id);
+    if (cb && cb.checked) { total += amt; count++; }
+  });
+  const el = document.getElementById('action-bar-text');
+  const btn = document.getElementById('btn-build-letter');
+  if (count === 0) {
+    el.innerHTML = 'No issues selected.';
+    btn.disabled = true;
+  } else {
+    el.innerHTML = `${count} issue${count > 1 ? 's' : ''} selected. Total potential recovery: <strong>$${total.toLocaleString()}</strong>.`;
+    btn.disabled = false;
+  }
+}
+
 function triggerUpload(inputId) {
   document.getElementById(inputId).click();
 }
 
-function handleFile(input, fileDisplayId, errorId) {
+function handleFile(input, fileDisplayId, errorId, maxMB) {
   const file = input.files[0];
   if (!file) return;
   const ext = file.name.split('.').pop().toLowerCase();
   const allowed = ['pdf','doc','docx','xls','xlsx'];
-  const maxMB = inputId === 'cam-input' ? 20 : 50;
   const errEl = document.getElementById(errorId);
   const dispEl = document.getElementById(fileDisplayId);
   errEl.style.display = 'none';
@@ -1248,8 +1030,7 @@ function handleFile(input, fileDisplayId, errorId) {
 
 function removeFile(fileDisplayId, inputId, errorId) {
   const dispEl = document.getElementById(fileDisplayId);
-  dispEl.innerHTML = '';
-  dispEl.style.display = 'none';
+  dispEl.innerHTML = ''; dispEl.style.display = 'none';
   document.getElementById(inputId).value = '';
   if (fileDisplayId === 'cam-file') uploadState.cam = false;
   if (fileDisplayId === 'lease-file') uploadState.lease = false;
@@ -1259,19 +1040,13 @@ function removeFile(fileDisplayId, inputId, errorId) {
 function checkNextButton() {
   const btn = document.getElementById('btn-next-upload');
   const hint = document.getElementById('next-hint');
-  if (uploadState.cam && uploadState.lease) {
-    btn.disabled = false;
-    hint.style.display = 'none';
-  } else {
-    btn.disabled = true;
-    hint.style.display = 'block';
-  }
+  const ready = uploadState.cam && uploadState.lease;
+  btn.disabled = !ready;
+  hint.style.display = ready ? 'none' : 'block';
 }
 
-// ── Letter copy/download ──
 function copyLetter() {
-  const el = document.getElementById('letter-body');
-  const text = el.innerText;
+  const text = document.getElementById('letter-body').innerText;
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById('btn-copy');
     btn.textContent = '✓ Copied';
@@ -1280,16 +1055,13 @@ function copyLetter() {
 }
 
 function downloadLetter() {
-  const el = document.getElementById('letter-body');
-  const text = el.innerText;
-  const blob = new Blob([text], { type: 'text/plain' });
+  const text = document.getElementById('letter-body').innerText;
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
+  a.href = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
   a.download = 'dispute_letter_200W57_FY2024.txt';
   a.click();
 }
 
-// ── Outcome ──
 document.querySelectorAll('.resolution-option').forEach(opt => {
   opt.addEventListener('click', () => {
     document.querySelectorAll('.resolution-option').forEach(o => o.classList.remove('selected'));
@@ -1308,16 +1080,12 @@ function saveOutcome() {
   const amt = parseFloat(document.getElementById('amount-recovered').value) || 0;
   const dateVal = document.getElementById('date-resolved').value;
   const dateStr = dateVal ? new Date(dateVal + 'T12:00:00').toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' }) : '—';
-
   document.getElementById('outcome-form').style.display = 'none';
-  const conf = document.getElementById('outcome-confirmation');
-  conf.style.display = 'block';
-
+  document.getElementById('outcome-confirmation').style.display = 'block';
   let typeMsg = '';
   if (res === 'full') typeMsg = 'Your landlord agreed to the full disputed amount.';
   else if (res === 'partial') typeMsg = `You recovered $${amt.toLocaleString()} on a disputed amount of $13,855.`;
   else typeMsg = 'Your landlord rejected the dispute. You may want to seek legal advice if you believe the charges are incorrect.';
-
   document.getElementById('confirm-type-msg').textContent = typeMsg;
   const amtEl = document.getElementById('confirm-amount');
   amtEl.textContent = amt > 0 ? `$${amt.toLocaleString()} recovered` : '$0 recovered';
@@ -1325,15 +1093,11 @@ function saveOutcome() {
   document.getElementById('confirm-date').textContent = `Resolved: ${dateStr}`;
 }
 
-// ── Set outcome date sent ──
-function setDateSent() {
-  const el = document.getElementById('outcome-date-sent');
-  if (el) el.textContent = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
-}
+const dateSentEl = document.getElementById('outcome-date-sent');
+if (dateSentEl) dateSentEl.textContent = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
 
-// ── Init ──
 checkNextButton();
-setDateSent();
+updateActionBar();
 </script>
 </body>
 </html>
