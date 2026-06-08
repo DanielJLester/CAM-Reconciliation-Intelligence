@@ -109,7 +109,7 @@
   .data-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.45rem 0; border-bottom: 1px solid var(--border); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.875rem; }
   .data-row:last-child { border-bottom: none; }
   .data-label { color: var(--ink-muted); }
-  .data-value { font-weight: 500; color: var(--ink); }
+  .data-value { font-weight: 500; color: var(--ink); text-align: right; max-width: 60%; }
   .data-value.amber { color: var(--amber); font-weight: 600; }
 
   /* Stat bar */
@@ -296,7 +296,7 @@
       <p class="text-faint mt-2">Your previous reviews are saved. You can return to any of them at any time.</p>
     </div>
     <div class="mt-4">
-      <div class="section-head" style="margin-top:0; padding-top:0; border-top:none">Previous reviews</div>
+      <div class="section-head" style="margin-top:0; padding-top:0; border-top:none">Previous CAM reconciliations</div>
       <div id="previous-reviews-list"></div>
     </div>
   </div>
@@ -391,8 +391,8 @@
   </nav>
   <div class="page">
     <div class="page-header">
-      <h1>Check the details we found</h1>
-      <p>We've read your documents. Check that the key information looks right before running the review.</p>
+      <h1>Review summary</h1>
+      <p>The following information has been extracted from your documents. Confirm it is correct before running the review.</p>
     </div>
     <div class="property-card">
       <div class="prop-item"><div class="prop-label">Property</div><div class="prop-value">200 West 57th Street</div></div>
@@ -429,10 +429,6 @@
     <div class="banner banner-amber">
       <div class="banner-icon">⚠</div>
       <div>Your dispute window closes on <strong>April 29, 2025</strong>. That is <strong>47 days</strong> from today. After this date, you may lose the right to formally dispute this statement.</div>
-    </div>
-    <div class="banner banner-blue" style="margin-bottom:0">
-      <div class="banner-icon">ℹ</div>
-      <div>You have <strong>1 year and 7 months</strong> remaining on this lease. If you are considering renewal, you may wish to use any overcharges as part of those negotiations rather than raising a formal dispute now.</div>
     </div>
     <hr class="divider">
     <p class="text-faint text-right mt-2">Running the review usually takes about 30 seconds.</p>
@@ -677,7 +673,7 @@ let reviewState = {
 // Static previous reviews (seeded)
 let previousReviews = [
   { id: 'fifth-500', address: '500 Fifth Avenue', suite: 'Suite 2300', step: 3, screen: 'screen-analysis', status: 'in-progress', meta: ['Updated 3 days ago'], metaColours: [''], extra: [{ text: '⚠ 38 days left to dispute', color: 'var(--amber)' }, { text: '$9,240 strong basis to dispute', color: 'var(--blue-light)' }] },
-  { id: 'americas-1221', address: '1221 Avenue of the Americas', suite: 'Suite 800', step: 5, screen: 'screen-analysis', status: 'resolved', meta: ['Updated 6 weeks ago'], extra: [{ text: '$7,150 recovered', color: 'var(--green)' }] }
+  { id: 'americas-1221', address: '1221 Avenue of the Americas', suite: 'Suite 800', step: 5, screen: 'screen-outcome', status: 'resolved', meta: ['Updated 6 weeks ago'], extra: [{ text: '$7,150 recovered', color: 'var(--green)' }] }
 ];
 
 // ── Navigation ──
@@ -826,10 +822,10 @@ function generateLetter() {
 <p style="margin-bottom:0.6em"><strong>Item ${idx + 1} — ${issue.heading}</strong></p>
 <p style="margin-bottom:1.2em">${issue.body}</p>`).join('');
 
-  // Optional lobby records request (if issue 3 not included)
+  // Optional lobby records request (only if issue 3 is selected)
   const hasIssue3 = selected.some(i => i.id === 3);
-  const lobbyRequest = !hasIssue3 ? `
-<p style="margin-bottom:1.2em">I also request, pursuant to <span class="clause-ref">§9.2</span> of the Lease, the original contractor invoice and scope of work for the line item "Lobby renovation — Phase 2" (<span class="fig-red">$28,400</span>), to determine whether this expenditure qualifies as a capital improvement under <span class="clause-ref">§7.5</span>.</p>` : '';
+  const lobbyRequest = hasIssue3 ? `
+<p style="margin-bottom:1.2em">I also request, pursuant to <span class="clause-ref">§9.2</span> of the Lease, the original contractor invoice and scope of work for the line item "Lobby renovation — Phase 2" (<span class="fig-red">$28,400</span>), to confirm whether this expenditure constitutes a capital improvement under <span class="clause-ref">§7.5</span>.</p>` : '';
 
   const countPhrase = selected.length === 1 ? 'one overcharge' : `${selected.length} overcharges`;
 
@@ -955,7 +951,7 @@ function finaliseAndGoHome() {
     address: '200 West 57th Street',
     suite: 'Suite 1400',
     step: 5,
-    screen: 'screen-analysis',
+    screen: 'screen-outcome',
     status: 'resolved',
     extra: [{ text: `Resolved ${dateStr}`, color: 'var(--ink-faint)' }, amtMeta]
   });
