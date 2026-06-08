@@ -7,157 +7,73 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; }
-  body {
-    font-family: 'Georgia', 'Times New Roman', serif;
-    background: #f7f6f3;
-    color: #1a1a1a;
-    min-height: 100vh;
-  }
-  .sans { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  body { font-family: 'Georgia', 'Times New Roman', serif; background: #f7f6f3; color: #1a1a1a; min-height: 100vh; }
   h1 { font-size: 1.75rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.2; }
   h2 { font-size: 1.25rem; font-weight: 600; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   h3 { font-size: 1rem; font-weight: 600; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   p { line-height: 1.6; }
 
   :root {
-    --ink: #1a1a1a;
-    --ink-muted: #6b6b6b;
-    --ink-faint: #9b9b9b;
-    --surface: #ffffff;
-    --surface-alt: #f7f6f3;
-    --border: #e2e0da;
-    --border-strong: #c8c4bc;
-    --amber: #b45309;
-    --amber-bg: #fffbeb;
-    --amber-border: #fcd34d;
-    --blue: #1e40af;
-    --blue-light: #2563eb;
-    --blue-bg: #eff6ff;
-    --blue-border: #bfdbfe;
-    --green: #166534;
-    --green-bg: #f0fdf4;
-    --green-border: #86efac;
-    --slate: #475569;
-    --slate-bg: #f8fafc;
-    --slate-border: #cbd5e1;
+    --ink: #1a1a1a; --ink-muted: #6b6b6b; --ink-faint: #9b9b9b;
+    --surface: #ffffff; --surface-alt: #f7f6f3;
+    --border: #e2e0da; --border-strong: #c8c4bc;
+    --amber: #b45309; --amber-bg: #fffbeb; --amber-border: #fcd34d;
+    --blue: #1e40af; --blue-light: #2563eb; --blue-bg: #eff6ff; --blue-border: #bfdbfe;
+    --green: #166534; --green-bg: #f0fdf4; --green-border: #86efac;
     --focus: #2563eb;
   }
 
   .screen { display: none; min-height: 100vh; }
   .screen.active { display: flex; flex-direction: column; }
 
-  /* ── Nav ── */
-  .nav {
-    position: sticky; top: 0; z-index: 100;
-    background: #fff;
-    border-bottom: 1px solid var(--border);
-    padding: 0 1.5rem;
-    height: 60px;
-    display: flex; align-items: center; justify-content: space-between;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    gap: 1rem;
-  }
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--border); padding: 0 1.5rem; height: 60px; display: flex; align-items: center; justify-content: space-between; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; gap: 1rem; }
   .nav-left { display: flex; align-items: center; gap: 1rem; flex: 1; }
-  .nav-brand {
-    font-size: 1.1rem; font-weight: 700; letter-spacing: 0.12em;
-    color: var(--ink); text-transform: uppercase;
-    text-decoration: none;
-  }
-  .nav-home-btn {
-    font-size: 0.78rem; color: var(--ink-muted); cursor: pointer;
-    background: none; border: 1px solid var(--border); border-radius: 4px;
-    padding: 0.25rem 0.65rem; font-family: inherit;
-    transition: border-color 0.15s, color 0.15s;
-    white-space: nowrap;
-  }
+  .nav-brand { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.12em; color: var(--ink); text-transform: uppercase; }
+  .nav-home-btn { font-size: 0.78rem; color: var(--ink-muted); cursor: pointer; background: none; border: 1px solid var(--border); border-radius: 4px; padding: 0.25rem 0.65rem; font-family: inherit; transition: border-color 0.15s, color 0.15s; white-space: nowrap; }
   .nav-home-btn:hover { color: var(--ink); border-color: var(--border-strong); }
-  .nav-steps {
-    display: flex; gap: 0; align-items: center; flex: 2; justify-content: center;
-  }
-  .nav-step {
-    display: flex; align-items: center; gap: 0.4rem;
-    font-size: 0.75rem; color: var(--ink-faint); white-space: nowrap;
-    padding: 0 0.5rem; cursor: default; transition: color 0.2s;
-  }
+  .nav-steps { display: flex; gap: 0; align-items: center; flex: 2; justify-content: center; }
+  .nav-step { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: var(--ink-faint); white-space: nowrap; padding: 0 0.5rem; cursor: default; transition: color 0.2s; }
   .nav-step.active { color: var(--ink); font-weight: 600; }
   .nav-step.done { color: var(--ink-muted); cursor: pointer; }
   .nav-step.done:hover { color: var(--ink); }
-  .nav-step-num {
-    width: 20px; height: 20px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.7rem; font-weight: 700;
-    background: var(--border); color: var(--ink-faint);
-    transition: background 0.2s, color 0.2s; flex-shrink: 0;
-  }
+  .nav-step-num { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; background: var(--border); color: var(--ink-faint); transition: background 0.2s, color 0.2s; flex-shrink: 0; }
   .nav-step.active .nav-step-num { background: var(--ink); color: #fff; }
   .nav-step.done .nav-step-num { background: #4ade80; color: #166534; }
   .nav-step-sep { color: var(--border-strong); font-size: 0.7rem; }
-  .nav-right {
-    flex: 1; display: flex; align-items: center; justify-content: flex-end;
-    gap: 0.75rem; font-size: 0.8rem;
-  }
-  .nav-property {
-    font-size: 0.75rem; color: var(--ink-muted);
-    background: var(--surface-alt); border: 1px solid var(--border);
-    padding: 0.25rem 0.6rem; border-radius: 4px;
-    max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
+  .nav-right { flex: 1; display: flex; align-items: center; justify-content: flex-end; gap: 0.75rem; font-size: 0.8rem; }
+  .nav-property { font-size: 0.75rem; color: var(--ink-muted); background: var(--surface-alt); border: 1px solid var(--border); padding: 0.25rem 0.6rem; border-radius: 4px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .nav-user { display: flex; align-items: center; gap: 0.5rem; color: var(--ink-muted); }
-  .avatar {
-    width: 30px; height: 30px; border-radius: 50%;
-    background: #1a1a1a; color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.03em;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
+  .avatar { width: 30px; height: 30px; border-radius: 50%; background: #1a1a1a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.03em; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
 
-  /* ── Page layout ── */
+  /* Layout */
   .page { flex: 1; max-width: 860px; margin: 0 auto; padding: 3rem 1.5rem; width: 100%; }
   .page-wide { flex: 1; max-width: 1000px; margin: 0 auto; padding: 3rem 1.5rem; width: 100%; }
 
-  /* ── Buttons ── */
-  .btn {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 0.875rem; font-weight: 500;
-    padding: 0.6rem 1.25rem; border-radius: 5px;
-    cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s;
-    border: 1px solid transparent; text-decoration: none; white-space: nowrap;
-  }
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.875rem; font-weight: 500; padding: 0.6rem 1.25rem; border-radius: 5px; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; border: 1px solid transparent; text-decoration: none; white-space: nowrap; }
   .btn-primary { background: var(--ink); color: #fff; border-color: var(--ink); }
   .btn-primary:hover { background: #333; border-color: #333; }
   .btn-secondary { background: #fff; color: var(--ink); border-color: var(--border-strong); }
   .btn-secondary:hover { background: var(--surface-alt); }
+  .btn-ghost { background: none; color: var(--ink-muted); border-color: var(--border); }
+  .btn-ghost:hover { color: var(--ink); border-color: var(--border-strong); background: var(--surface-alt); }
   .btn:disabled, .btn[disabled] { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
   .btn-lg { padding: 0.75rem 1.75rem; font-size: 1rem; }
 
-  /* ── Cards ── */
+  /* Cards */
   .card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
   .card + .card { margin-top: 1rem; }
 
-  /* ── Form ── */
-  label {
-    display: block; font-size: 0.8rem; font-weight: 600;
-    color: var(--ink-muted); letter-spacing: 0.04em; text-transform: uppercase;
-    margin-bottom: 0.35rem;
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  }
-  input[type="text"], input[type="email"], input[type="password"],
-  input[type="number"], input[type="date"], textarea {
-    width: 100%; border: 1px solid var(--border-strong);
-    border-radius: 5px; padding: 0.6rem 0.8rem;
-    font-size: 0.95rem; color: var(--ink);
-    font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    background: #fff; transition: border-color 0.15s, box-shadow 0.15s; outline: none;
-  }
-  input:focus, textarea:focus {
-    border-color: var(--focus); box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
-  }
+  /* Form */
+  label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--ink-muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.35rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="date"], textarea { width: 100%; border: 1px solid var(--border-strong); border-radius: 5px; padding: 0.6rem 0.8rem; font-size: 0.95rem; color: var(--ink); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; background: #fff; transition: border-color 0.15s, box-shadow 0.15s; outline: none; }
+  input:focus, textarea:focus { border-color: var(--focus); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
   .field { margin-bottom: 1.25rem; }
   .field-helper { font-size: 0.78rem; color: var(--ink-faint); margin-top: 0.3rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-  /* ── Upload ── */
+  /* Upload */
   .upload-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; margin-bottom: 0.75rem; }
   .upload-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
   .upload-label-wrap { flex: 1; }
@@ -172,31 +88,31 @@
   .badge-required { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; border: 1px solid var(--border); border-radius: 3px; padding: 0.15rem 0.4rem; white-space: nowrap; }
   .badge-optional { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; border: 1px solid var(--border); border-radius: 3px; padding: 0.15rem 0.4rem; white-space: nowrap; background: var(--surface-alt); }
 
-  /* ── Section head ── */
+  /* Section head */
   .section-head { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; margin-bottom: 0.75rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
 
-  /* ── Pills ── */
+  /* Pills */
   .pill { display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.2rem 0.55rem; border-radius: 20px; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .pill-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
   .pill-green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
   .pill-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-border); }
   .pill-gray { background: var(--surface-alt); color: var(--ink-muted); border: 1px solid var(--border); }
 
-  /* ── Banners ── */
+  /* Banners */
   .banner { border-radius: 7px; padding: 1rem 1.25rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.875rem; line-height: 1.5; margin-bottom: 1.25rem; display: flex; gap: 0.75rem; align-items: flex-start; }
   .banner-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.05rem; }
   .banner-amber { background: var(--amber-bg); border: 1px solid var(--amber-border); color: #92400e; }
   .banner-green { background: var(--green-bg); border: 1px solid var(--green-border); color: var(--green); }
   .banner-blue { background: var(--blue-bg); border: 1px solid var(--blue-border); color: var(--blue); }
 
-  /* ── Data rows ── */
+  /* Data rows */
   .data-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.45rem 0; border-bottom: 1px solid var(--border); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.875rem; }
   .data-row:last-child { border-bottom: none; }
   .data-label { color: var(--ink-muted); }
   .data-value { font-weight: 500; color: var(--ink); }
   .data-value.amber { color: var(--amber); font-weight: 600; }
 
-  /* ── Stat bar ── */
+  /* Stat bar */
   .stat-bar { display: grid; gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 2rem; }
   .stat-bar-4 { grid-template-columns: repeat(4, 1fr); }
   .stat-cell { padding: 1.1rem 1.25rem; border-right: 1px solid var(--border); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; background: #fff; }
@@ -206,13 +122,9 @@
   .stat-cell-value.blue { color: var(--blue-light); }
   .stat-cell-value.amber { color: var(--amber); }
 
-  /* ── Issue cards ── */
+  /* Issue cards */
   .issue-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 0.75rem; }
-  .issue-card-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.1rem 1.25rem; cursor: pointer; gap: 1rem;
-    transition: background 0.1s; border-left: 4px solid transparent;
-  }
+  .issue-card-header { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.25rem; cursor: pointer; gap: 1rem; transition: background 0.1s; border-left: 4px solid transparent; }
   .issue-card-header:hover { background: var(--surface-alt); }
   .issue-card.blue-border .issue-card-header { border-left-color: var(--blue-light); }
   .issue-card.gray-border .issue-card-header { border-left-color: var(--border-strong); }
@@ -237,20 +149,15 @@
   .calc-table td:last-child { text-align: right; font-weight: 500; }
   .calc-table tr.highlight td { font-weight: 700; color: var(--blue-light); }
   .calc-table tr:last-child td { border-bottom: none; }
+  .issue-checkbox { width: 18px; height: 18px; accent-color: var(--blue-light); cursor: pointer; flex-shrink: 0; margin-top: 0.1rem; }
 
-  /* ── Claim checkbox ── */
-  .issue-checkbox {
-    width: 18px; height: 18px; accent-color: var(--blue-light);
-    cursor: pointer; flex-shrink: 0; margin-top: 0.1rem;
-  }
-
-  /* ── Action bar ── */
+  /* Action bar */
   .action-bar { position: sticky; bottom: 0; background: #fff; border-top: 1px solid var(--border); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; z-index: 50; }
   .action-bar-left { font-size: 0.875rem; color: var(--ink-muted); }
   .action-bar-left strong { color: var(--ink); }
   .action-bar-right { display: flex; gap: 0.75rem; }
 
-  /* ── Letter ── */
+  /* Letter */
   .letter-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); background: var(--surface-alt); }
   .letter-filename { font-size: 0.8rem; color: var(--ink-muted); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .letter-toolbar-actions { display: flex; gap: 0.5rem; }
@@ -260,23 +167,23 @@
   .clause-ref { color: #166534; font-style: italic; }
   .placeholder-field { color: #aaa; border-bottom: 1px dashed #aaa; display: inline; cursor: text; padding: 0 2px; }
 
-  /* ── Tenancy cards ── */
+  /* Tenancy cards */
   .tenancy-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; gap: 1rem; }
   .tenancy-card-info { flex: 1; }
   .tenancy-address { font-size: 0.95rem; font-weight: 600; color: var(--ink); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; margin-bottom: 0.25rem; }
   .tenancy-meta { font-size: 0.78rem; color: var(--ink-faint); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; display: flex; gap: 1rem; flex-wrap: wrap; }
   .tenancy-meta-item { display: flex; align-items: center; gap: 0.3rem; }
   .tenancy-card-right { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
-  .tenancy-continue { font-size: 0.82rem; color: var(--ink); text-decoration: underline; cursor: pointer; background: none; border: none; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
-  .tenancy-continue:hover { color: #555; }
+  .tenancy-action-btn { font-size: 0.82rem; color: var(--ink); text-decoration: underline; cursor: pointer; background: none; border: none; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  .tenancy-action-btn:hover { color: #555; }
 
-  /* ── How it works ── */
+  /* How it works */
   .how-steps { margin: 1.25rem 0 0; }
   .how-step { display: flex; gap: 1rem; align-items: flex-start; padding: 0.75rem 0; border-bottom: 1px solid var(--border); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.9rem; color: var(--ink-muted); line-height: 1.5; }
   .how-step:last-child { border-bottom: none; }
   .how-step-num { font-size: 0.75rem; font-weight: 700; color: var(--ink-faint); width: 22px; flex-shrink: 0; padding-top: 0.05rem; }
 
-  /* ── Loading ── */
+  /* Loading */
   #screen-loading { background: #fff; align-items: center; justify-content: center; }
   .loading-center { text-align: center; }
   .spinner { width: 48px; height: 48px; border: 3px solid var(--border); border-top-color: var(--ink); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 2rem; }
@@ -286,7 +193,7 @@
   .loading-step.lit { color: var(--ink); }
   .loading-step-icon { font-size: 0.85rem; }
 
-  /* ── Login ── */
+  /* Login */
   #screen-login { background: var(--surface-alt); align-items: center; justify-content: center; }
   .login-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 2.5rem 2rem; width: 100%; max-width: 380px; text-align: center; }
   .login-logo { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.4rem; }
@@ -294,9 +201,8 @@
   .login-card .field { text-align: left; }
   .login-card .btn { width: 100%; justify-content: center; margin-top: 1.25rem; }
   .login-forgot { display: block; margin-top: 1rem; font-size: 0.8rem; color: var(--ink-faint); text-decoration: underline; cursor: pointer; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
-  .login-forgot:hover { color: var(--ink-muted); }
 
-  /* ── Layout helpers ── */
+  /* Misc layout */
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
   .property-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.5rem; margin-bottom: 1.25rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem 1.5rem; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .prop-item { display: flex; flex-direction: column; gap: 0.15rem; }
@@ -306,7 +212,7 @@
   .page-header h1 { margin-bottom: 0.4rem; }
   .page-header p { font-size: 0.9rem; color: var(--ink-muted); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
 
-  /* ── Outcome ── */
+  /* Outcome */
   .resolution-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
   .resolution-option { display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.9rem; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 6px; background: #fff; transition: border-color 0.15s, background 0.15s; }
   .resolution-option:hover { border-color: var(--border-strong); }
@@ -317,7 +223,15 @@
   .outcome-confirm-amount { font-size: 2rem; font-weight: 700; color: var(--green); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
   .outcome-confirm-amount.zero { color: var(--ink-muted); }
 
-  /* ── Utilities ── */
+  /* Confirm modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: #fff; border-radius: 10px; padding: 2rem; max-width: 420px; width: 90%; box-shadow: 0 8px 32px rgba(0,0,0,0.15); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+  .modal h3 { margin-bottom: 0.75rem; }
+  .modal p { font-size: 0.875rem; color: var(--ink-muted); line-height: 1.5; margin-bottom: 1.5rem; }
+  .modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
+
+  /* Utilities */
   .mt-1 { margin-top: 0.5rem; } .mt-2 { margin-top: 1rem; } .mt-3 { margin-top: 1.5rem; } .mt-4 { margin-top: 2rem; }
   .mb-1 { margin-bottom: 0.5rem; } .mb-2 { margin-bottom: 1rem; }
   .text-muted { color: var(--ink-muted); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 0.85rem; }
@@ -360,20 +274,14 @@
 <!-- SCREEN 2: HOME -->
 <div id="screen-home" class="screen">
   <nav class="nav">
-    <div class="nav-left">
-      <div class="nav-brand">REAL</div>
-    </div>
+    <div class="nav-left"><div class="nav-brand">REAL</div></div>
     <div class="nav-steps"></div>
     <div class="nav-right">
-      <div class="nav-user">
-        <span>Jennifer Walsh</span>
-        <div class="avatar">JW</div>
-      </div>
+      <div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div>
     </div>
   </nav>
   <div class="page">
     <h1 style="margin-bottom:2.5rem">Good morning, Jennifer.</h1>
-
     <div class="card">
       <h2 style="margin-bottom:1rem">How CAM Intelligence works</h2>
       <div class="how-steps">
@@ -383,48 +291,13 @@
         <div class="how-step"><div class="how-step-num">4.</div><div>This tool is not legal advice, does not contact your landlord, and cannot access documents stored anywhere outside what you upload here.</div></div>
       </div>
     </div>
-
     <div class="mt-4" style="text-align:center">
-      <button class="btn btn-primary btn-lg" onclick="goTo('screen-upload')">Start a new tenancy review</button>
+      <button class="btn btn-primary btn-lg" onclick="startNewReview()">Start a new tenancy review</button>
       <p class="text-faint mt-2">Your previous reviews are saved. You can return to any of them at any time.</p>
     </div>
-
     <div class="mt-4">
       <div class="section-head" style="margin-top:0; padding-top:0; border-top:none">Previous reviews</div>
-
-      <!-- In-progress card — analysis run, dispute window open -->
-      <div class="tenancy-card">
-        <div class="tenancy-card-info">
-          <div class="tenancy-address">500 Fifth Avenue, Suite 2300</div>
-          <div class="tenancy-meta">
-            <span class="tenancy-meta-item">Updated 3 days ago</span>
-            <span class="tenancy-meta-item" style="color:var(--amber)">⚠ 38 days left to dispute</span>
-            <span class="tenancy-meta-item" style="color:var(--blue-light)">$9,240 strong basis to dispute</span>
-          </div>
-        </div>
-        <div class="tenancy-card-right">
-          <span class="pill pill-amber">In progress</span>
-          <button class="tenancy-continue" onclick="goTo('screen-upload')">Continue</button>
-        </div>
-      </div>
-
-      <!-- Resolved card -->
-      <div class="tenancy-card">
-        <div class="tenancy-card-info">
-          <div class="tenancy-address">1221 Avenue of the Americas, Suite 800</div>
-          <div class="tenancy-meta">
-            <span class="tenancy-meta-item">Updated 6 weeks ago</span>
-            <span class="tenancy-meta-item" style="color:var(--green)">$7,150 recovered</span>
-          </div>
-        </div>
-        <div class="tenancy-card-right">
-          <span class="pill pill-green">Resolved</span>
-          <button class="tenancy-continue" onclick="goTo('screen-analysis')">View</button>
-        </div>
-      </div>
-
-      <!-- Dynamically added completed reviews appear here -->
-      <div id="completed-reviews"></div>
+      <div id="previous-reviews-list"></div>
     </div>
   </div>
 </div>
@@ -447,18 +320,10 @@
       <h1>Upload your documents</h1>
       <p>Add the documents for this tenancy. The more you provide, the more accurate the review.</p>
     </div>
-
     <div class="field-row">
-      <div class="field">
-        <label>Property name</label>
-        <input type="text" id="prop-name" value="200 West 57th Street">
-      </div>
-      <div class="field">
-        <label>Suite / unit</label>
-        <input type="text" id="prop-suite" value="Suite 1400, Floors 14-15">
-      </div>
+      <div class="field"><label>Property name</label><input type="text" id="prop-name" value="200 West 57th Street"></div>
+      <div class="field"><label>Suite / unit</label><input type="text" id="prop-suite" value="Suite 1400, Floors 14-15"></div>
     </div>
-
     <div class="upload-card">
       <div class="upload-card-header">
         <div class="upload-label-wrap">
@@ -470,14 +335,10 @@
         <input type="file" id="cam-input" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFile(this,'cam-file','cam-error',20)">
       </div>
       <div class="upload-file-row">
-        <div id="cam-file" class="upload-filename" style="display:flex">
-          <span>✓</span> FY2024_CAM_Statement.pdf
-          <button class="upload-remove" onclick="removeFile('cam-file','cam-input','cam-error')" style="margin-left:0.5rem">Remove</button>
-        </div>
+        <div id="cam-file" class="upload-filename" style="display:flex"><span>✓</span> FY2024_CAM_Statement.pdf<button class="upload-remove" onclick="removeFile('cam-file','cam-input','cam-error')" style="margin-left:0.5rem">Remove</button></div>
         <div id="cam-error" class="upload-error" style="display:none"></div>
       </div>
     </div>
-
     <div class="upload-card">
       <div class="upload-card-header">
         <div class="upload-label-wrap">
@@ -489,14 +350,10 @@
         <input type="file" id="lease-input" accept=".pdf,.doc,.docx" style="display:none" onchange="handleFile(this,'lease-file','lease-error',50)">
       </div>
       <div class="upload-file-row">
-        <div id="lease-file" class="upload-filename" style="display:flex">
-          <span>✓</span> Lease_200W57_Suite1400.pdf
-          <button class="upload-remove" onclick="removeFile('lease-file','lease-input','lease-error')" style="margin-left:0.5rem">Remove</button>
-        </div>
+        <div id="lease-file" class="upload-filename" style="display:flex"><span>✓</span> Lease_200W57_Suite1400.pdf<button class="upload-remove" onclick="removeFile('lease-file','lease-input','lease-error')" style="margin-left:0.5rem">Remove</button></div>
         <div id="lease-error" class="upload-error" style="display:none"></div>
       </div>
     </div>
-
     <div class="upload-card">
       <div class="upload-card-header">
         <div class="upload-label-wrap">
@@ -508,58 +365,35 @@
         <input type="file" id="support-input" accept=".pdf,.doc,.docx,.xls,.xlsx" multiple style="display:none">
       </div>
     </div>
-
     <div class="section-head">Additional context — optional</div>
     <div class="field-row">
-      <div class="field">
-        <label>Last year's total CAM charge ($)</label>
-        <input type="number" id="last-year-total" value="108200" placeholder="0.00">
-        <div class="field-helper">Check last year's reconciliation statement.</div>
-      </div>
-      <div class="field">
-        <label>Last year's monthly CAM estimate ($)</label>
-        <input type="number" id="last-year-monthly" placeholder="0.00">
-        <div class="field-helper">The monthly amount billed as an estimate throughout the year.</div>
-      </div>
+      <div class="field"><label>Last year's total CAM charge ($)</label><input type="number" id="last-year-total" value="108200" placeholder="0.00"><div class="field-helper">Check last year's reconciliation statement.</div></div>
+      <div class="field"><label>Last year's monthly CAM estimate ($)</label><input type="number" id="last-year-monthly" placeholder="0.00"><div class="field-helper">The monthly amount billed as an estimate throughout the year.</div></div>
     </div>
-    <div class="field">
-      <label>Notes about this property or landlord</label>
-      <textarea rows="3" placeholder="Anything useful for the review, e.g. ongoing works, previous disputes."></textarea>
-    </div>
-
+    <div class="field"><label>Notes about this property or landlord</label><textarea rows="3" placeholder="Anything useful for the review, e.g. ongoing works, previous disputes."></textarea></div>
     <div style="margin-top:2rem">
       <div id="next-hint" class="text-faint mb-1" style="text-align:right; display:none">Upload your CAM statement and lease to continue.</div>
       <div class="flex-end">
         <button class="btn btn-secondary" onclick="goTo('screen-home')">Back</button>
-        <button class="btn btn-primary" id="btn-next-upload" onclick="goTo('screen-summary')">Next</button>
+        <button class="btn btn-primary" id="btn-next-upload" onclick="setStep(2); goTo('screen-summary')">Next</button>
       </div>
     </div>
-
-    <div class="lock-notice">
-      <span>🔒</span> Your files are stored securely and are only used for this review.
-    </div>
+    <div class="lock-notice"><span>🔒</span> Your files are stored securely and are only used for this review.</div>
   </div>
 </div>
 
 <!-- SCREEN 4: REVIEW SUMMARY -->
 <div id="screen-summary" class="screen">
   <nav class="nav">
-    <div class="nav-left">
-      <div class="nav-brand">REAL</div>
-      <button class="nav-home-btn" onclick="goTo('screen-home')">← Home</button>
-    </div>
+    <div class="nav-left"><div class="nav-brand">REAL</div><button class="nav-home-btn" onclick="goTo('screen-home')">← Home</button></div>
     <div class="nav-steps" id="steps-summary"></div>
-    <div class="nav-right">
-      <div class="nav-property">200 West 57th Street</div>
-      <div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div>
-    </div>
+    <div class="nav-right"><div class="nav-property">200 West 57th Street</div><div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div></div>
   </nav>
   <div class="page">
     <div class="page-header">
       <h1>Check the details we found</h1>
       <p>We've read your documents. Check that the key information looks right before running the review.</p>
     </div>
-
     <div class="property-card">
       <div class="prop-item"><div class="prop-label">Property</div><div class="prop-value">200 West 57th Street</div></div>
       <div class="prop-item"><div class="prop-label">Suite</div><div class="prop-value">Suite 1400, Floors 14–15</div></div>
@@ -568,9 +402,7 @@
       <div class="prop-item"><div class="prop-label">Lease expiry</div><div class="prop-value">January 31, 2027</div></div>
       <div class="prop-item"><div class="prop-label">Years remaining</div><div class="prop-value" style="color:var(--ink-muted)">1 year 7 months</div></div>
     </div>
-
     <div class="two-col">
-      <!-- CAM Statement card — now includes extra context fields -->
       <div class="card">
         <h3 style="margin-bottom:1rem">CAM statement</h3>
         <div class="data-row"><span class="data-label">Review period</span><span class="data-value">FY2024 (Jan 1 – Dec 31, 2024)</span></div>
@@ -584,8 +416,6 @@
         <div class="data-row"><span class="data-label">Net lettable area</span><span class="data-value">12,400 sq ft</span></div>
         <div class="data-row"><span class="data-label">Bill per sq ft</span><span class="data-value">$10.28/sq ft</span></div>
       </div>
-
-      <!-- Lease terms card -->
       <div class="card">
         <h3 style="margin-bottom:1rem">Lease terms</h3>
         <div class="data-row"><span class="data-label">Pro-rata share</span><span class="data-value">6.40%</span></div>
@@ -596,17 +426,14 @@
         <div class="data-row"><span class="data-label">CAM clauses</span><span class="data-value">§7.3 through §7.9</span></div>
       </div>
     </div>
-
     <div class="banner banner-amber">
       <div class="banner-icon">⚠</div>
       <div>Your dispute window closes on <strong>April 29, 2025</strong>. That is <strong>47 days</strong> from today. After this date, you may lose the right to formally dispute this statement.</div>
     </div>
-
     <div class="banner banner-blue" style="margin-bottom:0">
       <div class="banner-icon">ℹ</div>
       <div>You have <strong>1 year and 7 months</strong> remaining on this lease. If you are considering renewal, you may wish to use any overcharges as part of those negotiations rather than raising a formal dispute now.</div>
     </div>
-
     <hr class="divider">
     <p class="text-faint text-right mt-2">Running the review usually takes about 30 seconds.</p>
     <div class="flex-end mt-1">
@@ -633,41 +460,21 @@
 <!-- SCREEN 5: ANALYSIS -->
 <div id="screen-analysis" class="screen">
   <nav class="nav">
-    <div class="nav-left">
-      <div class="nav-brand">REAL</div>
-      <button class="nav-home-btn" onclick="goTo('screen-home')">← Home</button>
-    </div>
+    <div class="nav-left"><div class="nav-brand">REAL</div><button class="nav-home-btn" onclick="goTo('screen-home')">← Home</button></div>
     <div class="nav-steps" id="steps-analysis"></div>
-    <div class="nav-right">
-      <div class="nav-property">200 West 57th Street</div>
-      <div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div>
-    </div>
+    <div class="nav-right"><div class="nav-property">200 West 57th Street</div><div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div></div>
   </nav>
   <div class="page-wide" style="padding-bottom:7rem">
     <div class="page-header">
       <h1>Review complete</h1>
       <p>We found 3 potential issues. Two are strong enough to dispute. One needs more information first.</p>
     </div>
-
     <div class="stat-bar stat-bar-4">
-      <div class="stat-cell">
-        <div class="stat-cell-label">Billed</div>
-        <div class="stat-cell-value">$127,440</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-cell-label">Expected (based on lease)</div>
-        <div class="stat-cell-value">$113,820</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-cell-label">Possible overcharge</div>
-        <div class="stat-cell-value blue">$18,620</div>
-      </div>
-      <div class="stat-cell">
-        <div class="stat-cell-label">Days to dispute</div>
-        <div class="stat-cell-value amber">47</div>
-      </div>
+      <div class="stat-cell"><div class="stat-cell-label">Billed</div><div class="stat-cell-value">$127,440</div></div>
+      <div class="stat-cell"><div class="stat-cell-label">Expected (based on lease)</div><div class="stat-cell-value">$113,820</div></div>
+      <div class="stat-cell"><div class="stat-cell-label">Possible overcharge</div><div class="stat-cell-value blue">$18,620</div></div>
+      <div class="stat-cell"><div class="stat-cell-label">Days to dispute</div><div class="stat-cell-value amber">47</div></div>
     </div>
-
     <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:1rem;">
       <h2>What we found</h2>
       <p class="text-faint">Select the issues you want to include in your dispute letter.</p>
@@ -684,10 +491,7 @@
             <div class="issue-summary">Your lease says CAM costs cannot go up by more than 5% each year. This year's bill is 17.8% higher than last year. That is more than three times the limit in your lease.</div>
           </div>
         </div>
-        <div class="issue-header-right">
-          <span class="issue-amount blue">$12,080</span>
-          <span class="issue-amount-label">potential overcharge</span>
-        </div>
+        <div class="issue-header-right"><span class="issue-amount blue">$12,080</span><span class="issue-amount-label">potential overcharge</span></div>
         <div class="issue-chevron">▼</div>
       </div>
       <div class="issue-body">
@@ -713,10 +517,7 @@
             <div class="issue-summary">Your lease caps the management fee at 3% of costs. Your landlord charged 4.8%. That extra 1.8% adds up to an overcharge of $1,775.</div>
           </div>
         </div>
-        <div class="issue-header-right">
-          <span class="issue-amount blue">$1,775</span>
-          <span class="issue-amount-label">potential overcharge</span>
-        </div>
+        <div class="issue-header-right"><span class="issue-amount blue">$1,775</span><span class="issue-amount-label">potential overcharge</span></div>
         <div class="issue-chevron">▼</div>
       </div>
       <div class="issue-body">
@@ -741,18 +542,12 @@
             <div class="issue-summary">Your landlord included a charge called 'Lobby renovation — Phase 2' for $28,400. Your lease excludes major building improvements from CAM. We cannot confirm whether this qualifies until you see the contractor invoice.</div>
           </div>
         </div>
-        <div class="issue-header-right">
-          <span class="issue-amount" style="color:var(--ink-muted)">$1,821</span>
-          <span class="issue-amount-label">your share if excluded</span>
-        </div>
+        <div class="issue-header-right"><span class="issue-amount" style="color:var(--ink-muted)">$1,821</span><span class="issue-amount-label">your share if excluded</span></div>
         <div class="issue-chevron">▼</div>
       </div>
       <div class="issue-body">
         <div class="issue-clause">§7.5 — "Capital Improvements, defined as expenditures that extend the useful life of a building component or add new functionality, shall be excluded from Common Area Maintenance expenses."</div>
-        <div style="font-size:0.83rem; color:var(--ink-muted); line-height:1.55; margin-top:0.75rem;">
-          Your lease excludes capital improvements from CAM. The line item 'Lobby renovation — Phase 2' at $28,400 may qualify as a capital improvement — but without the contractor invoice, we cannot determine whether the work extended the building's useful life or was routine maintenance.<br><br>
-          <strong>Recommended next step:</strong> Request the contractor invoice and scope of work before including this item in any dispute. A weak or unsupported claim can undermine the stronger claims you already have. Once you have the backup, you can tick the box above to include it.
-        </div>
+        <div style="font-size:0.83rem; color:var(--ink-muted); line-height:1.55; margin-top:0.75rem;">Your lease excludes capital improvements from CAM. The line item 'Lobby renovation — Phase 2' at $28,400 may qualify — but without the contractor invoice, we cannot confirm whether the work extended the building's useful life or was routine maintenance.<br><br><strong>Recommended next step:</strong> Request the contractor invoice before including this item. A weak or unsupported claim can undermine the stronger claims you already have. Once you have the backup, tick the box above to include it.</div>
       </div>
     </div>
   </div>
@@ -760,8 +555,9 @@
   <div class="action-bar">
     <div class="action-bar-left" id="action-bar-text">2 issues selected. Total potential recovery: <strong>$13,855</strong>.</div>
     <div class="action-bar-right">
+      <button class="btn btn-ghost" onclick="openAcceptModal()">Accept charges</button>
       <button class="btn btn-secondary">Request backup documents</button>
-      <button class="btn btn-primary" id="btn-build-letter" onclick="goTo('screen-letter')">Build dispute letter</button>
+      <button class="btn btn-primary" id="btn-build-letter" onclick="buildLetter()">Build dispute letter</button>
     </div>
   </div>
 </div>
@@ -769,27 +565,19 @@
 <!-- SCREEN 6: DISPUTE LETTER -->
 <div id="screen-letter" class="screen">
   <nav class="nav">
-    <div class="nav-left">
-      <div class="nav-brand">REAL</div>
-      <button class="nav-home-btn" onclick="goTo('screen-home')">← Home</button>
-    </div>
+    <div class="nav-left"><div class="nav-brand">REAL</div><button class="nav-home-btn" onclick="goTo('screen-home')">← Home</button></div>
     <div class="nav-steps" id="steps-letter"></div>
-    <div class="nav-right">
-      <div class="nav-property">200 West 57th Street</div>
-      <div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div>
-    </div>
+    <div class="nav-right"><div class="nav-property">200 West 57th Street</div><div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div></div>
   </nav>
   <div class="page" style="padding-bottom:6rem">
     <div class="page-header">
       <h1>Your dispute letter</h1>
       <p>We've drafted a letter based on the issues you selected. Read it carefully and edit anything before you send it.</p>
     </div>
-
-    <div class="banner banner-green">
+    <div id="letter-banner" class="banner banner-green">
       <div class="banner-icon">ℹ</div>
-      <div>This letter covers 2 of 3 issues found. The lobby renovation item has been left out because you do not yet have the contractor invoice. Once you have it, you can add that item manually.</div>
+      <div id="letter-banner-text"></div>
     </div>
-
     <div class="card" style="padding:0; overflow:hidden">
       <div class="letter-toolbar">
         <div class="letter-filename">dispute_letter_200W57_FY2024.txt</div>
@@ -798,53 +586,11 @@
           <button class="btn btn-secondary" onclick="downloadLetter()">Download</button>
         </div>
       </div>
-      <div class="letter-body" id="letter-body" contenteditable="true">
-<p style="margin-bottom:1.2em"><span class="placeholder-field">[Date]</span></p>
-
-<p style="margin-bottom:1.2em">Broad Street Partners LLC<br>
-Property Management Division<br>
-1221 Avenue of the Americas, Suite 4400<br>
-New York, NY 10020</p>
-
-<p style="margin-bottom:1.2em"><strong>Re: Formal Dispute — FY2024 CAM Reconciliation</strong><br>
-Suite 1400, 200 West 57th Street, New York, NY<br>
-Lease dated January 14, 2019</p>
-
-<p style="margin-bottom:1.2em">Dear Property Manager,</p>
-
-<p style="margin-bottom:1.2em">I am writing to formally dispute the FY2024 Common Area Maintenance reconciliation statement issued <span class="fig-red">March 1, 2025</span>, in the amount of <span class="fig-red">$127,440</span>. Pursuant to <span class="clause-ref">§9.1</span> of our Lease, I am submitting this dispute within the required 60-day window.</p>
-
-<p style="margin-bottom:1.2em">Based on my review of the reconciliation statement and the terms of our Lease, I have identified two overcharges totalling <span class="fig-red">$13,855</span>, detailed below.</p>
-
-<p style="margin-bottom:0.6em"><strong>Item 1 — CAM cap breach (<span class="clause-ref">§7.4</span>)</strong></p>
-
-<p style="margin-bottom:1.2em">Our Lease at <span class="clause-ref">§7.4</span> limits year-over-year increases in Controllable Expenses to five percent (5%). FY2024 controllable expenses are billed at <span class="fig-red">$98,600</span>, representing an increase of <span class="fig-red">17.8%</span> over the FY2023 figure of <span class="fig-red">$82,400</span>. The maximum permitted amount under the cap is <span class="fig-red">$86,520</span>. I therefore dispute <span class="fig-red">$12,080</span> as an overcharge on this item.</p>
-
-<p style="margin-bottom:0.6em"><strong>Item 2 — Management fee ceiling (<span class="clause-ref">§7.6</span>)</strong></p>
-
-<p style="margin-bottom:1.2em">Our Lease at <span class="clause-ref">§7.6</span> limits management fees to three percent (3%) of Controllable Expenses. The FY2024 reconciliation reflects a management fee of <span class="fig-red">4.8%</span>, totalling <span class="fig-red">$4,733</span>. The maximum permitted fee at 3.0% is <span class="fig-red">$2,958</span>. I therefore dispute <span class="fig-red">$1,775</span> as an overcharge on this item.</p>
-
-<p style="margin-bottom:0.6em"><strong>Summary</strong></p>
-
-<p style="margin-bottom:1.2em">I accept the adjusted balance of <span class="fig-red">$113,585</span> (total billed of <span class="fig-red">$127,440</span> less disputed amount of <span class="fig-red">$13,855</span>) and will remit payment upon your written confirmation of the above adjustments.</p>
-
-<p style="margin-bottom:1.2em">I also request, pursuant to <span class="clause-ref">§9.2</span> of the Lease, the original contractor invoice and scope of work for the line item "Lobby renovation — Phase 2" (<span class="fig-red">$28,400</span>), to determine whether this expenditure qualifies as a capital improvement under <span class="clause-ref">§7.5</span>.</p>
-
-<p style="margin-bottom:1.2em">Please respond within 30 days. I am available to discuss at your convenience.</p>
-
-<p style="margin-bottom:1.2em">Regards,</p>
-
-<p>Jennifer Walsh<br>
-<span class="placeholder-field">[Title]</span><br>
-<span class="placeholder-field">[Company]</span><br>
-<span class="placeholder-field">[Email]</span><br>
-<span class="placeholder-field">[Phone]</span></p>
-      </div>
+      <div class="letter-body" id="letter-body" contenteditable="true"></div>
     </div>
-
     <div class="flex-end mt-3">
       <button class="btn btn-secondary" onclick="goTo('screen-analysis')">Back to analysis</button>
-      <button class="btn btn-primary" onclick="goTo('screen-outcome')">Mark as sent</button>
+      <button class="btn btn-primary" onclick="setStep(5); goTo('screen-outcome')">Mark as sent</button>
     </div>
   </div>
 </div>
@@ -852,62 +598,41 @@ Lease dated January 14, 2019</p>
 <!-- SCREEN 7: LOG OUTCOME -->
 <div id="screen-outcome" class="screen">
   <nav class="nav">
-    <div class="nav-left">
-      <div class="nav-brand">REAL</div>
-      <button class="nav-home-btn" onclick="goTo('screen-home')">← Home</button>
-    </div>
+    <div class="nav-left"><div class="nav-brand">REAL</div><button class="nav-home-btn" onclick="goTo('screen-home')">← Home</button></div>
     <div class="nav-steps" id="steps-outcome"></div>
-    <div class="nav-right">
-      <div class="nav-property">200 West 57th Street</div>
-      <div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div>
-    </div>
+    <div class="nav-right"><div class="nav-property">200 West 57th Street</div><div class="nav-user"><span>Jennifer Walsh</span><div class="avatar">JW</div></div></div>
   </nav>
   <div class="page">
     <div class="page-header">
       <h1>Log the result</h1>
       <p>Once your dispute is resolved, record what happened here. This keeps your records complete.</p>
     </div>
-
     <div class="card mb-2" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; font-family:-apple-system,sans-serif;">
       <div class="prop-item"><div class="prop-label">Property</div><div class="prop-value">200 West 57th Street</div></div>
       <div class="prop-item"><div class="prop-label">Date sent</div><div class="prop-value" id="outcome-date-sent">—</div></div>
-      <div class="prop-item"><div class="prop-label">Amount disputed</div><div class="prop-value">$13,855</div></div>
+      <div class="prop-item"><div class="prop-label">Amount disputed</div><div class="prop-value" id="outcome-disputed-amount">—</div></div>
     </div>
-
     <div id="outcome-form">
       <div class="card">
         <h3 style="margin-bottom:1.25rem">What was the outcome?</h3>
         <div class="field">
           <label>Resolution</label>
           <div class="resolution-group">
-            <label class="resolution-option selected" id="opt-full">
-              <input type="radio" name="resolution" value="full" checked> Landlord agreed in full
-            </label>
-            <label class="resolution-option" id="opt-partial">
-              <input type="radio" name="resolution" value="partial"> Partial agreement
-            </label>
-            <label class="resolution-option" id="opt-rejected">
-              <input type="radio" name="resolution" value="rejected"> Landlord rejected dispute
-            </label>
+            <label class="resolution-option selected" id="opt-full"><input type="radio" name="resolution" value="full" checked> Landlord agreed in full</label>
+            <label class="resolution-option" id="opt-partial"><input type="radio" name="resolution" value="partial"> Partial agreement</label>
+            <label class="resolution-option" id="opt-rejected"><input type="radio" name="resolution" value="rejected"> Landlord rejected dispute</label>
           </div>
         </div>
         <div class="field-row">
-          <div class="field">
-            <label>Amount recovered ($)</label>
-            <input type="number" id="amount-recovered" value="13855" min="0">
-            <div class="field-helper">Enter the credit your landlord agreed to. If nothing was recovered, leave as 0.</div>
-          </div>
-          <div class="field">
-            <label>Date resolved</label>
-            <input type="date" id="date-resolved" value="2025-05-14">
-          </div>
+          <div class="field"><label>Amount recovered ($)</label><input type="number" id="amount-recovered" value="" min="0"><div class="field-helper">Enter the credit your landlord agreed to. If nothing was recovered, leave as 0.</div></div>
+          <div class="field"><label>Date resolved</label><input type="date" id="date-resolved" value="2025-05-14"></div>
         </div>
         <div class="flex-end">
+          <button class="btn btn-secondary" onclick="goTo('screen-letter')">Back to letter</button>
           <button class="btn btn-primary" onclick="saveOutcome()">Save outcome</button>
         </div>
       </div>
     </div>
-
     <div id="outcome-confirmation" style="display:none">
       <div class="card outcome-confirm">
         <div class="outcome-confirm-type" id="confirm-type-msg"></div>
@@ -915,32 +640,71 @@ Lease dated January 14, 2019</p>
         <div class="text-faint mt-2" id="confirm-date"></div>
         <hr class="divider">
         <p class="text-faint">This review is now complete. You can view it any time from your home screen.</p>
-        <div class="mt-3">
-          <button class="btn btn-secondary" onclick="renderCompletedReviews(); goTo('screen-home')">Back to home</button>
-        </div>
+        <div class="mt-3"><button class="btn btn-secondary" onclick="finaliseAndGoHome()">Back to home</button></div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- Accept charges confirmation modal -->
+<div class="modal-overlay" id="accept-modal">
+  <div class="modal">
+    <h3>Accept charges without disputing</h3>
+    <p>This will close the review for 200 West 57th Street and record that you accepted the FY2024 CAM bill of $127,440 as received. You will not be able to reopen a formal dispute after the deadline on April 29, 2025.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeAcceptModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmAcceptCharges()">Accept charges</button>
+    </div>
+  </div>
+</div>
+
 <script>
-const uploadState = { cam: true, lease: true };
+// ── Issue data ──
+const ISSUES = {
+  'check-1': { id: 1, amount: 12080, heading: 'CAM cap breach (§7.4)', body: `Our Lease at <span class="clause-ref">§7.4</span> limits year-over-year increases in Controllable Expenses to five percent (5%). FY2024 controllable expenses are billed at <span class="fig-red">$98,600</span>, representing an increase of <span class="fig-red">17.8%</span> over the FY2023 figure of <span class="fig-red">$82,400</span>. The maximum permitted amount under the cap is <span class="fig-red">$86,520</span>. I therefore dispute <span class="fig-red">$12,080</span> as an overcharge on this item.` },
+  'check-2': { id: 2, amount: 1775, heading: 'Management fee ceiling (§7.6)', body: `Our Lease at <span class="clause-ref">§7.6</span> limits management fees to three percent (3%) of Controllable Expenses. The FY2024 reconciliation reflects a management fee of <span class="fig-red">4.8%</span>, totalling <span class="fig-red">$4,733</span>. The maximum permitted fee at 3.0% is <span class="fig-red">$2,958</span>. I therefore dispute <span class="fig-red">$1,775</span> as an overcharge on this item.` },
+  'check-3': { id: 3, amount: 1821, heading: 'Possible capital improvement exclusion (§7.5)', body: `Our Lease at <span class="clause-ref">§7.5</span> excludes Capital Improvements from Common Area Maintenance expenses. The FY2024 reconciliation includes a charge of <span class="fig-red">$28,400</span> for "Lobby renovation — Phase 2". Our pro-rata share of this charge is <span class="fig-red">$1,821</span>. I dispute this item pending receipt of the original contractor invoice confirming whether this expenditure constitutes a capital improvement.` }
+};
+
+// ── Review state ──
+// Tracks: step (1–5), screen to resume, display info
+let reviewState = {
+  step: 1,
+  disputedTotal: 0,
+  outcome: null
+};
+
+// Static previous reviews (seeded)
+let previousReviews = [
+  { id: 'fifth-500', address: '500 Fifth Avenue', suite: 'Suite 2300', step: 3, screen: 'screen-analysis', status: 'in-progress', meta: ['Updated 3 days ago'], metaColours: [''], extra: [{ text: '⚠ 38 days left to dispute', color: 'var(--amber)' }, { text: '$9,240 strong basis to dispute', color: 'var(--blue-light)' }] },
+  { id: 'americas-1221', address: '1221 Avenue of the Americas', suite: 'Suite 800', step: 5, screen: 'screen-analysis', status: 'resolved', meta: ['Updated 6 weeks ago'], extra: [{ text: '$7,150 recovered', color: 'var(--green)' }] }
+];
+
+// ── Navigation ──
 const STEP_SCREENS = { 'screen-upload':1, 'screen-summary':2, 'screen-analysis':3, 'screen-letter':4, 'screen-outcome':5 };
 const STEP_LABELS = ['Upload documents','Review summary','Analysis','Dispute letter','Log outcome'];
 const STEP_TARGETS = ['screen-upload','screen-summary','screen-analysis','screen-letter','screen-outcome'];
-const ISSUE_AMOUNTS = { 'check-1': 12080, 'check-2': 1775, 'check-3': 1821 };
 
 function goTo(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0, 0);
   renderSteps(id);
+  if (id === 'screen-home') renderPreviousReviews();
+}
+
+function setStep(n) {
+  reviewState.step = Math.max(reviewState.step, n);
+}
+
+function startNewReview() {
+  reviewState = { step: 1, disputedTotal: 0, outcome: null };
+  goTo('screen-upload');
 }
 
 function renderSteps(screenId) {
   const activeStep = STEP_SCREENS[screenId] || 0;
-  const navIds = ['steps-upload','steps-summary','steps-analysis','steps-letter','steps-outcome'];
-  navIds.forEach(navId => {
+  ['steps-upload','steps-summary','steps-analysis','steps-letter','steps-outcome'].forEach(navId => {
     const container = document.getElementById(navId);
     if (!container) return;
     container.innerHTML = '';
@@ -948,12 +712,7 @@ function renderSteps(screenId) {
       const num = i + 1;
       const isDone = num < activeStep;
       const isActive = num === activeStep;
-      if (i > 0) {
-        const sep = document.createElement('div');
-        sep.className = 'nav-step-sep';
-        sep.textContent = '›';
-        container.appendChild(sep);
-      }
+      if (i > 0) { const sep = document.createElement('div'); sep.className = 'nav-step-sep'; sep.textContent = '›'; container.appendChild(sep); }
       const step = document.createElement('div');
       step.className = 'nav-step' + (isActive ? ' active' : '') + (isDone ? ' done' : '');
       step.innerHTML = `<div class="nav-step-num">${isDone ? '✓' : num}</div><span>${label}</span>`;
@@ -963,23 +722,53 @@ function renderSteps(screenId) {
   });
 }
 
+// ── Previous reviews rendering ──
+function renderPreviousReviews() {
+  const container = document.getElementById('previous-reviews-list');
+  if (!container) return;
+  container.innerHTML = previousReviews.map(r => {
+    const isResolved = r.status === 'resolved' || r.status === 'accepted';
+    const btnLabel = isResolved ? 'View' : (r.step > 1 ? 'Continue' : 'Start');
+    const pillClass = r.status === 'resolved' ? 'pill-green' : r.status === 'accepted' ? 'pill-gray' : 'pill-amber';
+    const pillLabel = r.status === 'resolved' ? 'Resolved' : r.status === 'accepted' ? 'Accepted' : 'In progress';
+    const stepLabel = !isResolved ? `<span class="tenancy-meta-item" style="color:var(--ink-faint)">Step ${r.step} of 5: ${STEP_LABELS[r.step - 1]}</span>` : '';
+    const extras = (r.extra || []).map(e => `<span class="tenancy-meta-item" style="color:${e.color}">${e.text}</span>`).join('');
+    return `
+      <div class="tenancy-card">
+        <div class="tenancy-card-info">
+          <div class="tenancy-address">${r.address}${r.suite ? ', ' + r.suite : ''}</div>
+          <div class="tenancy-meta">${stepLabel}${extras}</div>
+        </div>
+        <div class="tenancy-card-right">
+          <span class="pill ${pillClass}">${pillLabel}</span>
+          <button class="tenancy-action-btn" onclick="resumeReview('${r.id}')">${btnLabel}</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function resumeReview(id) {
+  const r = previousReviews.find(x => x.id === id);
+  if (!r) return;
+  goTo(r.screen);
+}
+
+// ── Loading sequence ──
 function startLoading() {
+  setStep(3);
   goTo('screen-loading');
   const steps = ['ls-1','ls-2','ls-3','ls-4'];
-  steps.forEach(id => {
-    document.getElementById(id).classList.remove('lit');
-    document.getElementById(id).querySelector('.loading-step-icon').textContent = '○';
-  });
+  steps.forEach(id => { document.getElementById(id).classList.remove('lit'); document.getElementById(id).querySelector('.loading-step-icon').textContent = '○'; });
   steps.forEach((id, i) => {
     setTimeout(() => {
       const el = document.getElementById(id);
-      el.classList.add('lit');
-      el.querySelector('.loading-step-icon').textContent = '●';
+      el.classList.add('lit'); el.querySelector('.loading-step-icon').textContent = '●';
       if (i === steps.length - 1) setTimeout(() => goTo('screen-analysis'), 700);
     }, 600 * (i + 1));
   });
 }
 
+// ── Issue accordion ──
 function toggleIssue(id) {
   const card = document.getElementById(id);
   const isOpen = card.classList.contains('open');
@@ -987,97 +776,152 @@ function toggleIssue(id) {
   if (!isOpen) card.classList.add('open');
 }
 
+// ── Action bar ──
+function getSelectedIssues() {
+  return Object.entries(ISSUES).filter(([id]) => { const cb = document.getElementById(id); return cb && cb.checked; }).map(([,issue]) => issue);
+}
+
 function updateActionBar() {
-  let total = 0, count = 0;
-  Object.entries(ISSUE_AMOUNTS).forEach(([id, amt]) => {
-    const cb = document.getElementById(id);
-    if (cb && cb.checked) { total += amt; count++; }
-  });
+  const selected = getSelectedIssues();
+  const total = selected.reduce((s, i) => s + i.amount, 0);
   const el = document.getElementById('action-bar-text');
   const btn = document.getElementById('btn-build-letter');
-  if (count === 0) {
-    el.innerHTML = 'No issues selected.';
-    btn.disabled = true;
-  } else {
-    el.innerHTML = `${count} issue${count > 1 ? 's' : ''} selected. Total potential recovery: <strong>$${total.toLocaleString()}</strong>.`;
-    btn.disabled = false;
-  }
+  if (selected.length === 0) { el.innerHTML = 'No issues selected.'; btn.disabled = true; }
+  else { el.innerHTML = `${selected.length} issue${selected.length > 1 ? 's' : ''} selected. Total potential recovery: <strong>$${total.toLocaleString()}</strong>.`; btn.disabled = false; }
 }
 
-function triggerUpload(inputId) {
-  document.getElementById(inputId).click();
+// ── Letter generation ──
+function buildLetter() {
+  setStep(4);
+  generateLetter();
+  goTo('screen-letter');
 }
 
+function generateLetter() {
+  const selected = getSelectedIssues().sort((a, b) => a.id - b.id);
+  const total = selected.reduce((s, i) => s + i.amount, 0);
+  const adjusted = (127440 - total).toLocaleString();
+  const totalStr = `$${total.toLocaleString()}`;
+  reviewState.disputedTotal = total;
+
+  // Update outcome disputed amount
+  const dispEl = document.getElementById('outcome-disputed-amount');
+  if (dispEl) dispEl.textContent = totalStr;
+
+  // Update "full" radio to match
+  const amtInput = document.getElementById('amount-recovered');
+  const fullOpt = document.querySelector('.resolution-option.selected input');
+  if (amtInput && fullOpt && fullOpt.value === 'full') amtInput.value = total;
+
+  // Banner
+  const totalIssues = Object.keys(ISSUES).length;
+  const missing = totalIssues - selected.length;
+  const bannerEl = document.getElementById('letter-banner-text');
+  if (missing === 0) bannerEl.textContent = `This letter covers all ${totalIssues} issues found.`;
+  else if (selected.length === 0) bannerEl.textContent = 'No issues are selected. Go back to analysis and select at least one issue.';
+  else bannerEl.textContent = `This letter covers ${selected.length} of ${totalIssues} issues found. The remaining ${missing === 1 ? 'issue has' : 'issues have'} been left out based on your selection.`;
+
+  // Item paragraphs
+  const itemsHtml = selected.map((issue, idx) => `
+<p style="margin-bottom:0.6em"><strong>Item ${idx + 1} — ${issue.heading}</strong></p>
+<p style="margin-bottom:1.2em">${issue.body}</p>`).join('');
+
+  // Optional lobby records request (if issue 3 not included)
+  const hasIssue3 = selected.some(i => i.id === 3);
+  const lobbyRequest = !hasIssue3 ? `
+<p style="margin-bottom:1.2em">I also request, pursuant to <span class="clause-ref">§9.2</span> of the Lease, the original contractor invoice and scope of work for the line item "Lobby renovation — Phase 2" (<span class="fig-red">$28,400</span>), to determine whether this expenditure qualifies as a capital improvement under <span class="clause-ref">§7.5</span>.</p>` : '';
+
+  const countPhrase = selected.length === 1 ? 'one overcharge' : `${selected.length} overcharges`;
+
+  document.getElementById('letter-body').innerHTML = `
+<p style="margin-bottom:1.2em"><span class="placeholder-field">[Date]</span></p>
+<p style="margin-bottom:1.2em">Broad Street Partners LLC<br>Property Management Division<br>1221 Avenue of the Americas, Suite 4400<br>New York, NY 10020</p>
+<p style="margin-bottom:1.2em"><strong>Re: Formal Dispute — FY2024 CAM Reconciliation</strong><br>Suite 1400, 200 West 57th Street, New York, NY<br>Lease dated January 14, 2019</p>
+<p style="margin-bottom:1.2em">Dear Property Manager,</p>
+<p style="margin-bottom:1.2em">I am writing to formally dispute the FY2024 Common Area Maintenance reconciliation statement issued <span class="fig-red">March 1, 2025</span>, in the amount of <span class="fig-red">$127,440</span>. Pursuant to <span class="clause-ref">§9.1</span> of our Lease, I am submitting this dispute within the required 60-day window.</p>
+<p style="margin-bottom:1.2em">Based on my review of the reconciliation statement and the terms of our Lease, I have identified ${countPhrase} totalling <span class="fig-red">${totalStr}</span>, detailed below.</p>
+${itemsHtml}
+<p style="margin-bottom:0.6em"><strong>Summary</strong></p>
+<p style="margin-bottom:1.2em">I accept the adjusted balance of <span class="fig-red">$${adjusted}</span> (total billed of <span class="fig-red">$127,440</span> less disputed amount of <span class="fig-red">${totalStr}</span>) and will remit payment upon your written confirmation of the above adjustments.</p>
+${lobbyRequest}
+<p style="margin-bottom:1.2em">Please respond within 30 days. I am available to discuss at your convenience.</p>
+<p style="margin-bottom:1.2em">Regards,</p>
+<p>Jennifer Walsh<br><span class="placeholder-field">[Title]</span><br><span class="placeholder-field">[Company]</span><br><span class="placeholder-field">[Email]</span><br><span class="placeholder-field">[Phone]</span></p>`;
+}
+
+// ── File upload ──
+const uploadState = { cam: true, lease: true };
+function triggerUpload(id) { document.getElementById(id).click(); }
 function handleFile(input, fileDisplayId, errorId, maxMB) {
-  const file = input.files[0];
-  if (!file) return;
+  const file = input.files[0]; if (!file) return;
   const ext = file.name.split('.').pop().toLowerCase();
   const allowed = ['pdf','doc','docx','xls','xlsx'];
-  const errEl = document.getElementById(errorId);
-  const dispEl = document.getElementById(fileDisplayId);
+  const errEl = document.getElementById(errorId); const dispEl = document.getElementById(fileDisplayId);
   errEl.style.display = 'none';
-  if (!allowed.includes(ext)) {
-    errEl.textContent = 'That file type is not accepted. Please use .pdf, .doc, or .docx.';
-    errEl.style.display = 'block'; input.value = ''; return;
-  }
-  if (file.size > maxMB * 1024 * 1024) {
-    errEl.textContent = `This file is over ${maxMB}MB. Please upload a smaller file.`;
-    errEl.style.display = 'block'; input.value = ''; return;
-  }
+  if (!allowed.includes(ext)) { errEl.textContent = 'That file type is not accepted. Please use .pdf, .doc, or .docx.'; errEl.style.display = 'block'; input.value = ''; return; }
+  if (file.size > maxMB * 1024 * 1024) { errEl.textContent = `This file is over ${maxMB}MB. Please upload a smaller file.`; errEl.style.display = 'block'; input.value = ''; return; }
   dispEl.innerHTML = `<span>✓</span> ${file.name} <button class="upload-remove" onclick="removeFile('${fileDisplayId}','${input.id}','${errorId}')" style="margin-left:0.5rem">Remove</button>`;
   dispEl.style.display = 'flex';
   if (fileDisplayId === 'cam-file') uploadState.cam = true;
   if (fileDisplayId === 'lease-file') uploadState.lease = true;
   checkNextButton();
 }
-
 function removeFile(fileDisplayId, inputId, errorId) {
-  const dispEl = document.getElementById(fileDisplayId);
-  dispEl.innerHTML = ''; dispEl.style.display = 'none';
+  const dispEl = document.getElementById(fileDisplayId); dispEl.innerHTML = ''; dispEl.style.display = 'none';
   document.getElementById(inputId).value = '';
   if (fileDisplayId === 'cam-file') uploadState.cam = false;
   if (fileDisplayId === 'lease-file') uploadState.lease = false;
   checkNextButton();
 }
-
 function checkNextButton() {
-  const btn = document.getElementById('btn-next-upload');
-  const hint = document.getElementById('next-hint');
   const ready = uploadState.cam && uploadState.lease;
-  btn.disabled = !ready;
-  hint.style.display = ready ? 'none' : 'block';
+  document.getElementById('btn-next-upload').disabled = !ready;
+  document.getElementById('next-hint').style.display = ready ? 'none' : 'block';
 }
 
+// ── Letter copy/download ──
 function copyLetter() {
-  const text = document.getElementById('letter-body').innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById('btn-copy');
-    btn.textContent = '✓ Copied';
+  navigator.clipboard.writeText(document.getElementById('letter-body').innerText).then(() => {
+    const btn = document.getElementById('btn-copy'); btn.textContent = '✓ Copied';
     setTimeout(() => { btn.textContent = 'Copy'; }, 1800);
   });
 }
-
 function downloadLetter() {
-  const text = document.getElementById('letter-body').innerText;
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
-  a.download = 'dispute_letter_200W57_FY2024.txt';
-  a.click();
+  a.href = URL.createObjectURL(new Blob([document.getElementById('letter-body').innerText], { type: 'text/plain' }));
+  a.download = 'dispute_letter_200W57_FY2024.txt'; a.click();
 }
 
+// ── Accept charges ──
+function openAcceptModal() { document.getElementById('accept-modal').classList.add('open'); }
+function closeAcceptModal() { document.getElementById('accept-modal').classList.remove('open'); }
+function confirmAcceptCharges() {
+  closeAcceptModal();
+  const today = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+  previousReviews.unshift({
+    id: 'w57-accepted',
+    address: '200 West 57th Street',
+    suite: 'Suite 1400',
+    step: 5,
+    screen: 'screen-analysis',
+    status: 'accepted',
+    extra: [{ text: `Accepted ${today}`, color: 'var(--ink-faint)' }, { text: '$127,440 accepted as billed', color: 'var(--ink-muted)' }]
+  });
+  goTo('screen-home');
+}
+
+// ── Outcome ──
 document.querySelectorAll('.resolution-option').forEach(opt => {
   opt.addEventListener('click', () => {
     document.querySelectorAll('.resolution-option').forEach(o => o.classList.remove('selected'));
     opt.classList.add('selected');
     const val = opt.querySelector('input').value;
     const amtInput = document.getElementById('amount-recovered');
-    if (val === 'full') amtInput.value = '13855';
+    if (val === 'full') amtInput.value = reviewState.disputedTotal || '';
     else if (val === 'rejected') amtInput.value = '0';
     else amtInput.value = '';
   });
 });
-
-let completedReview = null;
 
 function saveOutcome() {
   const resEl = document.querySelector('.resolution-option.selected input');
@@ -1085,50 +929,45 @@ function saveOutcome() {
   const amt = parseFloat(document.getElementById('amount-recovered').value) || 0;
   const dateVal = document.getElementById('date-resolved').value;
   const dateStr = dateVal ? new Date(dateVal + 'T12:00:00').toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' }) : '—';
+  reviewState.outcome = { res, amt, dateStr };
   document.getElementById('outcome-form').style.display = 'none';
   document.getElementById('outcome-confirmation').style.display = 'block';
   let typeMsg = '';
   if (res === 'full') typeMsg = 'Your landlord agreed to the full disputed amount.';
-  else if (res === 'partial') typeMsg = `You recovered $${amt.toLocaleString()} on a disputed amount of $13,855.`;
+  else if (res === 'partial') typeMsg = `You recovered $${amt.toLocaleString()} on a disputed amount of $${(reviewState.disputedTotal||0).toLocaleString()}.`;
   else typeMsg = 'Your landlord rejected the dispute. You may want to seek legal advice if you believe the charges are incorrect.';
   document.getElementById('confirm-type-msg').textContent = typeMsg;
   const amtEl = document.getElementById('confirm-amount');
   amtEl.textContent = amt > 0 ? `$${amt.toLocaleString()} recovered` : '$0 recovered';
   amtEl.className = 'outcome-confirm-amount' + (amt > 0 ? '' : ' zero');
   document.getElementById('confirm-date').textContent = `Resolved: ${dateStr}`;
-
-  // Store the completed review so it can appear on the home screen
-  completedReview = { res, amt, dateStr };
 }
 
-function renderCompletedReviews() {
-  const container = document.getElementById('completed-reviews');
-  if (!container || !completedReview) return;
-  const { res, amt, dateStr } = completedReview;
+function finaliseAndGoHome() {
+  const { res, amt, dateStr } = reviewState.outcome || {};
   const amtMeta = amt > 0
-    ? `<span class="tenancy-meta-item" style="color:var(--green)">$${amt.toLocaleString()} recovered</span>`
-    : `<span class="tenancy-meta-item" style="color:var(--ink-faint)">No amount recovered</span>`;
-  container.innerHTML = `
-    <div class="tenancy-card">
-      <div class="tenancy-card-info">
-        <div class="tenancy-address">200 West 57th Street, Suite 1400</div>
-        <div class="tenancy-meta">
-          <span class="tenancy-meta-item">Resolved ${dateStr}</span>
-          ${amtMeta}
-        </div>
-      </div>
-      <div class="tenancy-card-right">
-        <span class="pill pill-green">Resolved</span>
-        <button class="tenancy-continue" onclick="goTo('screen-analysis')">View</button>
-      </div>
-    </div>`;
+    ? { text: `$${amt.toLocaleString()} recovered`, color: 'var(--green)' }
+    : { text: 'No amount recovered', color: 'var(--ink-faint)' };
+  // Remove any earlier entry for this property
+  previousReviews = previousReviews.filter(r => r.id !== 'w57-200');
+  previousReviews.unshift({
+    id: 'w57-200',
+    address: '200 West 57th Street',
+    suite: 'Suite 1400',
+    step: 5,
+    screen: 'screen-analysis',
+    status: 'resolved',
+    extra: [{ text: `Resolved ${dateStr}`, color: 'var(--ink-faint)' }, amtMeta]
+  });
+  goTo('screen-home');
 }
 
-const dateSentEl = document.getElementById('outcome-date-sent');
-if (dateSentEl) dateSentEl.textContent = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
-
+// ── Init ──
 checkNextButton();
 updateActionBar();
+const dateSentEl = document.getElementById('outcome-date-sent');
+if (dateSentEl) dateSentEl.textContent = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+renderPreviousReviews();
 </script>
 </body>
 </html>
