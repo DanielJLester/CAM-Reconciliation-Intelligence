@@ -25,6 +25,7 @@ Video Walkthrough: https://youtu.be/w4SfsxHRIuE
 - When the analysis takes days a reasonable shortcut is to pay the bill. But when this becomes minutes, with no human resources involved, that shift in economics is what drives the behavioral change
 
 ## **What I assumed**
+- Sufficient product discovery, market competition analysis and validation has been done to prioritize the development of this application.
 - The asset manager has the landlord relationship and the decision authority.
 - Finance and legal are resources they can call on, not the people doing the day-to-day review.
 - CAM reconciliations are often paid without review.
